@@ -20,6 +20,15 @@ const mostrarArticulos = async (req, res = response) => {
     });
 }
 
+const mostrarUltimos3 = async (req, res = response) => {
+    const estado = { estado: true };
+
+    Articulo.find(estado).limit(3).sort({ creadoEn: 1 })
+        .then(collection => {
+            res.json(collection);
+        })
+}
+
 const mostrarArticulo = async (req, res = response) => {
 
     const { id } = req.params;
@@ -127,6 +136,7 @@ const mostrarArticulosDeUsuario = async (req, res = response) => {
 
 module.exports = {
     mostrarArticulos,
+    mostrarUltimos3,
     mostrarArticulo,
     añadirArticulo,
     editarArticulo,

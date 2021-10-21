@@ -15,7 +15,8 @@ class Server {
             usuarios: '/api/usuarios',
             auth: '/api/auth',
             articulos: '/api/articulos',
-            uploads: '/api/uploads'
+            uploads: '/api/uploads',
+            jwt: '/api/validar-jwt',
         }
 
         // Conectar a DB
@@ -58,6 +59,7 @@ class Server {
         this.app.use(this.paths.auth, require('../routes/auth'));
         this.app.use(this.paths.articulos, require('../routes/articulos'));
         this.app.use(this.paths.uploads, require('../routes/uploads'));
+        this.app.use(this.paths.jwt, require('../routes/validar-jwt'));
     }
 
     listen() {

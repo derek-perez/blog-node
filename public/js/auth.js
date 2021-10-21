@@ -1,18 +1,45 @@
-const miForm = document.querySelector('form');
-const msgError = document.querySelector('.msgError');
-const alerta = document.querySelector('.alert-dismissible');
+const login = document.querySelector('.login');
+const register = document.querySelector('.register');
+
+const msgErrors = document.querySelectorAll('.msgError');
+const msgError = [].slice.call(msgErrors);
+
+const alertas = document.querySelectorAll('.alert-dismissible');
+const alerta = [].slice.call(alertas);
+
+const forms = document.querySelectorAll('.form');
+const form = [].slice.call(forms);
+
+const toggles = document.querySelectorAll('.toggle');
+const toggle = [].slice.call(toggles);
 
 const url = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/auth/'
     : 'https://curso-node-chat-2021.herokuapp.com/api/auth/';
 
+const url2 = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/usuarios/'
+    : 'https://curso-node-chat-2021.herokuapp.com/api/usuarios/';
 
-miForm.addEventListener('submit', ev => {
+const public = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public'
+    : 'https://curso-node-chat-2021.herokuapp.com';
+
+// Toggle
+toggle.forEach(t => {
+    t.addEventListener('click', () => {
+        form.forEach(f => {
+            f.classList.toggle('hidden')
+        })
+    })
+})
+
+login.addEventListener('submit', ev => {
     ev.preventDefault();
 
     const formData = {};
 
-    for (let el of miForm.elements) {
+    for (let el of login.elements) {
         if (el.name.length > 0) {
             formData[el.name] = el.value;
         }
@@ -31,7 +58,49 @@ miForm.addEventListener('submit', ev => {
             }
 
             localStorage.setItem('token', token);
-            window.location = 'chat.html'
+            window.location = public + '/blog/index.html';
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+})
+
+register.addEventListener('submit', ev => {
+    ev.preventDefault();
+
+    const formData = {};
+
+    for (let el of register.elements) {
+        if (el.name.length > 0) {
+            formData[el.name] = el.value;
+        }
+    }
+
+    fetch(url2, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'content-Type': 'application/json' }
+    })
+        .then(resp => resp.json())
+        .then(({ msg, token }) => {
+            if (msg) {
+                alerta.forEach(a => {
+                    a.classList.toggle('hidden');
+                    msgError.forEach(m => {
+                        return m.innerText = msg;
+                    })
+                })
+            }
+
+            if (token === undefined) {
+                msg === 'No se ha podido agregar token';
+                return msgError.innerText = msg;
+            } else {
+                localStorage.setItem('token', token);
+                window.location = public + '/blog/index.html';
+            }
+
         })
         .catch(err => {
             console.log(err)
@@ -61,7 +130,7 @@ function onSignIn(googleUser) {
         .then(({ token }) => {
 
             localStorage.setItem('token', token);
-            window.location = 'chat.html'
+            window.location = public + '/blog/index.html';
 
         })
         .catch(console.log);

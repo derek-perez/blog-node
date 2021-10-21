@@ -1,6 +1,8 @@
 const { response } = require("express");
 const bcryptjs = require('bcryptjs');
 
+const { generarJWT } = require('../helpers/generar-jwt');
+
 const Usuario = require('../models/usuario');
 const Articulo = require("../models/articulo");
 
@@ -44,8 +46,8 @@ const mostrarUsuario = async (req, res = response) => {
 
 const agregarUsuario = async (req, res = response) => {
 
-    const { nombre, correo, password, rol } = req.body;
-    const usuario = new Usuario({ nombre, correo, password, rol });
+    const { nombre, correo, password } = req.body;
+    const usuario = new Usuario({ nombre, correo, password });
 
     // Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
@@ -54,9 +56,25 @@ const agregarUsuario = async (req, res = response) => {
     // Guardar en la DB
     await usuario.save();
 
-    res.json({
-        usuario
-    });
+    // Generar el JWT
+    const nuevoUsuario = () => {
+        Usuario.find({ correo })
+            .then(async user => {
+
+                const idMal = user[0]._id;
+                const idAString = idMal.toString();
+                const id = idAString.split('"');
+
+                const token = await generarJWT(id);
+
+                res.json({
+                    usuario,
+                    token
+                });
+            })
+    }
+
+    nuevoUsuario();
 }
 
 const modificarUsuario = async (req, res = response) => {

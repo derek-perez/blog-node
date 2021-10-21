@@ -1,62 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Signin</title>
-
-    <meta name="google-signin-client_id"
-        content="329383596127-r1m33da585qmhh3kaqcg82ie2ooq9rku.apps.googleusercontent.com">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
-    <style>
-        .hidden {
-            display: none !important;
-        }
-    </style>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+    <title>Demo de Blog</title>
 </head>
 
-<body class="container">
+<body>
 
-    <div class="row mt-5">
-        <div class="col-sm-6">
-            <h1>Google Signin</h1>
-            <hr>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-            <br>
-            <a href="#" onclick="signOut();">Sign out</a>
+    <nav class="navBar">
+        <div id="presentacion">
+            <img src="./img/logo.png" class="imgLogo" alt="Logo">
+            <span class="marca">Blogi</span>
         </div>
+        <ul id="enlaces">
+            <li class="enlace">
+                <a href="#">
+                    Inicio
+                </a>
+            </li>
+            <li class="enlace">
+                <a href="#">
+                    Ver artículos
+                </a>
+            </li>
+            <li class="enlace">
+                <a href="#">
+                    <button>
+                        Crear mi blog
+                    </button>
+                </a>
+            </li>
+            <li class="enlace">
+                <a href="./auth.html">
+                    <button>
+                        Inicar Sesión
+                    </button>
+                </a>
+            </li>
+            <li class="enlace">
+                <input type="checkbox" name="check" id="check">
+                <label for="check" class="modoOscuro"></label>
+            </li>
+        </ul>
+    </nav>
+    <div class="toggle hidden"></div>
 
-        <div class="col-sm-6">
-
-            <h1>Login Manual</h1>
-            <hr>
-
-            <form class="d-grid">
-                <div class="alert alert-danger alert-dismissible fade show hidden" role="alert">
-                    <strong>¡Oh no!</strong> <span class="msgError"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <input type="email" name="correo" id="correo" class="form-control mb-2" placeholder="Correo">
-                <input type="text" name="password" id="password" class="form-control mb-2" placeholder="Contraseña">
-
-                <button class="btn btn-primary">Ingresar</button>
-            </form>
-
+    <!-- Bienvenida-Intro -->
+    <div class="bienvenida">
+        <div class="intro">
+            <div class="texto">
+                <h1>¡Bienvenid@!</h1>
+                <p>En este blog, podrás escribir tu propio "blog" y compartitlo con la comunidad, y así subir tus
+                    artículos para que nunca pierdas
+                    esos
+                    recuerdos...</p>
+                <ul class="ulIntro">
+                    <p>Aquí podrás hacer lo siguiente:</p>
+                    <i class="fa fa-arrow-down"></i>
+                    <li>Guardar tus recuerdos</li>
+                    <li>Escribir tu propio blog</li>
+                    <li>Mostrar a otros tus escritos</li>
+                    <li>Conectar con otros blogueros</li>
+                    <li>Usar el método "Businnes" para tu empresa</li>
+                </ul>
+            </div>
+            <img src="./img/welcome.png" class="animate__animated animate__bounceInDown"
+                alt="Bienvenid@ a nuestro blog">
         </div>
     </div>
 
+    <!-- Comentarios -->
+    <div class="comentarios">
+        <h2 class="titles1">Lo que han dicho quienes lo han usado:</h2>
+        <div class="comentariosLista row">
+            <div class="comentario col-sm">
+                <img src="./img/persona-1.png" alt="Usuario feliz">
+                <h3>Usuario 1</h3>
+                <p>Sencillo y fácil de usar y muy cómodo de usar con buenos diseños</p>
+            </div>
+            <div class="comentario col-sm">
+                <img src="./img/persona-2.png" alt="Usuario feliz">
+                <h3>Usuario 2</h3>
+                <p>Sencillo y fácil de usar y muy cómodo de usar con buenos diseños</p>
+            </div>
+            <div class="comentario col-sm">
+                <img src="./img/persona-3.png" alt="Usuario feliz">
+                <h3>Usuario 3</h3>
+                <p>Sencillo y fácil de usar y muy cómodo de usar con buenos diseños</p>
+            </div>
+        </div>
+    </div>
 
+    <!-- Artículos -->
+    <div class="articulos">
+        <h3 class="titles2">Aquí hay algunos de nuestros articulos más recientes</h3>
+        <div class="row ulArticulos">
+            <div id="articulo1" class="articulo col-sm hidden">
+                <img src="./img/articulo.png" alt="Img de artículo">
+                <br>
+                <a href="#" title="idDeCategoria" class="categoria">Categoría: <span
+                        class="categoriaHttp">Categoría</span></a>
+                <br>
+                <p class="titleDad">
+                    <span class="title">Título:</span><span> El COVID-19 a todo dar por acá en estos
+                        rumbos</span>
+                </p>
+                <br>
+                <p class="contenido">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem rem ipsa fugiat!
+                    Suscipit velit architecto cor...
+                </p>
+                <p class="fecha">Jueves 13 de Octubre de 2021</p>
+                <button class="verMas btn btn-primary">
+                    <a href="#">Ver artículo completo</a>
+                </button>
+            </div>
+            <div id="articulo2" class="articulo col-sm hidden">
+                <img src="./img/articulo2.jpg" alt="Img de artículo">
+                <br>
+                <a href="#" title="idDeCategoria" class="categoria">Categoría: <span
+                        class="categoriaHttp">Categoría</span></a>
+                <br>
+                <p class="titleDad">
+                    <span class="title">Título:</span><span> El COVID-19 a todo dar por acá en estos
+                        rumbos</span>
+                </p>
+                <br>
+                <p class="contenido">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem rem ipsa fugiat!
+                    Suscipit velit architecto cor...
+                </p>
+                <p class="fecha">Jueves 13 de Octubre de 2021</p>
+                <button class="verMas btn btn-primary">
+                    <a href="#">Ver artículo completo</a>
+                </button>
+            </div>
+            <div id="articulo3" class="articulo col-sm hidden">
+                <img src="./img/articulo.png" alt="Img de artículo">
+                <br>
+                <a href="#" title="idDeCategoria" class="categoria">Categoría: <span
+                        class="categoriaHttp">Categoría</span></a>
+                <br>
+                <p class="titleDad">
+                    <span class="title">Título:</span><span> El COVID-19 a todo dar por acá en estos
+                        rumbos</span>
+                </p>
+                <br>
+                <p class="contenido">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem rem ipsa fugiat!
+                    Suscipit velit architecto cor...
+                </p>
+                <p class="fecha">Jueves 13 de Octubre de 2021</p>
+                <button class="verMas btn btn-primary">
+                    <a href="#">Ver artículo completo</a>
+                </button>
+            </div>
+        </div>
+        <button class="btn btn-warning" role="button">
+            <a href="#">Ver todos los artículos</a>
+        </button>
+    </div>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="row">
+            <div class="ayuda col-sm">
+                <h4>Ayuda</h4>
+                <a href="#">Foro de la comunidad</a>
+                <a href="#">Chatea con nosotros</a>
+                <a href="#">Contáctanos por Whatsapp</a>
+                <a href="#">Habla con nuestro asistente</a>
+            </div>
+            <div class="siguenos col-sm">
+                <h4>Siguenos</h4>
+                <div class="links">
+                    <a href="#">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="elPapi col-sm">
+                <h4>Desarrollador</h4>
+                <p>Derek Pérez - Copyright 2021.</p>
+                <p>v 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botones flotantes -->
+
+    <script src="./js/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-    <script src="./js/auth.js"></script>
-
 </body>
 
 </html>
