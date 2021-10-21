@@ -1,7 +1,7 @@
 // Url
 const url = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/validar-jwt/'
-    : 'https://curso-node-chat-2021.herokuapp.com/api/validar-jwt/';
+    : 'https://blogi-node.herokuapp.com/api/validar-jwt/';
 
 // Referencias HTML
 const userImg = document.querySelector('.userImg');

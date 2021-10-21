@@ -15,15 +15,15 @@ const toggle = [].slice.call(toggles);
 
 const url = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/auth/'
-    : 'https://curso-node-chat-2021.herokuapp.com/api/auth/';
+    : 'https://blogi-node.herokuapp.com/api/auth/';
 
 const url2 = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/usuarios/'
-    : 'https://curso-node-chat-2021.herokuapp.com/api/usuarios/';
+    : 'https://blogi-node.herokuapp.com/api/usuarios/';
 
 const public = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public'
-    : 'https://curso-node-chat-2021.herokuapp.com';
+    : 'https://blogi-node.herokuapp.com';
 
 // Toggle
 toggle.forEach(t => {
