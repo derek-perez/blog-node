@@ -67,7 +67,7 @@ const agregarUsuario = async (req, res = response) => {
 
                 const token = await generarJWT(id);
 
-                res.json({
+                return res.json({
                     usuario,
                     token
                 });

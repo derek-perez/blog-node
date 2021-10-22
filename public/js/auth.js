@@ -127,7 +127,9 @@ function onSignIn(googleUser) {
         body: JSON.stringify(data)
     })
         .then(resp => resp.json())
-        .then(({ token }) => {
+        .then(({ msg, token }) => {
+
+            console.log(msg)
 
             localStorage.setItem('token', token);
             window.location = public + '/blog/index.html';
