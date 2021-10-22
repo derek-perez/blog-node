@@ -3,6 +3,10 @@ const url = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/validar-jwt/'
     : 'https://blogi-node.herokuapp.com/api/validar-jwt/';
 
+const public = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public'
+    : 'https://blogi-node.herokuapp.com';
+
 // Referencias HTML
 const userImg = document.querySelector('.userImg');
 const userAccount = document.querySelector('.userAccount');
@@ -11,7 +15,7 @@ const cerrarSesion = document.querySelector('.cerrarSesion');
 // Verificar si está logueado
 const token = localStorage.getItem('token');
 
-if (token === null) {
+if (token === null || token === undefined) {
     window.location = '../auth.html';
 }
 
