@@ -53,8 +53,13 @@ login.addEventListener('submit', ev => {
         .then(resp => resp.json())
         .then(({ msg, token }) => {
             if (msg) {
-                alerta.classList.toggle('hidden');
-                return msgError.innerText = msg;
+                alerta.forEach(a => {
+                    a.classList.toggle('hidden');
+                    msgError.forEach(m => {
+                        return m.innerText = msg;
+                    })
+                })
+
             }
 
             localStorage.setItem('token', token);
