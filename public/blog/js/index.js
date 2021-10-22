@@ -4,8 +4,8 @@ const url = (window.location.hostname.includes('localhost'))
     : 'https://blogi-node.herokuapp.com/api/validar-jwt/';
 
 const public = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public'
-    : 'https://blogi-node.herokuapp.com';
+    ? 'http://localhost:5500/public/'
+    : 'https://blogi-node.herokuapp.com/';
 
 // Referencias HTML
 const userImg = document.querySelector('.userImg');
