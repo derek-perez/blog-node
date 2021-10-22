@@ -62,8 +62,10 @@ login.addEventListener('submit', ev => {
 
             }
 
-            localStorage.setItem('token', token);
-            window.location = public + '/blog/index.html';
+            if (token !== undefined) {
+                localStorage.setItem('token', token);
+                window.location = public + '/blog/index.html';
+            }
         })
         .catch(err => {
             console.log(err)
@@ -136,8 +138,10 @@ function onSignIn(googleUser) {
 
             console.log(msg)
 
-            localStorage.setItem('token', token);
-            window.location = public + '/blog/index.html';
+            if (token !== undefined) {
+                localStorage.setItem('token', token);
+                window.location = public + '/blog/index.html';
+            }
 
         })
         .catch(console.log);
