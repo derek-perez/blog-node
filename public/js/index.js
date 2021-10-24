@@ -24,12 +24,12 @@ const urlParaCategoria = (window.location.hostname.includes('localhost'))
     : 'https://blogi-node.herokuapp.com/api/categorias/obtenerIDS/';
 
 const articulosUrl = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/public/blog/articulos/arts.html?id='
-    : 'https://blogi-node.herokuapp.com/blog/articulos/arts.html?id=';
+    ? 'http://localhost:8080/public/articulos/arts.html?id='
+    : 'https://blogi-node.herokuapp.com/articulos/arts.html?id=';
 
 const categorias = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/public/blog/categorias/ctgr.html?id='
-    : 'https://blogi-node.herokuapp.com/blog/categorias/ctgr.html?id=';
+    ? 'http://localhost:8080/public/categorias/ctgr.html?id='
+    : 'https://blogi-node.herokuapp.com/categorias/ctgr.html?id=';
 
 // El aparecedor
 window.addEventListener('scroll', () => {
@@ -102,12 +102,17 @@ fetch(ultimos3, {
 
         articulosResp.forEach(a => {
 
-            const html = `
+            fetch(urlParaCategoria + a.categoria, {
+                method: 'GET'
+            })
+                .then(resp => resp.json())
+                .then(id => {
+                    const html = `
                     <div class="articulo col-sm">
                         <img src="${a.img}" alt="Img de artículo">
                         <br>
                         <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
-                            Categoría: <span class="categoriaHttp">${a.categoria}</span>
+                            Categoría: <span class="categoriaHttp">${id}</span>
                         </a>
                         <br>
                         <p class="titleDad">
@@ -124,6 +129,8 @@ fetch(ultimos3, {
                     </div>
                 `;
 
-            ulArticulos.innerHTML += html;
+                    ulArticulos.innerHTML += html;
+                })
+                .catch(console.log)
         })
     })
