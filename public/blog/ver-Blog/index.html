@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <title>Tu blog</title>
+</head>
+
+<body>
+
+    <div class="spinner hidden">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+
+    <div class="blog">
+        <div class="navBar">
+            <div class="imgMenu">
+                <i class="menuDoor fa fa-bars"></i>
+                <a href="../index.html">
+                    <img src="../img/logo.png" alt="Logo de blog">
+                </a>
+            </div>
+            <div class="buscador">
+                <i class="fa fa-search"></i>
+                <input type="text" name="buscar" placeholder="Buscar artículos" id="buscador">
+            </div>
+            <img src="../img/persona-2.png" alt="" class="userImg">
+            <div class="userAccount hidden">
+                <img src="../img/persona-2.png" alt="Img de usuario" id="logoUser">
+                <span class="nombre">DEste Man</span>
+                <span class="correo">deste@deste.com</span>
+                <hr>
+                <button class="verCuenta btn btn-outline-primary">Ver perfil</button>
+                <button class="cerrarSesion btn btn-outline-danger">Cerrar sesión</button>
+            </div>
+        </div>
+
+        <div class="row blogStructure">
+            <div class="menuBlog col-sm-4 animate__animated animate__bounceInLeft">
+                <i class="close fa fa-times"></i>
+                <div class="blogsTitles">
+                    <span class="blogActual">Chugus' Blog <i class="fa fa-angle-down"></i></span>
+                    <div class="tusBlogs hidden">
+                        <span class="titleTusBlogs">Tus blogs</span>
+                        <div class="blogActualLista">
+                            <span>Chugus' Blog</span>
+                            <span>Chugus' Blog 2</span>
+                        </div>
+                        <button class="crearBlog btn btn-outline-success">
+                            <a href="#">Crear blog</a>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Crear Artículo</button>
+                <hr>
+                <ul class="listaMenuBlog">
+                    <li title="articulos" class="itemBlog">
+                        <i title="articulos" class="fa fa-sticky-note-o" aria-hidden="true"></i>
+                        <span title="articulos">Artículos</span>
+                    </li>
+                    <li title="temas" class="itemBlog">
+                        <i title="temas" class="fa fa-paint-brush" aria-hidden="true"></i>
+                        <span title="temas">Temas</span>
+                    </li>
+                    <li title="marcadores" class="itemBlog">
+                        <i title="marcadores" class="fa fa-bookmark" aria-hidden="true"></i>
+                        <span title="marcadores">Marcadores</span>
+                    </li>
+                    <li title="configuración" class="itemBlog">
+                        <i title="configuración" class="fa fa-cog" aria-hidden="true"></i>
+                        <span title="configuración">Configuración</span>
+                    </li>
+                    <li title="ver-Blog" class=" itemBlog active">
+                        <i title="ver-Blog" class="fa fa-external-link" aria-hidden="true"></i>
+                        <span title="ver-Blog">Ver Blog</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="resultadosDeMenu col-sm-8 animate__animated animate__bounceInRight">
+                <div class="articulosResultados">
+                    <div class="noHay">
+                        <img src="../img/void.png" alt="Todavía no tienes artículos">
+                        <p>Todavía no tienes artículos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="row">
+                <div class="ayuda col-sm">
+                    <h4>Ayuda</h4>
+                    <a href="#">Foro de la comunidad</a>
+                    <a href="#">Chatea con nosotros</a>
+                    <a href="#">Contáctanos por Whatsapp</a>
+                    <a href="#">Habla con nuestro asistente</a>
+                </div>
+                <div class="siguenos col-sm">
+                    <h4>Siguenos</h4>
+                    <div class="links">
+                        <a href="#">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="elPapi col-sm">
+                    <h4>Desarrollador</h4>
+                    <p>Derek Pérez - Copyright 2021.</p>
+                    <p>v 1.0.0</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="./js/indexBlog.js"></script>
+</body>
+
+</html>

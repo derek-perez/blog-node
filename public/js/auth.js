@@ -1,17 +1,15 @@
 const login = document.querySelector('.login');
 const register = document.querySelector('.register');
-
 const msgErrors = document.querySelectorAll('.msgError');
 const msgError = [].slice.call(msgErrors);
-
 const alertas = document.querySelectorAll('.alert-dismissible');
 const alerta = [].slice.call(alertas);
-
 const forms = document.querySelectorAll('.form');
 const form = [].slice.call(forms);
-
 const toggles = document.querySelectorAll('.toggle');
 const toggle = [].slice.call(toggles);
+const spinners = document.querySelectorAll('.spinner');
+const spinner = [].slice.call(spinners);
 
 const url = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/auth/'
@@ -35,6 +33,11 @@ toggle.forEach(t => {
 })
 
 login.addEventListener('submit', ev => {
+
+    spinner.forEach(s => {
+        s.classList.toggle('hidden');
+    })
+
     ev.preventDefault();
 
     const formData = {};
@@ -64,16 +67,26 @@ login.addEventListener('submit', ev => {
 
             if (token !== undefined) {
                 localStorage.setItem('token', token);
-                window.location = public + '/blog/index.html';
+                window.location = public + '/blog/articulos/';
             }
         })
         .catch(err => {
             console.log(err)
         })
+        .finally(() => {
+            spinner.forEach(s => {
+                s.classList.toggle('hidden');
+            })
+        })
 
 })
 
 register.addEventListener('submit', ev => {
+
+    spinner.forEach(s => {
+        s.classList.toggle('hidden');
+    })
+
     ev.preventDefault();
 
     const formData = {};
@@ -105,12 +118,17 @@ register.addEventListener('submit', ev => {
                 return msgError.innerText = msg;
             } else {
                 localStorage.setItem('token', token);
-                window.location = public + '/blog/index.html';
+                window.location = public + '/blog/articulos/';
             }
 
         })
         .catch(err => {
             console.log(err)
+        })
+        .finally(() => {
+            spinner.forEach(s => {
+                s.classList.toggle('hidden');
+            })
         })
 
 })
@@ -119,11 +137,9 @@ register.addEventListener('submit', ev => {
 
 function onSignIn(googleUser) {
 
-    // var profile = googleUser.getBasicProfile();
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    spinner.forEach(s => {
+        s.classList.toggle('hidden');
+    })
 
     var id_token = googleUser.getAuthResponse().id_token;
     const data = { id_token };
@@ -140,11 +156,16 @@ function onSignIn(googleUser) {
 
             if (token !== undefined) {
                 localStorage.setItem('token', token);
-                window.location = public + '/blog/index.html';
+                window.location = public + '/blog/articulos/';
             }
 
         })
-        .catch(console.log);
+        .catch(console.log)
+        .finally(() => {
+            spinner.forEach(s => {
+                s.classList.toggle('hidden');
+            })
+        });
 
 }
 

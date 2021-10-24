@@ -27,6 +27,22 @@ const mostrarCategoria = async (req, res = response) => {
 
 }
 
+const obtenerIDS = async (req, res = response) => {
+    const { id } = req.params;
+
+    Categoria.findById(id)
+        .then(collection => {
+            res.status(200).json(collection.nombre)
+        })
+        .catch(error => {
+            console.log(error)
+            return res.status(400).json({
+                msg: error
+            })
+        })
+
+}
+
 const añadirCategorias = async (req, res = response) => {
     const { nombre, description, numberOfArticles } = req.body;
 
@@ -97,6 +113,7 @@ module.exports = {
     mostrarCategorias,
     mostrarCategoria,
     añadirCategorias,
+    obtenerIDS,
     editarCategorias,
     eliminarCategorias,
     mostrarArticulosDeCategoria

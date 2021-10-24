@@ -1,5 +1,4 @@
 const { response } = require("express");
-const mongoose = require('mongoose')
 
 const Articulo = require('../models/articulo');
 const Categoria = require('../models/categoria');

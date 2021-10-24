@@ -6,12 +6,30 @@ const menu = document.querySelector('#enlaces');
 const toggle = document.querySelector('.toggle');
 const titles1 = document.querySelector('.titles1');
 const titles2 = document.querySelector('.titles2');
+const ulArticulos = document.querySelector('.ulArticulos');
 
 const comentarios = document.querySelectorAll('.comentario');
 const comentario = [].slice.call(comentarios);
 
 const articulos = document.querySelectorAll('.articulo');
 const articulo = [].slice.call(articulos);
+
+// URL's
+const ultimos3 = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/articulos/ultimos'
+    : 'https://blogi-node.herokuapp.com/api/articulos/ultimos';
+
+const urlParaCategoria = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/categorias/obtenerIDS/'
+    : 'https://blogi-node.herokuapp.com/api/categorias/obtenerIDS/';
+
+const articulosUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/public/blog/articulos/arts.html?id='
+    : 'https://blogi-node.herokuapp.com/blog/articulos/arts.html?id=';
+
+const categorias = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/public/blog/categorias/ctgr.html?id='
+    : 'https://blogi-node.herokuapp.com/blog/categorias/ctgr.html?id=';
 
 // El aparecedor
 window.addEventListener('scroll', () => {
@@ -39,13 +57,15 @@ window.addEventListener('scroll', () => {
 })
 
 // Menú responsive
-if (window.innerWidth <= 713) {
+if (window.innerWidth <= 800) {
     toggle.classList.remove('hidden')
 
     toggle.onclick = () => {
         toggle.classList.toggle('active');
         menu.classList.toggle('active');
     }
+} else {
+    toggle.classList.add('hidden')
 }
 
 
@@ -64,7 +84,46 @@ checkbox.addEventListener('change', function () {
         c.classList.toggle('dark')
     });
 
-    articulo.forEach(a => {
-        a.classList.toggle('dark')
-    });
+    setTimeout(() => {
+        const articulos = document.querySelectorAll('.articulo');
+        const articulo = [].slice.call(articulos);
+        articulo.forEach(a => {
+            a.classList.toggle('dark')
+        });
+    }, 100);
 });
+
+// Fetch para últimos 3
+fetch(ultimos3, {
+    method: 'GET'
+})
+    .then(resp => resp.json())
+    .then(articulosResp => {
+
+        articulosResp.forEach(a => {
+
+            const html = `
+                    <div class="articulo col-sm">
+                        <img src="${a.img}" alt="Img de artículo">
+                        <br>
+                        <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
+                            Categoría: <span class="categoriaHttp">${a.categoria}</span>
+                        </a>
+                        <br>
+                        <p class="titleDad">
+                            <span class="title"> Título:</span><span> ${a.titulo} </span>
+                        </p>
+                        <br>
+                        <p class="contenido">
+                            ${a.contenido}
+                        </p>
+                        <p class="fecha">${a.creadoEn}</p>
+                        <button class="verMas btn btn-primary">
+                            <a href="${articulosUrl + a._id}">Ver artículo completo</a>
+                        </button>
+                    </div>
+                `;
+
+            ulArticulos.innerHTML += html;
+        })
+    })

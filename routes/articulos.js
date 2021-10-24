@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { mostrarArticulos, mostrarArticulo, añadirArticulo, editarArticulo, eliminarArticulo, mostrarArticulosDeUsuario, mostrarUltimos3 } = require('../controllers/articulo');
+const { mostrarArticulos, mostrarArticulo, añadirArticulo, editarArticulo, eliminarArticulo, mostrarArticulosDeUsuario, mostrarUltimos3, obtenerIDS } = require('../controllers/articulo');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../helpers/validar-jwt');

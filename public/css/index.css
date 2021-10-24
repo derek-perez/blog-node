@@ -358,11 +358,6 @@ body.dark {
     box-shadow: 4px 4px 6px rgb(0 0 0 / 50%);
 }
 
-.articulos > .ulArticulos > .articulo > .categoria:hover {
-    font-size: 23px;
-    transition: .5s;
-}
-
 .articulos > .ulArticulos > .articulo > .categoria {
     text-decoration: none;
     color: white;
@@ -515,7 +510,7 @@ body.dark {
     }
 }
 
-@media (max-width: 713px) {
+@media (max-width: 800px) {
     .navBar > #enlaces {
         display: none;
     }

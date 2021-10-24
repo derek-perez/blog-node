@@ -17,7 +17,10 @@ const ArticuloSchema = db.Schema({
         type: Boolean,
         default: true
     },
-    img: String,
+    img: {
+        type: String,
+        default: 'https://res.cloudinary.com/chugus/image/upload/v1635046576/noHay_mxiiiu.png'
+    },
     autor: [
         {
             type: db.Schema.Types.ObjectId,
