@@ -2,6 +2,7 @@ const { response } = require("express");
 
 const Articulo = require('../models/articulo');
 const Categoria = require('../models/categoria');
+const Usuario = require('../models/usuario');
 
 const mostrarArticulos = async (req, res = response) => {
     const estado = { estado: true };
@@ -26,6 +27,20 @@ const mostrarUltimos3 = async (req, res = response) => {
         .then(collection => {
             res.json(collection);
         })
+}
+
+const obtenerIDS = async (req, res = response) => {
+    const { categoria, usuario } = req.body;
+
+    const [ctg, autor] = await Promise.all([
+        Categoria.findById(categoria).then(c => c.nombre),
+        Usuario.findById(usuario).then(u => u.nombre),
+    ])
+
+    return res.status(200).json({
+        ctg,
+        autor
+    })
 }
 
 const mostrarArticulo = async (req, res = response) => {
@@ -136,6 +151,7 @@ const mostrarArticulosDeUsuario = async (req, res = response) => {
 module.exports = {
     mostrarArticulos,
     mostrarUltimos3,
+    obtenerIDS,
     mostrarArticulo,
     añadirArticulo,
     editarArticulo,

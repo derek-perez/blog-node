@@ -15,7 +15,8 @@ const UsuarioSchema = db.Schema({
         required: [true, 'La contraseña es obligatario'],
     },
     img: {
-        type: String
+        type: String,
+        default: 'https://res.cloudinary.com/chugus/image/upload/v1635126369/noUser_mbd8ej.png'
     },
     rol: {
         type: String,

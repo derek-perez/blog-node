@@ -27,10 +27,17 @@ const resultadosDeMenu = document.querySelector('.resultadosDeMenu');
 blog.classList.add('hidden')
 spinner.classList.remove('hidden');
 
+const login = document.querySelector('.login');
+const irARegister = document.querySelector('.irARegister');
+
 const token = localStorage.getItem('token');
 
-if (token === null || token === undefined) {
-    window.location = '../auth.html';
+const darChanceDeIrse = () => {
+    login.classList.remove('hidden');
+    irARegister.href = public + 'auth.html';
+    setTimeout(() => {
+        window.location.href = public + 'auth.html';
+    }, 10000);
 }
 
 window.addEventListener('load', () => {
@@ -41,11 +48,11 @@ window.addEventListener('load', () => {
         .then(resp => resp.json())
         .then(({ msg }) => {
             if (msg !== 'Token válido') {
-                window.location = public + 'auth.html';
+                darChanceDeIrse();
             }
         })
         .catch(err => {
-            window.location = public + 'auth.html';
+            darChanceDeIrse();
         })
         .finally(() => {
             blog.classList.remove('hidden')

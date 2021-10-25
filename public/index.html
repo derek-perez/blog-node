@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="./css/index.css">
     <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
     <title>Demo de Blog</title>
+    <meta name="description"
+        content="Un Blog que puedes para ver la calidad que consigues con nosotros al hacer para ti un sitio web. Y también puedes escribir en este blog para que nunca olvides tus recuerdos más importantes">
+    <link rel="canonical" href="https://blogi-node.herokuapp.com">
 </head>
 
 <body>
@@ -59,10 +62,13 @@
         <div class="intro">
             <div class="texto">
                 <h1>¡Bienvenid@!</h1>
-                <p>En este blog, podrás escribir tu propio "blog" y compartitlo con la comunidad, y así subir tus
-                    artículos para que nunca pierdas
-                    esos
-                    recuerdos...</p>
+                <p>
+                    En este blog, podrás escribir tu propio "blog" y compartitlo con la comunidad, y así subir tus
+                    artículos para que nunca pierdas esos recuerdos...
+                    <br>
+                    <br>
+                    También puedes ver la calidad y la que consigues con nosotros al hcer para ti un sitio web
+                </p>
                 <ul class="ulIntro">
                     <p>Aquí podrás hacer lo siguiente:</p>
                     <i class="fa fa-arrow-down"></i>
@@ -80,19 +86,19 @@
 
     <!-- Comentarios -->
     <div class="comentarios">
-        <h2 class="titles1">Lo que han dicho quienes lo han usado:</h2>
+        <h2 class="titles">Lo que han dicho quienes lo han usado:</h2>
         <div class="comentariosLista row">
-            <div class="comentario col-sm">
+            <div class="comentario animate__animated hidden col-sm">
                 <img src="./img/persona-1.png" alt="Usuario feliz">
                 <h3>Usuario 1</h3>
                 <p>Sencillo y fácil de usar y muy cómodo de usar con buenos diseños</p>
             </div>
-            <div class="comentario col-sm">
+            <div class="comentario animate__animated hidden col-sm">
                 <img src="./img/persona-2.png" alt="Usuario feliz">
                 <h3>Usuario 2</h3>
                 <p>Sencillo y fácil de usar y muy cómodo de usar con buenos diseños</p>
             </div>
-            <div class="comentario col-sm">
+            <div class="comentario animate__animated hidden col-sm">
                 <img src="./img/persona-3.png" alt="Usuario feliz">
                 <h3>Usuario 3</h3>
                 <p>Sencillo y fácil de usar y muy cómodo de usar con buenos diseños</p>
@@ -100,12 +106,42 @@
         </div>
     </div>
 
+    <!-- Porqué es bueno -->
+    <div class="porqueNosotros">
+        <h3 class="titles">Porque nosotros...</h3>
+        <div class="porques">
+            <div class="unPorque animate__animated hidden col-sm-4">
+                <h4>Diseño Responsive o Multiplataforma</h4>
+                <img src="./img/nosotros-1.png" alt="Disfruta de nuestros servicios para que crezcas tú y tu negocio">
+                <p>
+                    Esto quiere decir que se adapta a resoluciones como las de teléfonos, tablets y computadoras. O sea,
+                    no pierde ni su diseño ni su estructura al cambiar de resolución
+                </p>
+            </div>
+            <div class="unPorque animate__animated hidden col-sm-4">
+                <h4>Desarrollado sin usar un CMS, personalizado, original...</h4>
+                <img src="./img/nosotros-2.png" alt="Disfruta de nuestros servicios para que crezcas tú y tu negocio">
+                <p>
+                    Con nosotros podrá cambiar diseños, personalizarlo a su gusto y con opciones de tener un servidor
+                    Backend personalizado, que en un CMS no le sería tan fácil y que por suspuesto, aquí si...
+                </p>
+            </div>
+            <div class="unPorque animate__animated hidden col-sm-4">
+                <h4>Diseño personalizado</h4>
+                <img src="./img/nosotros-3.png" alt="Disfruta de nuestros servicios para que crezcas tú y tu negocio">
+                <p>
+                    Un diseño a su gusto, adaptado a su presupuesto y con un diseño agradable, amigable e interactivo
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Artículos -->
     <div class="articulos">
-        <h3 class="titles2">Aquí hay algunos de nuestros articulos más recientes</h3>
+        <h3 class="titles">Aquí hay algunos de nuestros articulos más recientes</h3>
         <div class="row ulArticulos"></div>
         <button class="btn btn-warning" role="button">
-            <a href="#">Ver todos los artículos</a>
+            <a href="https://blogi-node.herokuapp.com/articulos/">Ver todos los artículos</a>
         </button>
     </div>
 
@@ -113,11 +149,11 @@
     <footer class="footer">
         <div class="row">
             <div class="ayuda col-sm">
-                <h4>Ayuda</h4>
-                <a href="#">Foro de la comunidad</a>
-                <a href="#">Chatea con nosotros</a>
-                <a href="#">Contáctanos por Whatsapp</a>
-                <a href="#">Habla con nuestro asistente</a>
+                <h4>Navega por el sitio</h4>
+                <a href="https://blogi-node.herokuapp.com/articulos/">Artículos</a>
+                <a href="https://blogi-node.herokuapp.com/categorias/">Categorías</a>
+                <a href="https://blogi-node.herokuapp.com/api/blog">Tu blog</a>
+                <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
             </div>
             <div class="siguenos col-sm">
                 <h4>Siguenos</h4>
@@ -142,6 +178,21 @@
     </footer>
 
     <!-- Botones flotantes -->
+    <i class="fa fa-ellipsis-h abrirIconos animate__animated animate__bounceInRight"></i>
+    <div class="btnsFlotantes animate__animated hidden">
+        <!-- Whats -->
+        <i class="fa fa-whatsapp"></i>
+        <!-- Atención al cliente -->
+        <i class="fa fa-comments"></i>
+    </div>
+    <!-- Chatbot -->
+    <div class="chatbot hidden animate__animated">
+        <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+        <df-messenger
+            chat-icon="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;chugus&#x2F;image&#x2F;upload&#x2F;v1635113376&#x2F;logo_nzedyn.png"
+            chat-title="Blogi" agent-id="cee427dc-5ff2-496f-be92-9c86bb86f9fb" language-code="es">
+        </df-messenger>
+    </div>
 
     <script src="./js/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

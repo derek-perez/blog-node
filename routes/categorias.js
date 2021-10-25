@@ -14,8 +14,6 @@ const router = Router();
 
 router.get('/', mostrarCategorias);
 
-router.get('/obtenerIDS/:id', obtenerIDS);
-
 router.get('/:id', [
     check('id', 'No es un ID de Mongo válido').isMongoId(),
     check('id').custom(existeCategoriaPorID),

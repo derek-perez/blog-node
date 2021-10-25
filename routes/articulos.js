@@ -15,6 +15,8 @@ router.get('/', mostrarArticulos);
 
 router.get('/ultimos', mostrarUltimos3);
 
+router.post('/obtenerIDS', obtenerIDS);
+
 router.get('/:id', [
     check('id', 'No es un ID de Mongo válido').isMongoId(),
     check('id').custom(existeArticuloPorID),

@@ -232,9 +232,12 @@ body.dark {
 }
 
 /* Titles */
-.titles1.dark,
-.titles2.dark {
+.titles.dark {
     color: white;
+}
+
+.titles {
+    margin-top: 15px;
 }
 
 /* Comentarios */
@@ -275,8 +278,7 @@ body.dark {
     background: #a0ecef;
     border: 1px solid rgb(0 0 0 / 50%);
     border-radius: 10px;
-    border-top: 15px solid cornflowerblue;
-    border-bottom: 15px solid cornflowerblue;
+    border-top: 15px solid orange;
     text-align: center;
     padding: 10px;
     margin: 25px;
@@ -299,6 +301,62 @@ body.dark {
     letter-spacing: 1px;
 }
 
+/* Porqué nosotros */
+.porqueNosotros {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px 0px;
+}
+
+.porqueNosotros > h3 {
+    border-top: 20px solid orange;
+    text-align: center;
+    width: 100%;
+    font-size: 25px;
+    padding: 20px;
+    margin-bottom: 31px;
+    box-shadow: 0px -4px 5px rgb(0 0 0 / 30%);
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+}
+
+.porqueNosotros > .porques {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.unPorque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    background-color: #93afff;
+    border: 1px solid rgb(0 0 0 / 50%);
+    border-radius: 5px;
+    box-shadow: 3px 4px 7px rgb(0 0 0 / 50%);
+    padding: 10px;
+    margin: 10px;
+    border-top: 15px solid orange;
+}
+
+.unPorque.dark {
+    background: #356;
+    color: white;
+}
+
+.unPorque > h4 {
+    text-align: center;
+}
+
+.unPorque > img {
+    max-height: 180px;
+    max-width: 260px;
+    border-radius: 5px;
+    margin: 10px 0px;
+}
 
 /* Artículos */
 .articulos {
@@ -349,6 +407,8 @@ body.dark {
     border-radius: 5px;
     box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
     padding: 15px;
+    min-width: 275px;
+    min-height: 460px;
 }
 
 .articulos > .ulArticulos > .articulo > img {
@@ -367,7 +427,12 @@ body.dark {
     transition: .5s;
 }
 
-.articulos > .ulArticulos > .articulo .title {
+p.titleDad {
+    margin-bottom: 0;
+}
+
+.articulos > .ulArticulos > .articulo .title,
+.articulos > .ulArticulos > .articulo .contenido {
     text-decoration: none;
     color: white;
     font-weight: 600;
@@ -473,6 +538,66 @@ body.dark {
     text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
 }
 
+/* Btns Flotantes */
+.abrirIconos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 21px;
+    right: 23px;
+    width: 60px;
+    height: 58px;
+    border-radius: 50%;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
+    background-color: gray;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.abrirIconos.mover {
+    bottom: 210px;
+}
+
+.btnsFlotantes {
+    position: fixed;
+    bottom: 77px;
+    right: 23px;
+}
+
+.btnsFlotantes > i.fa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 28px;
+    color: white;
+    background-color: #00a100;
+    margin-bottom: 10px;
+    box-shadow: 2px 3px 4px rgb(0 0 0 / 50%);
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    cursor: pointer;
+}
+
+.chatbot {
+    position: fixed;
+    bottom: 0px !important;
+    right: 0px !important;
+    z-index: 100000;
+}
+
+df-messenger {
+    --df-messenger-bot-message: #878fac;
+    --df-messenger-button-titlebar-color: #00a100;
+    --df-messenger-chat-background-color: #fafafa;
+    --df-messenger-font-color: white;
+    --df-messenger-send-icon: #878fac;
+    --df-messenger-user-message: #479b3d;
+   }
 
 
 

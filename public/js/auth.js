@@ -1,5 +1,6 @@
 const login = document.querySelector('.login');
 const register = document.querySelector('.register');
+const cerrarSesion = document.querySelector('#cerrarSesion');
 const msgErrors = document.querySelectorAll('.msgError');
 const msgError = [].slice.call(msgErrors);
 const alertas = document.querySelectorAll('.alert-dismissible');
@@ -175,3 +176,7 @@ function signOut() {
         console.log('User signed out.');
     });
 }
+
+cerrarSesion.addEventListener('click', () => {
+    signOut()
+})

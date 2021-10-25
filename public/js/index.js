@@ -4,24 +4,32 @@ const bienvenida = document.querySelector('.bienvenida');
 const navBar = document.querySelector('.navBar');
 const menu = document.querySelector('#enlaces');
 const toggle = document.querySelector('.toggle');
-const titles1 = document.querySelector('.titles1');
-const titles2 = document.querySelector('.titles2');
+const titles = document.querySelectorAll('.titles');
+const title = [].slice.call(titles);
 const ulArticulos = document.querySelector('.ulArticulos');
 
 const comentarios = document.querySelectorAll('.comentario');
 const comentario = [].slice.call(comentarios);
 
-const articulos = document.querySelectorAll('.articulo');
-const articulo = [].slice.call(articulos);
+const porques = document.querySelectorAll('.unPorque');
+const unPorque = [].slice.call(porques);
+
+const abrirIconos = document.querySelector('.abrirIconos');
+const btnsFlotantes = document.querySelector('.btnsFlotantes');
+const chatbot = document.querySelector('.chatbot');
 
 // URL's
 const ultimos3 = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/articulos/ultimos'
     : 'https://blogi-node.herokuapp.com/api/articulos/ultimos';
 
-const urlParaCategoria = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/api/categorias/obtenerIDS/'
-    : 'https://blogi-node.herokuapp.com/api/categorias/obtenerIDS/';
+const urlParaIDS = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/articulos/obtenerIDS/'
+    : 'https://blogi-node.herokuapp.com/api/articulos/obtenerIDS/';
+
+const blogDeAutor = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/public/blog/blog.html?=id'
+    : 'https://blogi-node.herokuapp.com/blog/blog.html?=id';
 
 const articulosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/public/articulos/arts.html?id='
@@ -35,25 +43,39 @@ const categorias = (window.location.hostname.includes('localhost'))
 window.addEventListener('scroll', () => {
 
     comentario.forEach(c => {
-        let posicionObj0 = c.getBoundingClientRect().top;
-        let tamañoDePantalla0 = window.innerHeight / 1;
+        let posicionObj = c.getBoundingClientRect().top;
+        let tamañoDePantalla = window.innerHeight / 1.5;
 
-        if (posicionObj0 < tamañoDePantalla0) {
-            c.classList.add('animate__animated')
-            c.classList.add('animate__bounceInRight')
+        if (posicionObj < tamañoDePantalla) {
+            c.classList.remove('hidden');
+            c.classList.add('animate__bounceInRight');
         }
     })
 
-    articulo.forEach(a => {
-        let posicionObj1 = a.getBoundingClientRect().top;
-        let tamañoDePantalla1 = window.innerHeight / 1;
+    porques.forEach(p => {
+        let posicionObj = p.getBoundingClientRect().top;
+        let tamañoDePantalla = window.innerHeight / 1.5;
 
-        if (posicionObj1 < tamañoDePantalla1) {
-            a.classList.remove('hidden')
-            a.classList.add('animate__animated')
-            a.classList.add('animate__bounceInLeft')
+        if (posicionObj < tamañoDePantalla) {
+            p.classList.remove('hidden');
+            p.classList.add('animate__bounceInLeft');
         }
-    });
+    })
+
+    setTimeout(() => {
+        const articulos = document.querySelectorAll('.articulo');
+        const articulo = [].slice.call(articulos);
+
+        articulo.forEach(a => {
+            let posicionObj = a.getBoundingClientRect().top;
+            let tamañoDePantalla = window.innerHeight / 1;
+
+            if (posicionObj < tamañoDePantalla) {
+                a.classList.remove('hidden');
+                a.classList.add('animate__bounceInRight');
+            }
+        });
+    }, 100);
 })
 
 // Menú responsive
@@ -77,21 +99,113 @@ checkbox.addEventListener('change', function () {
     bienvenida.classList.toggle('dark');
     navBar.classList.toggle('dark');
     menu.classList.toggle('dark');
-    titles1.classList.toggle('dark')
-    titles2.classList.toggle('dark')
 
-    comentario.forEach(c => {
-        c.classList.toggle('dark')
-    });
+    title.forEach(t => t.classList.toggle('dark'));
+    comentario.forEach(c => c.classList.toggle('dark'));
+    unPorque.forEach(p => p.classList.toggle('dark'));
 
     setTimeout(() => {
         const articulos = document.querySelectorAll('.articulo');
         const articulo = [].slice.call(articulos);
-        articulo.forEach(a => {
-            a.classList.toggle('dark')
-        });
+        articulo.forEach(a => a.classList.toggle('dark'));
     }, 100);
 });
+
+// Btns Flotantes
+abrirIconos.addEventListener('click', () => {
+    btnsFlotantes.classList.toggle('hidden');
+    btnsFlotantes.classList.toggle('animate__bounceInRight');
+    chatbot.classList.toggle('hidden');
+    chatbot.classList.toggle('animate__bounceInRight');
+
+    abrirIconos.classList.toggle('fa-ellipsis-h');
+    abrirIconos.classList.toggle('fa-chevron-down');
+    abrirIconos.classList.toggle('mover');
+    abrirIconos.classList.toggle('animate__zoomInDown');
+    abrirIconos.classList.toggle('animate__bounceInRight');
+})
+
+// Función para cambiar de Inglés a Español
+const diasEspañol = [
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+    'Domingo'
+];
+
+const mesesEspañol = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+];
+
+const cambiarAEspañolDia = (dia) => {
+
+    let diaBueno = '';
+
+    if (dia === 'Mon') {
+        diaBueno = diasEspañol[0];
+    } else if (dia === 'Tue') {
+        diaBueno = diasEspañol[1]
+    } else if (dia === 'Wen') {
+        diaBueno = diasEspañol[2]
+    } else if (dia === 'Thu') {
+        diaBueno = diasEspañol[3]
+    } else if (dia === 'Fri') {
+        diaBueno = diasEspañol[4]
+    } else if (dia === 'Sat') {
+        diaBueno = diasEspañol[5]
+    } else if (dia === 'Sun') {
+        diaBueno = diasEspañol[6]
+    }
+
+    return diaBueno;
+}
+
+const cambiarAEspañolMes = (mes) => {
+
+    let mesBueno = '';
+
+    if (mes === 'Jan') {
+        mesBueno = mesesEspañol[0];
+    } else if (mes === 'Feb') {
+        mesBueno = mesesEspañol[1]
+    } else if (mes === 'Mar') {
+        mesBueno = mesesEspañol[2]
+    } else if (mes === 'Apr') {
+        mesBueno = mesesEspañol[3]
+    } else if (mes === 'May') {
+        mesBueno = mesesEspañol[4]
+    } else if (mes === 'Jun') {
+        mesBueno = mesesEspañol[5]
+    } else if (mes === 'Jul') {
+        mesBueno = mesesEspañol[6]
+    } else if (mes === 'Aug') {
+        mesBueno = mesesEspañol[7]
+    } else if (mes === 'Sep') {
+        mesBueno = mesesEspañol[8]
+    } else if (mes === 'Oct') {
+        mesBueno = mesesEspañol[9]
+    } else if (mes === 'Nov') {
+        mesBueno = mesesEspañol[10]
+    } else if (mes === 'Dec') {
+        mesBueno = mesesEspañol[11]
+    }
+
+    return mesBueno;
+}
 
 // Fetch para últimos 3
 fetch(ultimos3, {
@@ -102,35 +216,58 @@ fetch(ultimos3, {
 
         articulosResp.forEach(a => {
 
-            fetch(urlParaCategoria + a.categoria, {
-                method: 'GET'
+            // Se crea el string para la fecha
+            const fechaMal = a.creadoEn.split(' ');
+            const arrayBuena = fechaMal.splice(0, 4);
+
+            const dia = cambiarAEspañolDia(arrayBuena[0]);
+            const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+            // Fetch para obtener el nombre de la categoria
+            const data = {
+                usuario: a.autor[0],
+                categoria: a.categoria[0]
+            };
+
+            fetch(urlParaIDS, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             })
                 .then(resp => resp.json())
-                .then(id => {
+                .then(({ ctg, autor }) => {
                     const html = `
-                    <div class="articulo col-sm">
-                        <img src="${a.img}" alt="Img de artículo">
-                        <br>
-                        <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
-                            Categoría: <span class="categoriaHttp">${id}</span>
-                        </a>
-                        <br>
-                        <p class="titleDad">
-                            <span class="title"> Título:</span><span> ${a.titulo} </span>
-                        </p>
-                        <br>
-                        <p class="contenido">
-                            ${a.contenido}
-                        </p>
-                        <p class="fecha">${a.creadoEn}</p>
-                        <button class="verMas btn btn-primary">
-                            <a href="${articulosUrl + a._id}">Ver artículo completo</a>
-                        </button>
-                    </div>
-                `;
+                                <div class="articulo animate__animated hidden col-sm">
+                                    <img src="${a.img}" alt="Img de artículo">
+                                    <br>
+                                    <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
+                                        Categoría: <span class="categoriaHttp">${ctg}</span>
+                                    </a>
+                                    <br>
+                                    <p class="titleDad">
+                                        <span class="title"> Título:</span><span> ${a.titulo} </span>
+                                    </p>
+                                    <br>
+                                    <span class="contenidoDad">
+                                        <span class="contenido"> Contenido:</span><span> ${a.contenido} </span>
+                                    </span>
+                                    <br>
+                                    <p class="fecha">${fecha}</p>
+                                    <span class="contenidoDad">
+                                        <span class="contenido"> Autor:</span><a href="${blogDeAutor + a.autor}" style="color: white;"> ${autor} </a>
+                                    </span>
+                                    <br>
+                                    <button class="verMas btn btn-primary">
+                                        <a href="${articulosUrl + a._id}">Ver artículo completo</a>
+                                    </button>
+                                </div>
+                            `;
 
                     ulArticulos.innerHTML += html;
                 })
-                .catch(console.log)
+                .catch(console.error)
         })
     })
+    .catch(console.error)
