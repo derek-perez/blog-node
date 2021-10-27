@@ -159,7 +159,7 @@ window.addEventListener('load', () => {
             })
                 .then(resp => resp.json())
                 .then(articulo => {
-                    if (articulo === []) {
+                    if (articulo.length === 0) {
                         noHay.classList.remove('hidden')
                     } else {
                         articulo.forEach(a => {
@@ -232,6 +232,24 @@ if (window.innerWidth <= 950) {
     })
 }
 
+// Btns Flotantes
+const abrirIconos = document.querySelector('.abrirIconos');
+const btnsFlotantes = document.querySelector('.btnsFlotantes');
+const chatbot = document.querySelector('.chatbot');
+
+abrirIconos.addEventListener('click', () => {
+    btnsFlotantes.classList.toggle('hidden');
+    btnsFlotantes.classList.toggle('animate__bounceInRight');
+    chatbot.classList.toggle('hidden');
+    chatbot.classList.toggle('animate__bounceInRight');
+
+    abrirIconos.classList.toggle('fa-ellipsis-h');
+    abrirIconos.classList.toggle('fa-chevron-down');
+    abrirIconos.classList.toggle('mover');
+    abrirIconos.classList.toggle('animate__zoomInDown');
+    abrirIconos.classList.toggle('animate__bounceInRight');
+})
+
 // Abrir cuadro de usuario
 userImg.addEventListener('click', () => {
     userAccount.classList.toggle('hidden');
@@ -248,18 +266,116 @@ blogsTitles.addEventListener('click', () => {
     tusBlogs.classList.toggle('hidden')
 })
 
+// Función para sacar id de Url e ir a ese elemento ocultando los demás
+const aparecedorDeResultado = () => {
+    const resultados = document.querySelectorAll('.resultado');
+    const resultado = [].slice.call(resultados);
+
+    const idConGato = window.location.hash;
+    const idBueno = idConGato.slice(1, -1);
+
+    resultado.forEach(r => {
+        if (r.id.includes(idBueno)) {
+            r.classList.remove('hidden');
+        } else if (!r.id.includes(idBueno)) {
+            r.classList.add('hidden');
+        }
+    })
+}
+
+window.addEventListener('load', aparecedorDeResultado)
+
 // Poner color a un elemento clickeado del menú e ir a ese elemento
 for (let i = 0; i < itemsBlog.length; i++) {
     itemsBlog[i].onclick = (e) => {
 
+        // Se toma el titlw de el item del Menú seleccionado y se pone en la Url
         const irA = e.path[0].title;
 
-        window.location.href = public + `blog/${irA}/`;
+        window.location.href = public + `blog/articulos/#${irA}`;
 
         let j = 0;
         while (j < itemsBlog.length) {
             itemsBlog[j++].className = 'itemBlog';
         }
         itemsBlog[i].className = 'itemBlog active';
+        aparecedorDeResultado();
     }
 }
+
+// Edición/Creación de un articulo
+const crearArticulo = document.querySelector('#crearArticulo');
+const editArticulo = document.querySelector('.editArticulo');
+const cerrarVentana = document.querySelector('.cerrarVentana');
+
+crearArticulo.addEventListener('click', () => {
+    editArticulo.classList.remove('hidden');
+    body.classList.add('wC');
+    blog.classList.add('hidden');
+    editArticulo.classList.add('animate__backInRight');
+})
+
+cerrarVentana.addEventListener('click', () => {
+    editArticulo.classList.add('hidden');
+    body.classList.remove('wC');
+    blog.classList.remove('hidden');
+})
+
+// Hoja para editar/escribir artículo
+const negrita = document.querySelector('.negrita');
+const subrayado = document.querySelector('.subrayado');
+const cursiva = document.querySelector('.cursiva');
+const resultado = document.querySelector('#resultado');
+const Texto = document.querySelector('#deste');
+
+resultado.innerHTML = Texto.value;
+
+const etiquetaStrong = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<strong>${sel}</strong>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+
+const etiquetaSubrayado = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<span style="text-decoration: underline;">${sel}</span>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+
+const etiquetaCursiva = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<span style="font-style: italic;">${sel}</span>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+
+negrita.addEventListener("click", () => {
+    // convertirA(true, null, null);
+    etiquetaStrong();
+});
+cursiva.addEventListener("click", () => {
+    etiquetaCursiva();
+});
+subrayado.addEventListener("click", () => {
+    etiquetaSubrayado();
+});

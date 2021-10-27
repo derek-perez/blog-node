@@ -68,7 +68,7 @@ login.addEventListener('submit', ev => {
 
             if (token !== undefined) {
                 localStorage.setItem('token', token);
-                window.location = public + '/blog/articulos/';
+                window.location = public + '/blog/articulos/#articulos';
             }
         })
         .catch(err => {
@@ -119,7 +119,7 @@ register.addEventListener('submit', ev => {
                 return msgError.innerText = msg;
             } else {
                 localStorage.setItem('token', token);
-                window.location = public + '/blog/articulos/';
+                window.location = public + '/blog/articulos/#articulos';
             }
 
         })
@@ -157,7 +157,7 @@ function onSignIn(googleUser) {
 
             if (token !== undefined) {
                 localStorage.setItem('token', token);
-                window.location = public + '/blog/articulos/';
+                window.location = public + '/blog/articulos/#articulos';
             }
 
         })

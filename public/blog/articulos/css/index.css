@@ -31,12 +31,8 @@ body {
 /* NavBar */
 .navBar {
     box-shadow: 0px 1px 4px rgb(0 0 0 / 50%);
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     background-color: white;
-    z-index: 10000;    
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -224,8 +220,7 @@ body {
 /* Menú */
 .blogStructure {
     width: 100%;
-    margin-top: 120px;
-    align-items:stretch;
+    margin-top: 2px;
 }
 
 .blogStructure > .menuBlog {
@@ -475,6 +470,133 @@ body {
     font-size: 20px;
     text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
 }
+
+/* Btns Flotantes */
+.abrirIconos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 21px;
+    right: 23px;
+    width: 60px;
+    height: 58px;
+    border-radius: 50%;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
+    background-color: gray;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.abrirIconos.mover {
+    bottom: 210px;
+}
+
+.btnsFlotantes {
+    position: fixed;
+    bottom: 77px;
+    right: 23px;
+}
+
+.btnsFlotantes > i.fa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 28px;
+    color: white;
+    background-color: #00a100;
+    margin-bottom: 10px;
+    box-shadow: 2px 3px 4px rgb(0 0 0 / 50%);
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    cursor: pointer;
+}
+
+.chatbot {
+    position: fixed;
+    bottom: 0px !important;
+    right: 0px !important;
+    z-index: 100000;
+}
+
+df-messenger {
+    --df-messenger-bot-message: #878fac;
+    --df-messenger-button-titlebar-color: #00a100;
+    --df-messenger-chat-background-color: #fafafa;
+    --df-messenger-font-color: white;
+    --df-messenger-send-icon: #878fac;
+    --df-messenger-user-message: #479b3d;
+}
+
+/* Editar/Escribir artículo */
+.editArticulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.editArticulo > .barra {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin: 20px 0px;
+}
+
+.barra > #titulo:focus-visible {
+    outline: none;
+}
+
+.barra > #titulo {
+    width: 75%;
+    border: none;
+    border-bottom: 1px solid orange;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.barra > .enviar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    height: 35px;
+    background-color: orange;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.barra > .cerrarVentana {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    height: 35px;
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btnsParaEdicion {
+    margin-bottom: 15px;
+}
+
+#deste {
+    width: 75%;
+    min-height: 75vh;
+    resize: none;
+}
+
 
 
 

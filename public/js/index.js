@@ -14,10 +14,6 @@ const comentario = [].slice.call(comentarios);
 const porques = document.querySelectorAll('.unPorque');
 const unPorque = [].slice.call(porques);
 
-const abrirIconos = document.querySelector('.abrirIconos');
-const btnsFlotantes = document.querySelector('.btnsFlotantes');
-const chatbot = document.querySelector('.chatbot');
-
 // URL's
 const ultimos3 = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/articulos/ultimos'
@@ -112,6 +108,10 @@ checkbox.addEventListener('change', function () {
 });
 
 // Btns Flotantes
+const abrirIconos = document.querySelector('.abrirIconos');
+const btnsFlotantes = document.querySelector('.btnsFlotantes');
+const chatbot = document.querySelector('.chatbot');
+
 abrirIconos.addEventListener('click', () => {
     btnsFlotantes.classList.toggle('hidden');
     btnsFlotantes.classList.toggle('animate__bounceInRight');
