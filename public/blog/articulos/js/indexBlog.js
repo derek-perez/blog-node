@@ -307,12 +307,20 @@ for (let i = 0; i < itemsBlog.length; i++) {
 const crearArticulo = document.querySelector('#crearArticulo');
 const editArticulo = document.querySelector('.editArticulo');
 const cerrarVentana = document.querySelector('.cerrarVentana');
+const verArticulo = document.querySelector('.verArticulo');
+const vistaPrevia = document.querySelector('.vistaPrevia');
+const Texto = document.querySelector('#conHtml');
 
 crearArticulo.addEventListener('click', () => {
     editArticulo.classList.remove('hidden');
     body.classList.add('wC');
     blog.classList.add('hidden');
     editArticulo.classList.add('animate__backInRight');
+})
+
+verArticulo.addEventListener('click', () => {
+    vistaPrevia.classList.toggle('hidden');
+    Texto.classList.toggle('hidden')
 })
 
 cerrarVentana.addEventListener('click', () => {
@@ -326,9 +334,21 @@ const negrita = document.querySelector('.negrita');
 const subrayado = document.querySelector('.subrayado');
 const cursiva = document.querySelector('.cursiva');
 const resultado = document.querySelector('#resultado');
-const Texto = document.querySelector('#deste');
 
-resultado.innerHTML = Texto.value;
+Texto.addEventListener('keydown', () => {
+
+    const arrTextarea = Texto.value.split('\n');
+
+    const espacio = () => {
+        const linea = arrTextarea.join('<br>');
+
+        resultado.innerHTML = linea;
+
+    }
+
+    espacio();
+
+})
 
 const etiquetaStrong = () => {
     let desde = Texto.selectionStart;

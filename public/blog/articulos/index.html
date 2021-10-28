@@ -186,13 +186,17 @@
     <div class="editArticulo hidden animate__animated">
         <div class="barra">
             <input type="text" name="titulo" placeholder="Título" id="titulo">
-            <i class="enviar fa fa-send"></i>
-            <i class="cerrarVentana fa fa-times"></i>
+            <button class="verArticulo btn btn-outline-primary">
+                <i class="fa fa-eye"></i>
+            </button>
+            <button class="enviar btn btn-outline-success">
+                <i class="fa fa-send"></i>
+            </button>
+            <button class="cerrarVentana btn btn-outline-warning">
+                <i class="fa fa-times"></i>
+            </button>
         </div>
         <div class="btnsParaEdicion">
-            <button class="btn btn-outline-secondary">
-                <i class="fa fa-etsy" style="font-size: 10px;" aria-hidden="true"></i>
-            </button>
             <button class="btn btn-outline-secondary">
                 <i class="fa fa-etsy" style="font-size: 15px;" aria-hidden="true"></i>
             </button>
@@ -213,13 +217,12 @@
             <button class="btn btn-outline-secondary fa fa-picture-o"></button>
         </div>
 
-        <textarea id="deste">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum facere magni amet repellendus perferendis a
-            velit aliquid cupiditate. Accusantium sequi aspernatur esse quasi blanditiis consequatur cupiditate eius
-            possimus, facilis magnam!
-        </textarea>
+        <textarea class="textareas" id="conHtml" placeholder="Escribe aquí tu artículo..."
+            style="padding: 10px;"></textarea>
 
-        <p id="resultado"></p>
+        <div class="vistaPrevia hidden">
+            <p class="textareas" id="resultado"></p>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
