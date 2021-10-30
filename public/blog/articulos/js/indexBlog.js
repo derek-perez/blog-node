@@ -184,10 +184,14 @@ window.addEventListener('load', () => {
                                     </div>
                                     <span class="fechaArticle">${fecha}</span>
                                     <div class="buttons">
-                                        <button class="btn btn-primary">Ver artículo</button>
-                                        <button class="btn btn-warning">Editar artículo</button>
-                                        <button class="btn btn-success">Compartir artículo</button>
-                                        <button class="btn btn-danger">Borrar artículo</button>
+                                        <div class="btnRow">
+                                            <button class="btnArticulo btn btn-primary">Ver artículo</button>
+                                            <button class="btnArticulo btn btn-warning">Editar artículo</button>
+                                        </div>
+                                        <div class="btnRow">
+                                            <button class="btnArticulo btn btn-success">Compartir artículo</button>
+                                            <button class="btnArticulo btn btn-danger">Borrar artículo</button>
+                                        </div>
                                     </div>
                                 </div>
                             `;
