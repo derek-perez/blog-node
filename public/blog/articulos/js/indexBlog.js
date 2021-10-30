@@ -589,7 +589,6 @@ function previewFile() {
 
     reader.onloadend = function () {
         var imgNueva = preview.src = reader.result;
-
         insertAtCaret('conHtml', `<img src="${imgNueva}"></img>`);
     }
 

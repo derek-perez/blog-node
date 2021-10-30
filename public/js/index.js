@@ -40,17 +40,17 @@ window.addEventListener('scroll', () => {
 
     comentario.forEach(c => {
         let posicionObj = c.getBoundingClientRect().top;
-        let tamañoDePantalla = window.innerHeight / 1.5;
+        let tamañoDePantalla = window.innerHeight / 2;
 
         if (posicionObj < tamañoDePantalla) {
             c.classList.remove('hidden');
-            c.classList.add('animate__bounceInRight');
+            c.classList.add('animate__bounceInLeft');
         }
     })
 
     porques.forEach(p => {
         let posicionObj = p.getBoundingClientRect().top;
-        let tamañoDePantalla = window.innerHeight / 1.5;
+        let tamañoDePantalla = window.innerHeight / 2;
 
         if (posicionObj < tamañoDePantalla) {
             p.classList.remove('hidden');
@@ -64,28 +64,21 @@ window.addEventListener('scroll', () => {
 
         articulo.forEach(a => {
             let posicionObj = a.getBoundingClientRect().top;
-            let tamañoDePantalla = window.innerHeight / 1;
+            let tamañoDePantalla = window.innerHeight / 2;
 
             if (posicionObj < tamañoDePantalla) {
                 a.classList.remove('hidden');
-                a.classList.add('animate__bounceInRight');
+                a.classList.add('animate__bounceInLeft');
             }
         });
     }, 100);
 })
 
 // Menú responsive
-if (window.innerWidth <= 800) {
-    toggle.classList.remove('hidden')
-
-    toggle.onclick = () => {
-        toggle.classList.toggle('active');
-        menu.classList.toggle('active');
-    }
-} else {
-    toggle.classList.add('hidden')
+toggle.onclick = () => {
+    toggle.classList.toggle('active');
+    menu.classList.toggle('active');
 }
-
 
 // Modo oscuro
 const checkbox = document.getElementById('check');
@@ -242,22 +235,19 @@ fetch(ultimos3, {
                                 <div class="articulo animate__animated hidden col-sm">
                                     <img src="${a.img}" alt="Img de artículo">
                                     <br>
-                                    <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
-                                        Categoría: <span class="categoriaHttp">${ctg}</span>
-                                    </a>
-                                    <br>
-                                    <p class="titleDad">
-                                        <span class="title"> Título:</span><span> ${a.titulo} </span>
-                                    </p>
-                                    <br>
-                                    <span class="contenidoDad">
-                                        <span class="contenido"> Contenido:</span><span> ${a.contenido} </span>
-                                    </span>
-                                    <br>
-                                    <p class="fecha">${fecha}</p>
                                     <span class="contenidoDad">
                                         <span class="contenido"> Autor:</span><a href="${blogDeAutor + a.autor}" style="color: white;"> ${autor} </a>
                                     </span>
+                                    <p class="titleDad">
+                                    <span class="title"> Título:</span><span> ${a.titulo} </span>
+                                    </p>
+                                    <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
+                                     <span class="contenido">Categoría: </span><span>${ctg}</span>
+                                    </a>
+                                    <br>
+                                    <span> ${a.contenido} </span>
+                                    <br>
+                                    <p class="fecha">${fecha}</p>
                                     <br>
                                     <button class="verMas btn btn-primary">
                                         <a href="${articulosUrl + a._id}">Ver artículo completo</a>
