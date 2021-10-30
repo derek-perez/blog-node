@@ -582,11 +582,17 @@ df-messenger {
 .btnsParaEdicion {
     margin-bottom: 15px;
     position: fixed;
+    width: 100%;
     top: 12%;
+    display: flex;
+    overflow-x: scroll;
+    align-items: baseline;
 }
 
 .btnsParaEdicion > button {
-    margin: 0px 2px;
+    margin: 5px 3px;
+    height: 40px;
+    width: 100px;
 }
 
 .vistaPrevia {
