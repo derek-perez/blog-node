@@ -184,44 +184,74 @@
 
     <!-- Hoja para editar/escribir artículo -->
     <div class="editArticulo hidden animate__animated">
+
         <div class="barra">
             <input type="text" name="titulo" placeholder="Título" id="titulo">
-            <button class="verArticulo btn btn-outline-primary">
+            <button title="Ver previa del texto" class="verArticulo btn btn-outline-primary">
                 <i class="fa fa-eye"></i>
             </button>
             <button class="enviar btn btn-outline-success">
                 <i class="fa fa-send"></i>
             </button>
-            <button class="cerrarVentana btn btn-outline-warning">
+            <button class="cerrarVentana btn btn-outline-danger">
                 <i class="fa fa-times"></i>
             </button>
         </div>
+
         <div class="btnsParaEdicion">
-            <button class="btn btn-outline-secondary">
-                <i class="fa fa-etsy" style="font-size: 15px;" aria-hidden="true"></i>
+
+            <button class="abrirTextos btn btn-outline-secondary">
+                <i class="fa fa-font" aria-hidden="true"></i>
             </button>
-            <button class="btn btn-outline-secondary">
-                <i class="fa fa-etsy" style="font-size: 20px;" aria-hidden="true"></i>
-            </button>
+
             <i class="fa fa-window-minimize"></i>
+
             <button class="btn btn-outline-secondary negrita" style="font-weight: bolder;">Negrita</button>
             <button class="btn btn-outline-secondary subrayado" style="text-decoration: underline;">Subrayado</button>
             <button class="btn btn-outline-secondary cursiva" style="font-style: italic;">Cursiva</button>
+
             <i class="fa fa-window-minimize"></i>
-            <button class="btn btn-outline-secondary fa fa-align-left"></button>
-            <button class="btn btn-outline-secondary fa fa-align-center"></button>
-            <button class="btn btn-outline-secondary fa fa-align-justify"></button>
-            <button class="btn btn-outline-secondary fa fa-align-right"></button>
+
+            <button class="btn btn-outline-secondary abirAligns fa fa-indent">
+                &nbsp;&nbsp;<i class="fa fa-angle-down" aria-hidden="true"></i>
+            </button>
+
             <i class="fa fa-window-minimize"></i>
-            <button class="btn btn-outline-secondary fa fa-link"></button>
-            <button class="btn btn-outline-secondary fa fa-picture-o"></button>
+
+            <button class="btn btn-outline-secondary fa fa-link link"></button>
+            <button class="btn btn-outline-secondary fa fa-picture-o img"></button>
+
+            <div class="alignBtns hidden">
+                <button title="Izquierda" class="btn btn-outline-secondary fa fa-align-left"></button>
+                <button title="Centrar" class="btn btn-outline-secondary fa fa-align-center"></button>
+                <button title="Justify" class="btn btn-outline-secondary fa fa-align-justify"></button>
+                <button title="Derecho" class="btn btn-outline-secondary fa fa-align-right"></button>
+            </div>
+
+            <div class="textBtns hidden">
+                <button class="btn btn-outline-dark titulo">Titulo</button>
+                <button class="btn btn-outline-dark subtitulo">Subtitulo</button>
+                <button class="btn btn-outline-dark parrafo">Párrafo</button>
+            </div>
+
+        </div>
+
+        <div class="urlVentana windowLink hidden">
+            <input type="text" name="alias" placeholder="Cómo aparecerá" id="alias">
+            <input type="text" name="link" placeholder="URL o enlace" id="link">
+            <button class="poner ponerUrl btn btn-outline-warning">Poner</button>
+        </div>
+
+        <div class="imgVentana windowLink hidden">
+            <input type="file" name="img" placeholder="Tu img" id="imgDeVentana">
+            <button class="poner ponerImg btn btn-outline-warning">Poner</button>
         </div>
 
         <textarea class="textareas" id="conHtml" placeholder="Escribe aquí tu artículo..."
             style="padding: 10px;"></textarea>
 
         <div class="vistaPrevia hidden">
-            <p class="textareas" id="resultado"></p>
+            <p style="padding: 10px;" class="textareas" id="resultado"></p>
         </div>
     </div>
 

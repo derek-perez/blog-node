@@ -566,6 +566,12 @@ df-messenger {
 
 .btnsParaEdicion {
     margin-bottom: 15px;
+    position: fixed;
+    top: 12%;
+}
+
+.btnsParaEdicion > button {
+    margin: 0px 2px;
 }
 
 .vistaPrevia {
@@ -573,9 +579,104 @@ df-messenger {
 }
 
 .textareas {
+    position: absolute;
+    top: 20%;
     width: 90%;
     min-height: 75vh;
     resize: none;
+    z-index: -1;
+}
+
+/* Clases para textos */
+.alignBtns {
+    position: absolute;
+    width: 45px;
+    top: 112%;
+    right: 24%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    z-index: 1000;
+}
+
+.textBtns {
+    position: absolute;
+    width: 86px;
+    top: 112%;
+    left: -4%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    z-index: 1000;
+    justify-content: space-evenly;
+}
+
+.textBtns > button {
+    margin-bottom: 5px;
+}
+
+.alignP {
+    margin-bottom: 0;
+}
+
+.underline {
+    text-decoration: underline;
+}
+.cursiva {
+    font-style: italic;
+}
+.alignLeft {
+    text-align: left !important;
+}
+.alignCenter {
+    text-align: center !important;
+}
+.alignJustify {
+    text-align: justify !important;
+}
+.alignRight {
+    text-align: right !important;
+}
+
+.windowLink {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    border: 1px solid rgb(0 0 0 / 50%);
+    border-radius: 10px;
+    box-shadow: 3px 4px 7px rgb(0 0 0 / 50%);
+    border-top: 10px solid orange;
+    padding: 10px;
+    background: white;
+    width: 300px;
+    height: 200px;
+}
+
+.urlVentana > label {
+    font-weight: 600;
+    font-size: 17px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    margin-bottom: 5px;
+}
+
+.urlVentana > input:focus-visible {
+    outline: none;
+}
+
+.urlVentana > input {
+    padding: 5px;
+    margin: 10px 0px;
+    border: none;
+    border-bottom: 1px solid orange;
+}
+
+.poner {
+    margin-top: 10px;
 }
 
 

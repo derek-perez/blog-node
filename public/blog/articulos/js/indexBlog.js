@@ -340,16 +340,20 @@ Texto.addEventListener('keydown', () => {
     const arrTextarea = Texto.value.split('\n');
 
     const espacio = () => {
+        arrTextarea.forEach(t => {
+            const parrafo = document.createElement('p');
+            parrafo.innerHTML = t;
+        })
         const linea = arrTextarea.join('<br>');
 
         resultado.innerHTML = linea;
-
     }
 
     espacio();
 
 })
 
+// Negrita, subrayado, cursiva
 const etiquetaStrong = () => {
     let desde = Texto.selectionStart;
     let hasta = Texto.selectionEnd;
@@ -371,7 +375,7 @@ const etiquetaSubrayado = () => {
     let sel = elTexto.substring(desde, hasta);
 
     if (sel.length > 0) {// si hay algo seleccionado
-        Texto.setRangeText(`<span style="text-decoration: underline;">${sel}</span>`, desde, hasta, 'select');
+        Texto.setRangeText(`<span class="underline">${sel}</span>`, desde, hasta, 'select');
         resultado.innerHTML = Texto.value;
     }
 }
@@ -384,13 +388,12 @@ const etiquetaCursiva = () => {
     let sel = elTexto.substring(desde, hasta);
 
     if (sel.length > 0) {// si hay algo seleccionado
-        Texto.setRangeText(`<span style="font-style: italic;">${sel}</span>`, desde, hasta, 'select');
+        Texto.setRangeText(`<span class="cursiva">${sel}</span>`, desde, hasta, 'select');
         resultado.innerHTML = Texto.value;
     }
 }
 
 negrita.addEventListener("click", () => {
-    // convertirA(true, null, null);
     etiquetaStrong();
 });
 cursiva.addEventListener("click", () => {
@@ -399,3 +402,202 @@ cursiva.addEventListener("click", () => {
 subrayado.addEventListener("click", () => {
     etiquetaSubrayado();
 });
+
+// Alinear texto
+const abirAligns = document.querySelector('.abirAligns');
+const alignBtns = document.querySelector('.alignBtns');
+
+abirAligns.addEventListener('click', () => {
+    alignBtns.classList.toggle('hidden')
+});
+
+const alignLeft = document.querySelector('.fa-align-left');
+const alignCenter = document.querySelector('.fa-align-center');
+const alignJustify = document.querySelector('.fa-align-justify');
+const alignRight = document.querySelector('.fa-align-right');
+
+const textAlignLeft = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<p class="alignP alignLeft">${sel}</p>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+const textAlignCenter = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<p class="alignP alignCenter">${sel}</p>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+const textAlignJustify = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<p class="alignP alignJustify">${sel}</p>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+const textAlignRight = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<p class="alignP alignRight">${sel}</p>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+
+alignLeft.addEventListener('click', () => {
+    textAlignLeft();
+})
+alignCenter.addEventListener('click', () => {
+    textAlignCenter();
+})
+alignJustify.addEventListener('click', () => {
+    textAlignJustify();
+})
+alignRight.addEventListener('click', () => {
+    textAlignRight();
+})
+
+// Letra de texto
+const abrirTextos = document.querySelector('.abrirTextos');
+const textBtns = document.querySelector('.textBtns');
+
+abrirTextos.addEventListener('click', () => {
+    textBtns.classList.toggle('hidden')
+});
+
+const titulo = document.querySelector('.titulo');
+const subtitulo = document.querySelector('.subtitulo');
+const parrafo = document.querySelector('.parrafo');
+
+const tituloText = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<h1>${sel}</h1>`, desde, hasta, 'end');
+        resultado.innerHTML = Texto.value;
+    }
+}
+const subtituloText = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<h3>${sel}</h3>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+const parrafoText = () => {
+    let desde = Texto.selectionStart;
+    let hasta = Texto.selectionEnd;
+    let elTexto = Texto.value;
+
+    let sel = elTexto.substring(desde, hasta);
+
+    if (sel.length > 0) {// si hay algo seleccionado
+        Texto.setRangeText(`<p>${sel}</p>`, desde, hasta, 'select');
+        resultado.innerHTML = Texto.value;
+    }
+}
+
+titulo.addEventListener('click', () => {
+    tituloText();
+})
+subtitulo.addEventListener('click', () => {
+    subtituloText();
+})
+parrafo.addEventListener('click', () => {
+    parrafoText();
+})
+
+// Url e IMG
+const link = document.querySelector('.link');
+const img = document.querySelector('.img');
+const imgDeVentana = document.querySelector('#imgDeVentana');
+const urlVentana = document.querySelector('.urlVentana');
+const imgVentana = document.querySelector('.imgVentana');
+const ponerUrl = document.querySelector('.ponerUrl');
+const ponerImg = document.querySelector('.ponerImg');
+
+link.addEventListener('click', () => {
+    urlVentana.classList.toggle('hidden');
+})
+img.addEventListener('click', () => {
+    imgVentana.classList.toggle('hidden');
+})
+ponerUrl.addEventListener('click', () => {
+    urlVentana.classList.toggle('hidden');
+})
+ponerImg.addEventListener('click', () => {
+    imgVentana.classList.toggle('hidden');
+})
+
+const insertAtCaret = (areaId, text) => {
+    var txtarea = document.getElementById(areaId);
+    var scrollPos = txtarea.scrollTop;
+    var caretPos = txtarea.selectionStart;
+
+    var front = (txtarea.value).substring(0, caretPos);
+    var back = (txtarea.value).substring(txtarea.selectionEnd, txtarea.value.length);
+    txtarea.value = front + text + back;
+    caretPos = caretPos + text.length;
+    txtarea.selectionStart = caretPos;
+    txtarea.selectionEnd = caretPos;
+    txtarea.focus();
+    txtarea.scrollTop = scrollPos;
+}
+
+ponerUrl.addEventListener('click', () => {
+
+    const alias = document.querySelector('#alias').value;
+    const link = document.querySelector('#link').value;
+
+    insertAtCaret('conHtml', `<a href="${link}">${alias}</a>`);
+})
+
+function previewFile() {
+    var preview = document.createElement('img');
+    var file = imgDeVentana.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+        var imgNueva = preview.src = reader.result;
+
+        insertAtCaret('conHtml', `<img src="${imgNueva}"></img>`);
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+    }
+}
+
+ponerImg.addEventListener('click', previewFile);
