@@ -218,6 +218,10 @@ fetch(ultimos3, {
 
             let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
 
+            const contenidoCortado = a.contenido.slice(0, 110);
+
+            const contenido = contenidoCortado + '...';
+
             // Fetch para obtener el nombre de la categoria
             const data = {
                 usuario: a.autor[0],
@@ -245,7 +249,7 @@ fetch(ultimos3, {
                                      <span class="contenido">Categoría: </span><span>${ctg}</span>
                                     </a>
                                     <br>
-                                    <span> ${a.contenido} </span>
+                                    <span style="padding: 0px 20px;"> ${contenido} </span>
                                     <br>
                                     <p class="fecha">${fecha}</p>
                                     <br>

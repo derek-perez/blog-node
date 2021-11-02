@@ -9,6 +9,10 @@ const ArticuloSchema = db.Schema({
         type: String,
         required: [true, 'Necesitas añadir contenido a tu artículo']
     },
+    htmlContenido: {
+        type: String,
+        required: true
+    },
     creadoEn: {
         type: String,
         required: true

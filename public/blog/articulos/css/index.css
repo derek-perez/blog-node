@@ -205,6 +205,25 @@ body {
     height: 100%;
 }
 
+.spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffa500bd;
+}
+
+.spinner > i {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 92px;
+    color: white;
+    text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+}
+
 .spinner::after {
     position: fixed;
     top: 39%;
@@ -559,6 +578,14 @@ df-messenger {
     padding: 10px;
 }
 
+.editArticulo.edicion > .escribirArticulos > #conHtml {
+    width: 100%;
+}
+
+.editArticulo.edicion > .escribirArticulos > #categoriasLista {
+    display: none;
+}
+
 .editArticulo > .barra {
     display: flex;
     flex-direction: row;
@@ -607,7 +634,6 @@ df-messenger {
 #resultado {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 /* Clases para textos */
@@ -678,6 +704,7 @@ df-messenger {
     background: white;
     width: 300px;
     height: 200px;
+    z-index: 10;
 }
 
 .urlVentana > label {

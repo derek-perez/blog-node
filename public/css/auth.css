@@ -31,8 +31,9 @@ body > h1 {
 
 .spinner > i {
     position: fixed;
-    top: 42%;
-    left: 43%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 92px;
     color: white;
     text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);

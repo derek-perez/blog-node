@@ -54,7 +54,7 @@ const mostrarArticulo = async (req, res = response) => {
 }
 
 const añadirArticulo = async (req, res = response) => {
-    const { titulo, contenido, img, autor, categoria } = req.body;
+    const { titulo, contenido, htmlContenido, img, autor, categoria } = req.body;
 
     const articuloDB = await Articulo.findOne({ titulo });
 
@@ -67,15 +67,17 @@ const añadirArticulo = async (req, res = response) => {
     const creadoEn = new Date();
 
     const idDeCtg = db.Types.ObjectId(categoria);
+    const idDeAutor = db.Types.ObjectId(autor);
 
     // Generar la data a guardar
     const data = {
         titulo,
         contenido,
+        htmlContenido,
         creadoEn,
         img,
-        autor,
-        idDeCtg,
+        autor: idDeAutor,
+        categoria: idDeCtg,
     }
 
     const articulo = new Articulo(data);
