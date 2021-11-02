@@ -222,6 +222,7 @@ body {
 .blogStructure {
     width: 100%;
     margin-top: 2px;
+    min-height: 75ch;
 }
 
 .blogStructure > .menuBlog {
@@ -329,7 +330,7 @@ body {
 .articulosResultados {
     margin-left: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
 }
 
@@ -553,7 +554,7 @@ df-messenger {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 90%;
     min-height: 100vh;
     padding: 10px;
 }
@@ -564,10 +565,10 @@ df-messenger {
     align-items: center;
     justify-content: space-around;
     width: 100%;
-    margin: 20px 0px;
 }
 
-.barra > #titulo:focus-visible {
+.barra > #titulo:focus-visible,
+#imgDeVentana {
     outline: none;
 }
 
@@ -580,19 +581,16 @@ df-messenger {
 }
 
 .btnsParaEdicion {
-    margin-bottom: 15px;
-    position: fixed;
+    margin-top: 20px;
     width: 100%;
-    top: 12%;
     display: flex;
-    overflow-x: scroll;
     align-items: baseline;
+    justify-content: center;
 }
 
 .btnsParaEdicion > button {
     margin: 5px 3px;
     height: 40px;
-    width: 100px;
 }
 
 .vistaPrevia {
@@ -600,20 +598,24 @@ df-messenger {
 }
 
 .textareas {
-    position: absolute;
-    top: 20%;
     width: 90%;
     min-height: 75vh;
     resize: none;
-    z-index: -1;
+    padding: 10px;
+}
+
+#resultado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Clases para textos */
 .alignBtns {
     position: absolute;
     width: 45px;
-    top: 112%;
-    right: 24%;
+    top: 19%;
+    right: 38%;
     display: flex;
     flex-direction: column;
     background: white;
@@ -623,8 +625,8 @@ df-messenger {
 .textBtns {
     position: absolute;
     width: 86px;
-    top: 112%;
-    left: -4%;
+    top: 19%;
+    left: 27%;
     display: flex;
     flex-direction: column;
     background: white;
@@ -696,10 +698,81 @@ df-messenger {
     border-bottom: 1px solid orange;
 }
 
+#imgDeVentana {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid orange;
+    font-size: 15px;
+    padding: 5px;
+}
+
+.imgTextarea {
+    width: 75%;
+}
+
 .poner {
     margin-top: 10px;
 }
 
+.escribirArticulos {
+    width: 100%;
+    position: relative;
+    top: 26px;
+    display: flex;
+}
+
+#conHtml {
+    width: 75%;
+}
+
+#categoriasLista > li {
+    list-style: none;
+    text-align: center;
+    background-color: #87cefaa3;
+    margin: 5px 0px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
+    cursor: pointer;
+    padding: 5px;
+}
+
+.windowBorrarArticulo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(0 0 0 / 50%);
+    border-top: 20px solid red;
+    border-radius: 5px;
+    box-shadow: 3px 4px 7px rgb(0 0 0 / 50%);
+    padding: 10px;
+}
+
+.windowBorrarArticulo > p {
+    text-align: center;
+    font-size: 30px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    font-weight: 600;
+}
+
+.windowBorrarArticulo > button {
+    font-size: 20px;
+    box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
+}
+
+.windowBorrarArticulo > .closeDelete {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    font-size: 35px;
+    cursor: pointer;
+}
 
 
 

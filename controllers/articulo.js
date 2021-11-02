@@ -1,4 +1,5 @@
 const { response } = require("express");
+const db = require('mongoose');
 
 const Articulo = require('../models/articulo');
 const Categoria = require('../models/categoria');
@@ -65,6 +66,8 @@ const añadirArticulo = async (req, res = response) => {
 
     const creadoEn = new Date();
 
+    const idDeCtg = db.Types.ObjectId(categoria);
+
     // Generar la data a guardar
     const data = {
         titulo,
@@ -72,7 +75,7 @@ const añadirArticulo = async (req, res = response) => {
         creadoEn,
         img,
         autor,
-        categoria,
+        idDeCtg,
     }
 
     const articulo = new Articulo(data);
@@ -138,7 +141,7 @@ const eliminarArticulo = async (req, res = response) => {
 const mostrarArticulosDeUsuario = async (req, res = response) => {
 
     const { usuario } = req.params;
-    const articulo = await Articulo.find({ autor: usuario })
+    const articulo = await Articulo.find({ autor: usuario, estado: true })
         .populate('autor', 'nombre')
         .populate('categoria', 'nombre')
 

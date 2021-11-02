@@ -85,10 +85,6 @@
                         <i title="articulos" class="fa fa-sticky-note-o" aria-hidden="true"></i>
                         <span title="articulos">Artículos</span>
                     </li>
-                    <li title="temas" class="itemBlog">
-                        <i title="temas" class="fa fa-paint-brush" aria-hidden="true"></i>
-                        <span title="temas">Temas</span>
-                    </li>
                     <li title="marcadores" class="itemBlog">
                         <i title="marcadores" class="fa fa-bookmark" aria-hidden="true"></i>
                         <span title="marcadores">Marcadores</span>
@@ -104,7 +100,7 @@
                 </ul>
             </div>
             <div class="resultadosDeMenu col-sm-8 animate__animated animate__bounceInRight">
-                <div class="articulosResultados hidden resultado" id="articulos">
+                <div class="articulosResultados resultado" id="articulos">
                     <div class="noHay hidden">
                         <img src="../img/void.png" alt="Todavía no tienes artículos">
                         <p>Todavía no tienes artículos</p>
@@ -128,6 +124,11 @@
                 <div class="hidden resultado" id="ver-Blog">
                     <p>JAJAJA-ver-Blog</p>
                 </div>
+            </div>
+            <div class="windowBorrarArticulo">
+                <i class="closeDelete fa fa-times"></i>
+                <p>¿Estás seguro de que quieres<br>borrar definitivamente este articulo?</p>
+                <button class="delete btn btn-danger">Eliminar</button>
             </div>
         </div>
 
@@ -241,12 +242,16 @@
         </div>
 
         <div class="imgVentana windowLink hidden">
-            <input type="file" name="img" placeholder="Tu img" id="imgDeVentana">
+            <input type="text" name="img" placeholder="La URl de tu img" id="imgDeVentana">
             <button class="poner ponerImg btn btn-outline-warning">Poner</button>
         </div>
 
-        <textarea class="textareas" id="conHtml" placeholder="Escribe aquí tu artículo..."
-            style="padding: 10px;"></textarea>
+        <div class="escribirArticulos">
+            <textarea class="textareas" id="conHtml" placeholder="Escribe aquí tu artículo..."></textarea>
+            <ul id="categoriasLista">
+                <h5>Categorías: <span id="totalDeCategorias"></span></h5>
+            </ul>
+        </div>
 
         <div class="vistaPrevia hidden">
             <p style="padding: 10px;" class="textareas" id="resultado"></p>

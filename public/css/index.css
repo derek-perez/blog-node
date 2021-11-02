@@ -193,7 +193,6 @@ body.dark {
     width: 558px;
     color: white;
     font-size: 25px;
-    font-weight: 700;
     text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
     text-align: center;
 }
@@ -227,7 +226,6 @@ body.dark {
     letter-spacing: 1px;
     margin-bottom: 10px;
     font-size: 20px;
-    font-weight: 700;
     text-align: center;
     text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
 }
