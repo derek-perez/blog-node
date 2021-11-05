@@ -3,6 +3,10 @@ const validarJwt = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/validar-jwt/'
     : 'https://blogi-node.herokuapp.com/api/validar-jwt/';
 
+const uploadIMG = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/uploads/'
+    : 'https://blogi-node.herokuapp.com/api/uploads/';
+
 const public = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/'
     : 'https://blogi-node.herokuapp.com/';
@@ -340,16 +344,6 @@ verArticulo.addEventListener('click', () => {
 const idCtg = [];
 
 const funcionesParaArticulos = () => {
-    // Edición/Creación de un articulo
-    const crearArticulo = document.querySelector('#crearArticulo');
-
-    crearArticulo.addEventListener('click', () => {
-        editArticulo.classList.remove('hidden');
-        body.classList.add('wC');
-        blog.classList.add('hidden');
-        editArticulo.classList.add('animate__backInRight');
-    })
-
     cerrarVentana.addEventListener('click', () => {
         editArticulo.classList.add('hidden');
         body.classList.remove('wC');
@@ -402,7 +396,7 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<span class="underline">${sel}</span>`, desde, hasta, 'select');
+            Texto.setRangeText(`<u>${sel}</u>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
@@ -415,7 +409,7 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<span class="cursiva">${sel}</span>`, desde, hasta, 'select');
+            Texto.setRangeText(`<i>${sel}</i>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
@@ -451,7 +445,7 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<p class="alignP alignLeft">${sel}</p>`, desde, hasta, 'select');
+            Texto.setRangeText(`<p class="alignLeft">${sel}</p>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
@@ -463,7 +457,7 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<p class="alignP alignCenter">${sel}</p>`, desde, hasta, 'select');
+            Texto.setRangeText(`<p class="alignCenter">${sel}</p>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
@@ -475,7 +469,7 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<p class="alignP alignJustify">${sel}</p>`, desde, hasta, 'select');
+            Texto.setRangeText(`<p class="alignJustify">${sel}</p>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
@@ -487,22 +481,26 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<p class="alignP alignRight">${sel}</p>`, desde, hasta, 'select');
+            Texto.setRangeText(`<p class="alignRight">${sel}</p>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
 
     alignLeft.addEventListener('click', () => {
         textAlignLeft();
+        alignBtns.classList.toggle('hidden');
     })
     alignCenter.addEventListener('click', () => {
         textAlignCenter();
+        alignBtns.classList.toggle('hidden');
     })
     alignJustify.addEventListener('click', () => {
         textAlignJustify();
+        alignBtns.classList.toggle('hidden');
     })
     alignRight.addEventListener('click', () => {
         textAlignRight();
+        alignBtns.classList.toggle('hidden');
     })
 
     // Letra de texto
@@ -556,33 +554,47 @@ const funcionesParaArticulos = () => {
 
     titulo.addEventListener('click', () => {
         tituloText();
+        textBtns.classList.toggle('hidden')
     })
     subtitulo.addEventListener('click', () => {
         subtituloText();
+        textBtns.classList.toggle('hidden')
     })
     parrafo.addEventListener('click', () => {
         parrafoText();
+        textBtns.classList.toggle('hidden')
     })
 
     // Url e IMG
     const link = document.querySelector('.link');
     const img = document.querySelector('.img');
-    const imgDeVentana = document.querySelector('#imgDeVentana');
+
     const urlVentana = document.querySelector('.urlVentana');
     const imgVentana = document.querySelector('.imgVentana');
+
     const ponerUrl = document.querySelector('.ponerUrl');
-    const ponerImg = document.querySelector('.ponerImg');
+
+    const imgDeVentana = document.querySelector('#imgDeVentana');
+    const imgDentroDe = document.querySelector('#imgDentroDe');
+
+    const ponerUrlDeImg = document.querySelector('.ponerUrlDeImg');
+    const ponerDentro = document.querySelector('.ponerDentro');
 
     link.addEventListener('click', () => {
         urlVentana.classList.toggle('hidden');
     })
-    img.addEventListener('click', () => {
-        imgVentana.classList.toggle('hidden');
-    })
+
     ponerUrl.addEventListener('click', () => {
         urlVentana.classList.toggle('hidden');
     })
-    ponerImg.addEventListener('click', () => {
+
+    img.addEventListener('click', () => {
+        imgVentana.classList.toggle('hidden');
+    })
+    ponerDentro.addEventListener('click', () => {
+        imgVentana.classList.toggle('hidden');
+    })
+    ponerUrlDeImg.addEventListener('click', () => {
         imgVentana.classList.toggle('hidden');
     })
 
@@ -609,13 +621,50 @@ const funcionesParaArticulos = () => {
         insertAtCaret('conHtml', `<a href="${link}">${alias}</a>`);
     })
 
-    function previewFile() {
+    const imgConUrl = () => {
         const urlImg = imgDeVentana.value;
 
-        insertAtCaret('conHtml', `<img src="${urlImg}" class="imgTextarea"></img>`);
+        const data = { "archivo": `${urlImg}` };
+
+        fetch(uploadIMG + 'subir', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' },
+        })
+            .then(resp => resp.json())
+            .then(url => {
+                insertAtCaret('conHtml', `<img src="${url}" class="imgTextarea"></img>`);
+            })
+            .catch(console.error)
+
     }
 
-    ponerImg.addEventListener('click', previewFile);
+    const imgFile = () => {
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            const imgFile = e.target.result;
+
+            const data = { "archivo": `${imgFile}` };
+
+            fetch(uploadIMG + 'subir', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(resp => resp.json())
+                .then(url => {
+                    insertAtCaret('conHtml', `<img src="${url}" class="imgTextarea"></img>`);
+                })
+                .catch(console.error)
+        }
+
+        reader.readAsDataURL(imgDentroDe.files[0]);
+    }
+
+    ponerUrlDeImg.addEventListener('click', imgConUrl);
+    ponerDentro.addEventListener('click', imgFile);
 
     // Poner categorías y subir artículo
     const categoriasLista = document.querySelector('#categoriasLista');
@@ -719,7 +768,16 @@ enviar.addEventListener('click', () => {
         })
 })
 
-funcionesParaArticulos();
+// Edición/Creación de un articulo
+const crearArticulo = document.querySelector('#crearArticulo');
+
+crearArticulo.addEventListener('click', () => {
+    editArticulo.classList.remove('hidden');
+    body.classList.add('wC');
+    blog.classList.add('hidden');
+    editArticulo.classList.add('animate__backInRight');
+    funcionesParaArticulos();
+})
 
 // Borrar y editar artículo
 const windowBorrarArticulo = document.querySelector('.windowBorrarArticulo');
@@ -753,7 +811,7 @@ window.addEventListener('load', () => {
                 })
             })
         })
-    }, 2000);
+    }, 3000);
 
     // Editar artículo
     setTimeout(() => {
@@ -827,6 +885,6 @@ window.addEventListener('load', () => {
 
             })
         })
-    }, 2000);
+    }, 3000);
 
 })

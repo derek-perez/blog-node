@@ -224,29 +224,47 @@
             <button class="btn btn-outline-secondary fa fa-picture-o img"></button>
 
             <div class="alignBtns hidden">
-                <button title="Izquierda" class="btn btn-outline-secondary fa fa-align-left"></button>
-                <button title="Centrar" class="btn btn-outline-secondary fa fa-align-center"></button>
-                <button title="Justify" class="btn btn-outline-secondary fa fa-align-justify"></button>
-                <button title="Derecho" class="btn btn-outline-secondary fa fa-align-right"></button>
+                <div>
+                    <button title="Izquierda" class="btn btn-light fa fa-align-left">&nbsp;&nbsp;&nbsp;Alinear a la
+                        Izquierda</button>
+                    <button title="Centrar" class="btn btn-light fa fa-align-center">&nbsp;&nbsp;&nbsp;Alinear al
+                        centro</button>
+                    <button title="Justify" class="btn btn-light fa fa-align-justify">&nbsp;&nbsp;&nbsp;Alineado
+                        justificado</button>
+                    <button title="Derecho" class="btn btn-light fa fa-align-right">&nbsp;&nbsp;&nbsp;Alinear a la
+                        derecha</button>
+                </div>
             </div>
 
             <div class="textBtns hidden">
-                <button class="btn btn-outline-dark titulo">Titulo</button>
-                <button class="btn btn-outline-dark subtitulo">Subtitulo</button>
-                <button class="btn btn-outline-dark parrafo">Párrafo</button>
+                <div>
+                    <button class="btn btn-light titulo">Titulo</button>
+                    <button class="btn btn-light subtitulo">Subtitulo</button>
+                    <button class="btn btn-light parrafo">Párrafo</button>
+                </div>
             </div>
 
         </div>
 
         <div class="urlVentana windowLink hidden">
-            <input type="text" name="alias" placeholder="Cómo aparecerá" id="alias">
-            <input type="text" name="link" placeholder="URL o enlace" id="link">
-            <button class="poner ponerUrl btn btn-outline-warning">Poner</button>
+            <div>
+                <input type="text" name="alias" placeholder="Cómo aparecerá" id="alias">
+                <input type="text" name="link" placeholder="URL o enlace" id="link">
+                <button class="poner ponerUrl btn btn-outline-warning">Poner</button>
+            </div>
         </div>
 
         <div class="imgVentana windowLink hidden">
-            <input type="text" name="img" placeholder="La URl de tu img" id="imgDeVentana">
-            <button class="poner ponerImg btn btn-outline-warning">Poner</button>
+            <div>
+                <div class="desdeUrl">
+                    <input type="text" name="img" placeholder="La URl de tu img" id="imgDeVentana">
+                    <button class="ponerUrlDeImg btn btn-outline-warning">Poner</button>
+                </div>
+                <div class="desdeDentro">
+                    <input type="file" name="img" id="imgDentroDe">
+                    <button class="ponerDentro btn btn-outline-warning">Poner</button>
+                </div>
+            </div>
         </div>
 
         <div class="escribirArticulos">

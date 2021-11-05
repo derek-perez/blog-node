@@ -23,6 +23,15 @@ const cargarArchivo = async (req, res = response) => {
 
 }
 
+const subirImg = async (req, res = response) => {
+
+    const { archivo } = req.body;
+
+    const { secure_url } = await cloudinary.uploader.upload(archivo);
+
+    res.status(200).json(secure_url);
+}
+
 const actualizarImagenCloudinary = async (req, res = response) => {
 
     const { id, coleccion } = req.params;
@@ -125,6 +134,7 @@ const mostrarImagen = async (req, res = response) => {
 
 module.exports = {
     cargarArchivo,
+    subirImg,
     mostrarImagen,
     actualizarImagenCloudinary
 }

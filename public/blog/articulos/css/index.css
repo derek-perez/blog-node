@@ -579,7 +579,7 @@ df-messenger {
 }
 
 .editArticulo.edicion > .escribirArticulos > #conHtml {
-    width: 100%;
+    width: 95%;
 }
 
 .editArticulo.edicion > .escribirArticulos > #categoriasLista {
@@ -610,9 +610,12 @@ df-messenger {
 .btnsParaEdicion {
     margin-top: 20px;
     width: 100%;
+    overflow-x: auto;
     display: flex;
     align-items: baseline;
     justify-content: center;
+    position: absolute;
+    top: 34px;
 }
 
 .btnsParaEdicion > button {
@@ -622,6 +625,11 @@ df-messenger {
 
 .vistaPrevia {
     width: 100%;
+    width: 95%;
+    position: absolute;
+    top: 110px;
+    display: flex;
+    justify-content: center;
 }
 
 .textareas {
@@ -637,88 +645,112 @@ df-messenger {
 }
 
 /* Clases para textos */
-.alignBtns {
-    position: absolute;
-    width: 45px;
-    top: 19%;
-    right: 38%;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    z-index: 1000;
-}
-
+.alignBtns,
 .textBtns {
-    position: absolute;
-    width: 86px;
-    top: 19%;
-    left: 27%;
+    position: fixed;
+    width: 45px;
+    top: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
-    background: white;
+    background: #000000de;
     z-index: 1000;
-    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
 }
 
-.textBtns > button {
-    margin-bottom: 5px;
-}
-
-.alignP {
-    margin-bottom: 0;
-}
-
-.underline {
-    text-decoration: underline;
-}
-.cursiva {
-    font-style: italic;
-}
-.alignLeft {
-    text-align: left !important;
-}
-.alignCenter {
-    text-align: center !important;
-}
-.alignJustify {
-    text-align: justify !important;
-}
-.alignRight {
-    text-align: right !important;
-}
-
-.windowLink {
+.alignBtns > div,
+.textBtns > div {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.textBtns button,
+.alignBtns button {
+    margin-bottom: 5px;
+}
+
+.alignLeft {
+    text-align: left !important;
+    margin-bottom: 0;
+}
+
+.alignCenter {
+    text-align: center !important;
+    margin-bottom: 0;
+}
+
+.alignJustify {
+    text-align: justify !important;
+    margin-bottom: 0;
+}
+
+.alignRight {
+    text-align: right !important;
+    margin-bottom: 0;
+}
+
+.windowLink {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
     justify-content: center;
     border: 1px solid rgb(0 0 0 / 50%);
-    border-radius: 10px;
-    box-shadow: 3px 4px 7px rgb(0 0 0 / 50%);
-    border-top: 10px solid orange;
     padding: 10px;
-    background: white;
-    width: 300px;
-    height: 200px;
+    background: #000000d1;
+    width: 100%;
+    height: 100%;
     z-index: 10;
 }
 
-.urlVentana > label {
+.windowLink > div {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    box-shadow: 3px 4px 7px rgb(255 255 255 / 50%);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 200px;
+    width: 50%;
+    border-top: 15px solid orange;
+    background: white;
+    border-radius: 5px;
+    justify-content: center;
+}
+
+.desdeUrl {
+    display: flex;
+    flex-direction: column;
+}
+
+.desdeDentro {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.urlVentana > div > label {
     font-weight: 600;
     font-size: 17px;
     text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
     margin-bottom: 5px;
 }
 
-.urlVentana > input:focus-visible {
+.urlVentana > div > input:focus-visible {
     outline: none;
 }
 
-.urlVentana > input {
+.urlVentana > div > input {
     padding: 5px;
     margin: 10px 0px;
     border: none;
@@ -742,10 +774,11 @@ df-messenger {
 }
 
 .escribirArticulos {
-    width: 100%;
-    position: relative;
-    top: 26px;
+    width: 95%;
+    position: absolute;
+    top: 110px;
     display: flex;
+    justify-content: center;
 }
 
 #conHtml {
@@ -876,5 +909,22 @@ df-messenger {
         margin: 5px 0px;
         padding: 20px;
         border-bottom: 1px solid white;
+    }
+}
+
+@media (max-width: 530px) {
+    .editArticulo {
+        align-items: unset;
+        width: 100%;
+    }
+
+    .btnsParaEdicion {
+        width: 95%;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .editArticulo.edicion > .escribirArticulos > #conHtml {
+        width: 95%;
     }
 }
