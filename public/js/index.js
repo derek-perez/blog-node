@@ -24,16 +24,16 @@ const urlParaIDS = (window.location.hostname.includes('localhost'))
     : 'https://blogi-node.herokuapp.com/api/articulos/obtenerIDS/';
 
 const blogDeAutor = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/public/blog/blog.html?=id'
+    ? 'http://localhost:5500/public/blog/blog.html?=id'
     : 'https://blogi-node.herokuapp.com/blog/blog.html?=id';
 
 const articulosUrl = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/public/articulos/arts.html?id='
+    ? 'http://localhost:5500/public/articulos/arts.html?id='
     : 'https://blogi-node.herokuapp.com/articulos/arts.html?id=';
 
 const categorias = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/public/categorias/ctgr.html?id='
-    : 'https://blogi-node.herokuapp.com/categorias/ctgr.html?id=';
+    ? 'http://localhost:5500/public/articulos/ctgr.html?id='
+    : 'https://blogi-node.herokuapp.com/articulos/ctgr.html?id=';
 
 // El aparecedor
 window.addEventListener('scroll', () => {

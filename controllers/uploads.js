@@ -25,11 +25,17 @@ const cargarArchivo = async (req, res = response) => {
 
 const subirImg = async (req, res = response) => {
 
-    const { archivo } = req.body;
+    try {
+        const { archivo } = req.body;
 
-    const { secure_url } = await cloudinary.uploader.upload(archivo);
+        const { secure_url } = await cloudinary.uploader.upload(archivo);
 
-    res.status(200).json(secure_url);
+        res.status(200).json(secure_url);
+
+    } catch (error) {
+        console.log('aqui, qui')
+    }
+
 }
 
 const actualizarImagenCloudinary = async (req, res = response) => {

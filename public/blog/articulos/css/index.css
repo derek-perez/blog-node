@@ -720,12 +720,10 @@ df-messenger {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    height: 200px;
     width: 50%;
     border-top: 15px solid orange;
     background: white;
     border-radius: 5px;
-    justify-content: center;
 }
 
 .desdeUrl {
@@ -746,7 +744,8 @@ df-messenger {
     margin-bottom: 5px;
 }
 
-.urlVentana > div > input:focus-visible {
+.urlVentana > div > input:focus-visible,
+#imgPortadaUrl {
     outline: none;
 }
 
@@ -757,12 +756,21 @@ df-messenger {
     border-bottom: 1px solid orange;
 }
 
-#imgDeVentana {
+#imgDeVentana,
+#imgPortadaUrl {
     width: 100%;
     border: none;
     border-bottom: 1px solid orange;
     font-size: 15px;
     padding: 5px;
+}
+
+#peticion {
+    text-align: center;
+    margin: 5px;
+    font-weight: 600;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
 }
 
 .imgTextarea {

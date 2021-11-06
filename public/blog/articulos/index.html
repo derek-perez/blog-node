@@ -85,18 +85,6 @@
                         <i title="articulos" class="fa fa-sticky-note-o" aria-hidden="true"></i>
                         <span title="articulos">Artículos</span>
                     </li>
-                    <li title="marcadores" class="itemBlog">
-                        <i title="marcadores" class="fa fa-bookmark" aria-hidden="true"></i>
-                        <span title="marcadores">Marcadores</span>
-                    </li>
-                    <li title="configuracion" class="itemBlog">
-                        <i title="configuracion" class="fa fa-cog" aria-hidden="true"></i>
-                        <span title="configuracion">Configuración</span>
-                    </li>
-                    <li title="ver-Blog" class=" itemBlog">
-                        <i title="ver-Blog" class="fa fa-external-link" aria-hidden="true"></i>
-                        <span title="ver-Blog">Ver Blog</span>
-                    </li>
                 </ul>
             </div>
             <div class="resultadosDeMenu col-sm-8 animate__animated animate__bounceInRight">
@@ -111,18 +99,6 @@
                             "Crear articulo", que se encuentra en el menú
                         </p>
                     </div>
-                </div>
-                <div class="hidden resultado" id="temas">
-                    <p>JAJAJA-Temas</p>
-                </div>
-                <div class="hidden resultado" id="configuracion">
-                    <p>JAJAJA-configuración</p>
-                </div>
-                <div class="hidden resultado" id="marcadores">
-                    <p>JAJAJA-marcadores</p>
-                </div>
-                <div class="hidden resultado" id="ver-Blog">
-                    <p>JAJAJA-ver-Blog</p>
                 </div>
             </div>
             <div class="windowBorrarArticulo">
@@ -267,6 +243,22 @@
             </div>
         </div>
 
+        <div class="imgParaArticulo windowLink hidden">
+            <div>
+                <p id="peticion">¿Quiere que su artículo tenga una img de portada?</p>
+                <div class="desdeUrl portadaPeticion hidden">
+                    <input type="text" name="img" placeholder="La URl de tu img" id="imgPortadaUrl">
+                    <button class="imgPortadaUrl btn btn-outline-warning">Poner</button>
+                </div>
+                <div class="desdeDentro portadaPeticion hidden">
+                    <input type="file" name="img" id="imgPortadaFile">
+                    <button class="imgPortadaFile btn btn-outline-warning">Poner</button>
+                </div>
+                <button style="margin-top: 20px;" class="btn btn-success siPortada">Si</button>
+                <button style="margin-top: 10px;" class="btn btn-danger noPortada">No</button>
+            </div>
+        </div>
+
         <div class="escribirArticulos">
             <textarea class="textareas" id="conHtml" placeholder="Escribe aquí tu artículo..."></textarea>
             <ul id="categoriasLista">
@@ -275,7 +267,7 @@
         </div>
 
         <div class="vistaPrevia hidden">
-            <p style="padding: 10px;" class="textareas" id="resultado"></p>
+            <div style="padding: 10px;" class="textareas" id="resultado"></div>
         </div>
     </div>
 

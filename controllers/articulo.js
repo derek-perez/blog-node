@@ -54,60 +54,71 @@ const mostrarArticulo = async (req, res = response) => {
 }
 
 const añadirArticulo = async (req, res = response) => {
-    const { titulo, contenido, htmlContenido, img, autor, categoria } = req.body;
 
-    const articuloDB = await Articulo.findOne({ titulo });
+    try {
+        const { titulo, contenido, htmlContenido, img, autor, categoria } = req.body;
 
-    if (articuloDB) {
-        return res.status(400).json({
-            msg: `El articulo ${articuloDB.titulo} ya existe`
-        });
+        const articuloDB = await Articulo.findOne({ titulo });
+
+        if (articuloDB) {
+            return res.status(400).json({
+                msg: `El articulo ${articuloDB.titulo} ya existe`
+            });
+        }
+
+        const creadoEn = new Date();
+
+        const idDeCtg = db.Types.ObjectId(categoria);
+        const idDeAutor = db.Types.ObjectId(autor);
+
+        // Generar la data a guardar
+        const data = {
+            titulo,
+            contenido,
+            htmlContenido,
+            creadoEn,
+            img,
+            autor: idDeAutor,
+            categoria: idDeCtg,
+        }
+
+        const articulo = new Articulo(data);
+
+        // Guardar DB
+        await articulo.save();
+
+        // Cuenta cuantos articulos hay en la categoria
+        const estado = { estado: true, categoria }
+        const total = await Articulo.countDocuments(estado);
+
+        // Cambia la cantidad de articulos en "numberOfArticles"
+        const categoriaACambiar = async () => {
+            const cambios = { numberOfArticles: total };
+            await Categoria.findByIdAndUpdate(categoria, cambios);
+        }
+
+        categoriaACambiar();
+
+        res.status(200).json(articulo);
+
+    } catch (error) {
+        console.log('Awi esta el error')
     }
-
-    const creadoEn = new Date();
-
-    const idDeCtg = db.Types.ObjectId(categoria);
-    const idDeAutor = db.Types.ObjectId(autor);
-
-    // Generar la data a guardar
-    const data = {
-        titulo,
-        contenido,
-        htmlContenido,
-        creadoEn,
-        img,
-        autor: idDeAutor,
-        categoria: idDeCtg,
-    }
-
-    const articulo = new Articulo(data);
-
-    // Guardar DB
-    await articulo.save();
-
-    // Cuenta cuantos articulos hay en la categoria
-    const estado = { estado: true, categoria }
-    const total = await Articulo.countDocuments(estado);
-
-    // Cambia la cantidad de articulos en "numberOfArticles"
-    const categoriaACambiar = async () => {
-        const cambios = { numberOfArticles: total };
-        await Categoria.findByIdAndUpdate(categoria, cambios);
-    }
-
-    categoriaACambiar();
-
-    res.status(200).json(articulo);
 }
 
 const editarArticulo = async (req, res = response) => {
 
-    const { id } = req.params;
-    const cambios = req.body;
+    try {
+        const { id } = req.params;
+        const cambios = req.body;
 
-    const articuloCambiado = await Articulo.findByIdAndUpdate(id, cambios, { new: true });
+        const articuloCambiado = await Articulo.findByIdAndUpdate(id, cambios, { new: true });
 
-    res.json(articuloCambiado);
+        res.status(200).json(articuloCambiado);
+
+    } catch (error) {
+        console.log('Aquí esta el error')
+    }
 
 }
 
