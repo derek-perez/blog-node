@@ -47,74 +47,87 @@
     <div class="toggle"></div>
 
     <div class="articulo">
-        <div class="cabecera">
-            <img src="../img/articulo2.jpg" alt="Portada de artículo">
-            <h3>Cómo mostrar imágenes</h3>
-        </div>
-        <div class="cuerpo">
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis dolores animi quod sequi molestias
-                deserunt
-                voluptas saepe laboriosam quasi suscipit nobis libero vero amet, odit nihil adipisci necessitatibus vel
-                veniam?
-            </p>
-            <div class="costadoCategorias">
-                <ul>
-                    <li>JAJAJA</li>
-                    <li>JAJAJA</li>
-                    <li>JAJAJA</li>
+        <div class="contenido">
+            <div class="cabecera">
+                <img id="portada" src="" alt="Portada de artículo">
+                <h1 id="titulo"></h1>
+            </div>
+            <div class="cuerpo">
+                <div id="contenidoCuerpo"></div>
+                <p id="fecha"></p>
+            </div>
+            <div class="categoriasDeArticulo">
+                <p>Más artículos de este usuario:</p>
+                <ul class="articulosUl">
+
                 </ul>
             </div>
         </div>
+        <div class="autor">
+            <div class="imagenBox">
+                <img id="imgDePerfil" src="" alt="Autor de este artículo">
+                <br>
+                <span class="principal">Perfil del autor:</span>
+                <br>
+                <span class="principal">Nombre: </span><span class="secundario" id="nombreDeAutor"></span>
+                <br>
+                <span class="principal">Correo: </span><span class="secundario" id="correoDeAutor"></span>
+                <br>
+                <span class="principal">Articulos: </span><span class="secundario" id="articulosDeAutor"></span>
+            </div>
+            <ul class="categoriasUl">
+                <p>Temas que le pueden interesar:</p>
+            </ul>
+        </div>
+    </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="row">
-                <div class="ayuda col-sm">
-                    <h4>Navega por el sitio</h4>
-                    <a href="https://blogi-node.herokuapp.com/articulos/">Artículos</a>
-                    <a href="https://blogi-node.herokuapp.com/categorias/">Categorías</a>
-                    <a href="https://blogi-node.herokuapp.com/blog/articulos/#articulos">Tu blog</a>
-                    <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
-                </div>
-                <div class="siguenos col-sm">
-                    <h4>Siguenos</h4>
-                    <div class="links">
-                        <a href="#">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="elPapi col-sm">
-                    <h4>Desarrollador</h4>
-                    <p>Derek Pérez - Copyright 2021.</p>
-                    <p>v 1.0.0</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="row">
+            <div class="ayuda col-sm">
+                <h4>Navega por el sitio</h4>
+                <a href="https://blogi-node.herokuapp.com/articulos/">Artículos</a>
+                <a href="https://blogi-node.herokuapp.com/categorias/">Categorías</a>
+                <a href="https://blogi-node.herokuapp.com/blog/articulos/#articulos">Tu blog</a>
+                <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
+            </div>
+            <div class="siguenos col-sm">
+                <h4>Siguenos</h4>
+                <div class="links">
+                    <a href="#">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-instagram"></i>
+                    </a>
                 </div>
             </div>
-        </footer>
+            <div class="elPapi col-sm">
+                <h4>Desarrollador</h4>
+                <p>Derek Pérez - Copyright 2021.</p>
+                <p>v 1.0.0</p>
+            </div>
+        </div>
+    </footer>
 
-        <!-- Botones flotantes -->
-        <i class="fa fa-ellipsis-h abrirIconos animate__animated animate__bounceInRight"></i>
-        <div class="btnsFlotantes animate__animated hidden">
-            <!-- Whats -->
-            <i class="fa fa-whatsapp"></i>
-            <!-- Atención al cliente -->
-            <i class="fa fa-comments"></i>
-        </div>
-        <!-- Chatbot -->
-        <div class="chatbot hidden animate__animated">
-            <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-            <df-messenger
-                chat-icon="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;chugus&#x2F;image&#x2F;upload&#x2F;v1635113376&#x2F;logo_nzedyn.png"
-                chat-title="Blogi" agent-id="cee427dc-5ff2-496f-be92-9c86bb86f9fb" language-code="es">
-            </df-messenger>
-        </div>
+    <!-- Botones flotantes -->
+    <i class="fa fa-ellipsis-h abrirIconos animate__animated animate__bounceInRight"></i>
+    <div class="btnsFlotantes animate__animated hidden">
+        <!-- Whats -->
+        <i class="fa fa-whatsapp"></i>
+        <!-- Atención al cliente -->
+        <i class="fa fa-comments"></i>
+    </div>
+    <!-- Chatbot -->
+    <div class="chatbot hidden animate__animated">
+        <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+        <df-messenger
+            chat-icon="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;chugus&#x2F;image&#x2F;upload&#x2F;v1635113376&#x2F;logo_nzedyn.png"
+            chat-title="Blogi" agent-id="cee427dc-5ff2-496f-be92-9c86bb86f9fb" language-code="es">
+        </df-messenger>
     </div>
 
     <script src="./js/arts.js"></script>

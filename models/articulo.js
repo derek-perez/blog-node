@@ -13,6 +13,10 @@ const ArticuloSchema = db.Schema({
         type: String,
         required: true
     },
+    textarea: {
+        type: String,
+        required: true
+    },
     creadoEn: {
         type: String,
         required: true

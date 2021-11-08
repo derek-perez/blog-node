@@ -148,394 +148,6 @@ const cambiarAEspañolMes = (mes) => {
 
 let idDeUsuario;
 
-// Validar token
-window.addEventListener('load', () => {
-    fetch(validarJwt, {
-        method: 'GET',
-        headers: { 'x-token': token }
-    })
-        .then(resp => resp.json())
-        .then(({ msg, usuario }) => {
-            if (msg !== 'Token válido') {
-                darChanceDeIrse();
-            }
-
-            idDeUsuario = usuario.uid;
-
-            // Personalizar Navbar
-            userImg.src = usuario.img;
-            userImgAccount.src = usuario.img;
-            nombre.innerText = usuario.nombre;
-            correo.innerText = usuario.correo;
-
-            fetch(`${articulos}/usuario/${idDeUsuario}`, {
-                method: 'GET'
-            })
-                .then(resp => resp.json())
-                .then(articulo => {
-                    if (articulo.length === 0) {
-                        noHay.classList.remove('hidden')
-                    } else {
-                        articulo.forEach(a => {
-
-                            // Se crea el string para la fecha
-                            const fechaMal = a.creadoEn.split(' ');
-                            const arrayBuena = fechaMal.splice(0, 4);
-
-                            const dia = cambiarAEspañolDia(arrayBuena[0]);
-                            const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                            const contenidoCortado = a.contenido.slice(0, 110);
-
-                            const contenido = contenidoCortado + '...';
-
-                            const html = `
-                                <div class="articuloMini">
-                                    <div class="topArticle">
-                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                        <div class="articleText">
-                                            <span class="titleArticle">${a.titulo}</span>
-                                            <span class="descArticle">${contenido}</span>
-                                        </div>
-                                    </div>
-                                    <span class="fechaArticle">${fecha}</span>
-                                    <div class="buttons">
-                                        <div class="btnRow">
-                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                <button class="wC btn btn-primary">Ver artículo</button>
-                                            </a>
-                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                        </div>
-                                        <div class="btnRow">
-                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-
-                            articulosResultados.innerHTML += html;
-
-                            const btnsParaBorrarYAcyualizar = () => {
-                                // Borrar artículo
-                                const borrarArticulo = document.querySelectorAll('.borrarArticulo');
-                                borrarArticulo.forEach(a => {
-                                    a.addEventListener('click', () => {
-                                        const idParaBorrar = a.id;
-                                        windowBorrarArticulo.classList.toggle('hidden');
-
-                                        closeDelete.addEventListener('click', () => {
-                                            windowBorrarArticulo.classList.toggle('hidden');
-                                        })
-
-                                        deleteArt.addEventListener('click', () => {
-                                            fetch(articulos + idParaBorrar, {
-                                                method: 'DELETE',
-                                                headers: { "x-token": `${token}` }
-                                            })
-                                                .then(resp => resp.json())
-                                                .then(location.reload())
-                                                .catch(console.error)
-                                        })
-                                    })
-                                })
-
-                                // Editar artículo
-                                const actualizarArt = document.querySelectorAll('.actualizarArt');
-                                const actualizarBtn = document.querySelector('.actualizarBtn');
-
-                                actualizarArt.forEach(a => {
-                                    a.addEventListener('click', () => {
-
-                                        const idParaModificar = a.id;
-
-                                        fetch(articulos + idParaModificar, {
-                                            method: 'GET'
-                                        })
-                                            .then(resp => resp.json())
-                                            .then(a => {
-
-                                                const ctgAModificar = a.categoria;
-
-                                                Texto.innerHTML = a.htmlContenido;
-                                                tituloDeArticulo.value = a.titulo;
-
-                                                blog.classList.toggle('hidden');
-                                                editArticulo.classList.toggle('hidden');
-                                                editArticulo.classList.add('edicion');
-                                                body.classList.add('wC');
-                                                actualizarBtn.classList.toggle('hidden');
-                                                enviar.classList.toggle('hidden');
-
-                                                cerrarVentana.addEventListener('click', () => {
-                                                    editArticulo.classList.add('hidden');
-                                                    editArticulo.classList.remove('edicion');
-                                                    actualizarBtn.classList.toggle('hidden');
-                                                    enviar.classList.toggle('hidden');
-                                                    blog.classList.remove('hidden');
-                                                })
-
-                                                funcionesParaArticulos();
-
-                                                // Botón para actualizar artículo
-                                                actualizarBtn.addEventListener('click', () => {
-
-                                                    const imgParaArticulo = document.querySelector('.imgParaArticulo');
-                                                    const siPortada = document.querySelector('.siPortada');
-                                                    const noPortada = document.querySelector('.noPortada');
-
-                                                    imgParaArticulo.classList.toggle('hidden');
-
-                                                    // Si quiere que tenga img de Portada...
-                                                    siPortada.addEventListener('click', () => {
-
-                                                        const portadaPeticion = document.querySelectorAll('.portadaPeticion');
-
-                                                        portadaPeticion.forEach(p => {
-                                                            p.classList.toggle('hidden');
-                                                        })
-
-                                                        const imgPortadaUrlBtn = document.querySelector('.imgPortadaUrl');
-                                                        const imgPortadaUrl = document.querySelector('#imgPortadaUrl');
-                                                        const imgPortadaFile = document.querySelector('#imgPortadaFile');
-
-                                                        const imgConUrl = () => {
-                                                            const urlImg = imgPortadaUrl.value;
-
-                                                            console.log('urlImg: ' + urlImg);
-
-                                                            const data = { "archivo": `${urlImg}` };
-
-                                                            fetch(uploadIMG + 'subir', {
-                                                                method: 'POST',
-                                                                body: JSON.stringify(data),
-                                                                headers: { 'Content-Type': 'application/json' },
-                                                            })
-                                                                .then(resp => resp.json())
-                                                                .then(url => {
-                                                                    console.log('URL: ' + url)
-                                                                    editArticulo.classList.toggle('hidden');
-                                                                    spinner.classList.toggle('hidden');
-
-                                                                    const ids = idCtg.shift();
-
-                                                                    const data = {
-                                                                        'titulo': `${tituloDeArticulo.value}`,
-                                                                        'contenido': `${resultado.innerText}`,
-                                                                        'img': `${url}`,
-                                                                        'htmlContenido': `${Texto.value}`,
-                                                                        'categoria': `${ctgAModificar}`,
-                                                                        'autor': `${idDeUsuario}`,
-                                                                    };
-
-                                                                    let headersList = {
-                                                                        "x-token": `${token}`,
-                                                                        "Content-Type": "application/json"
-                                                                    }
-
-                                                                    fetch(articulos + idParaModificar, {
-                                                                        method: 'PUT',
-                                                                        headers: headersList,
-                                                                        body: JSON.stringify(data)
-                                                                    })
-                                                                        .then(resp => resp.json())
-                                                                        .then(a => {
-                                                                            // Se crea el string para la fecha
-                                                                            const fechaMal = a.creadoEn.split(' ');
-                                                                            const arrayBuena = fechaMal.splice(0, 4);
-
-                                                                            const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                                            const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                                                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                                            const html = `
-                                                                                <div class="articuloMini">
-                                                                                    <div class="topArticle">
-                                                                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                                        <div class="articleText">
-                                                                                            <span class="titleArticle">${a.titulo}</span>
-                                                                                            <span class="descArticle">${a.contenido}</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <span class="fechaArticle">${fecha}</span>
-                                                                                    <div class="buttons">
-                                                                                        <div class="btnRow">
-                                                                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                                <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                            </a>
-                                                                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                                        </div>
-                                                                                        <div class="btnRow">
-                                                                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            `;
-
-                                                                            articulosResultados.innerHTML += html;
-                                                                            imgParaArticulo.classList.toggle('hidden')
-                                                                        })
-                                                                        .then(location.reload())
-                                                                        .catch(console.error)
-                                                                        .finally(() => {
-                                                                            location.reload()
-                                                                        })
-                                                                })
-                                                                .catch(console.error)
-
-                                                        }
-
-                                                        const imgFile = () => {
-
-                                                            var reader = new FileReader();
-
-                                                            reader.onload = function (e) {
-                                                                const imgFile = e.target.result;
-
-                                                                const data = { "archivo": `${imgFile}` };
-
-                                                                fetch(uploadIMG + 'subir', {
-                                                                    method: 'POST',
-                                                                    headers: { 'Content-Type': 'application/json' },
-                                                                    body: JSON.stringify(data)
-                                                                })
-                                                                    .then(resp => resp.json())
-                                                                    .then(url => {
-                                                                        editArticulo.classList.toggle('hidden');
-                                                                        spinner.classList.toggle('hidden');
-
-                                                                        const ids = idCtg.shift();
-
-                                                                        const data = {
-                                                                            'titulo': `${tituloDeArticulo.value}`,
-                                                                            'contenido': `${resultado.innerText}`,
-                                                                            'img': `${url}`,
-                                                                            'htmlContenido': `${Texto.value}`,
-                                                                            'categoria': `${ctgAModificar}`,
-                                                                            'autor': `${idDeUsuario}`,
-                                                                        };
-
-                                                                        let headersList = {
-                                                                            "x-token": `${token}`,
-                                                                            "Content-Type": "application/json"
-                                                                        }
-
-                                                                        fetch(articulos + idParaModificar, {
-                                                                            method: 'PUT',
-                                                                            headers: headersList,
-                                                                            body: JSON.stringify(data)
-                                                                        })
-                                                                            .then(resp => resp.json())
-                                                                            .then(a => {
-                                                                                // Se crea el string para la fecha
-                                                                                const fechaMal = a.creadoEn.split(' ');
-                                                                                const arrayBuena = fechaMal.splice(0, 4);
-
-                                                                                const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                                                const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                                                                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                                                const html = `
-                                                                                    <div class="articuloMini">
-                                                                                        <div class="topArticle">
-                                                                                            <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                                            <div class="articleText">
-                                                                                                <span class="titleArticle">${a.titulo}</span>
-                                                                                                <span class="descArticle">${a.contenido}</span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <span class="fechaArticle">${fecha}</span>
-                                                                                        <div class="buttons">
-                                                                                            <div class="btnRow">
-                                                                                                <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                                    <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                                </a>
-                                                                                                <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                                            </div>
-                                                                                            <div class="btnRow">
-                                                                                                <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                                <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                `;
-
-                                                                                articulosResultados.innerHTML += html;
-                                                                                imgParaArticulo.classList.toggle('hidden')
-                                                                            })
-                                                                            .then(location.reload())
-                                                                            .catch(console.error)
-                                                                            .finally(() => {
-                                                                                location.reload()
-                                                                            })
-                                                                    })
-                                                                    .catch(console.error)
-                                                            }
-                                                        }
-
-                                                        imgPortadaUrlBtn.addEventListener('click', imgConUrl);
-                                                        imgPortadaFile.addEventListener('click', imgFile);
-                                                    })
-
-                                                    // Si no quiere una img principal
-                                                    noPortada.addEventListener('click', () => {
-                                                        editArticulo.classList.toggle('hidden');
-                                                        spinner.classList.toggle('hidden');
-
-                                                        const data = {
-                                                            'titulo': `${tituloDeArticulo.value}`,
-                                                            'contenido': `${resultado.innerText}`,
-                                                            'htmlContenido': `${Texto.value}`,
-                                                            'categoria': `${ctgAModificar}`,
-                                                            'autor': `${a.autor}`,
-                                                        };
-
-                                                        let headersList = {
-                                                            "x-token": `${token}`,
-                                                            "Content-Type": "application/json"
-                                                        }
-
-                                                        fetch(articulos + idParaModificar, {
-                                                            method: 'PUT',
-                                                            headers: headersList,
-                                                            body: JSON.stringify(data)
-                                                        })
-                                                            .then(resp => resp.json())
-                                                            .then(location.reload())
-                                                            .catch(console.error)
-                                                            .finally(() => {
-                                                                location.reload()
-                                                            })
-                                                    })
-                                                })
-                                            })
-                                            .catch(console.error);
-                                    })
-                                })
-                            }
-
-                            btnsParaBorrarYAcyualizar();
-                        })
-                    }
-
-
-                })
-                .catch(console.error)
-
-        })
-        .catch(err => {
-            darChanceDeIrse();
-        })
-        .finally(() => {
-            blog.classList.remove('hidden')
-            spinner.classList.add('hidden');
-        })
-})
 
 // Menú responsive
 if (window.innerWidth <= 950) {
@@ -647,6 +259,8 @@ verArticulo.addEventListener('click', () => {
 
 const idCtg = [];
 
+const resultado = document.querySelector('#resultado');
+
 const funcionesParaArticulos = () => {
     cerrarVentana.addEventListener('click', () => {
         editArticulo.classList.add('hidden');
@@ -658,7 +272,6 @@ const funcionesParaArticulos = () => {
     const negrita = document.querySelector('.negrita');
     const subrayado = document.querySelector('.subrayado');
     const cursiva = document.querySelector('.cursiva');
-    const resultado = document.querySelector('#resultado');
 
     Texto.addEventListener('keydown', () => {
 
@@ -1021,7 +634,8 @@ enviar.addEventListener('click', () => {
         const data = {
             'titulo': `${tituloDeArticulo.value}`,
             'contenido': `${resultado.innerText}`,
-            'htmlContenido': `${Texto.value}`,
+            'htmlContenido': `${resultado.innerHTML}`,
+            'textarea': `${Texto.value}`,
             'categoria': `${ids}`,
             'autor': `${idDeUsuario}`,
         };
@@ -1049,7 +663,7 @@ enviar.addEventListener('click', () => {
 
                 const html = `
                     <div class="articuloMini">
-                        <div class="topArticle">
+                    <div class="topArticle">
                             <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
                             <div class="articleText">
                                 <span class="titleArticle">${a.titulo}</span>
@@ -1114,7 +728,8 @@ enviar.addEventListener('click', () => {
                         'titulo': `${tituloDeArticulo.value}`,
                         'contenido': `${resultado.innerText}`,
                         'img': `${url}`,
-                        'htmlContenido': `${Texto.value}`,
+                        'htmlContenido': `${resultado.innerHTML}`,
+                        'textarea': `${Texto.value}`,
                         'categoria': `${ids}`,
                         'autor': `${idDeUsuario}`,
                     };
@@ -1202,7 +817,8 @@ enviar.addEventListener('click', () => {
                             'titulo': `${tituloDeArticulo.value}`,
                             'contenido': `${resultado.innerText}`,
                             'img': `${url}`,
-                            'htmlContenido': `${Texto.value}`,
+                            'htmlContenido': `${resultado.innerHTML}`,
+                            'textarea': `${Texto.value}`,
                             'categoria': `${ids}`,
                             'autor': `${idDeUsuario}`,
                         };
@@ -1290,3 +906,393 @@ const deleteArt = document.querySelector('.delete');
 const closeDelete = document.querySelector('.closeDelete');
 
 windowBorrarArticulo.classList.toggle('hidden');
+
+// Validar token y poner artículos y textareas para crear/editar artículos
+window.addEventListener('load', () => {
+    fetch(validarJwt, {
+        method: 'GET',
+        headers: { 'x-token': token }
+    })
+        .then(resp => resp.json())
+        .then(({ msg, usuario }) => {
+            if (msg !== 'Token válido') {
+                darChanceDeIrse();
+            }
+
+            idDeUsuario = usuario.uid;
+
+            // Personalizar Navbar
+            userImg.src = usuario.img;
+            userImgAccount.src = usuario.img;
+            nombre.innerText = usuario.nombre;
+            correo.innerText = usuario.correo;
+
+            fetch(`${articulos}/usuario/${idDeUsuario}`, {
+                method: 'GET'
+            })
+                .then(resp => resp.json())
+                .then(articulo => {
+                    if (articulo.length === 0) {
+                        noHay.classList.remove('hidden')
+                    } else {
+                        articulo.forEach(a => {
+
+                            // Se crea el string para la fecha
+                            const fechaMal = a.creadoEn.split(' ');
+                            const arrayBuena = fechaMal.splice(0, 4);
+
+                            const dia = cambiarAEspañolDia(arrayBuena[0]);
+                            const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                            const contenidoCortado = a.contenido.slice(0, 110);
+
+                            const contenido = contenidoCortado + '...';
+
+                            const html = `
+                                <div class="articuloMini">
+                                    <div class="topArticle">
+                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                        <div class="articleText">
+                                            <span class="titleArticle">${a.titulo}</span>
+                                            <span class="descArticle">${contenido}</span>
+                                        </div>
+                                    </div>
+                                    <span class="fechaArticle">${fecha}</span>
+                                    <div class="buttons">
+                                        <div class="btnRow">
+                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                <button class="wC btn btn-primary">Ver artículo</button>
+                                            </a>
+                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                        </div>
+                                        <div class="btnRow">
+                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+                            articulosResultados.innerHTML += html;
+
+                            const btnsParaBorrarYAcyualizar = () => {
+                                // Borrar artículo
+                                const borrarArticulo = document.querySelectorAll('.borrarArticulo');
+                                borrarArticulo.forEach(a => {
+                                    a.addEventListener('click', () => {
+                                        const idParaBorrar = a.id;
+                                        windowBorrarArticulo.classList.toggle('hidden');
+
+                                        closeDelete.addEventListener('click', () => {
+                                            windowBorrarArticulo.classList.toggle('hidden');
+                                        })
+
+                                        deleteArt.addEventListener('click', () => {
+                                            fetch(articulos + idParaBorrar, {
+                                                method: 'DELETE',
+                                                headers: { "x-token": `${token}` }
+                                            })
+                                                .then(resp => resp.json())
+                                                .then(location.reload())
+                                                .catch(console.error)
+                                        })
+                                    })
+                                })
+
+                                // Editar artículo
+                                const actualizarArt = document.querySelectorAll('.actualizarArt');
+                                const actualizarBtn = document.querySelector('.actualizarBtn');
+
+                                actualizarArt.forEach(a => {
+                                    a.addEventListener('click', () => {
+
+                                        const idParaModificar = a.id;
+
+                                        fetch(articulos + idParaModificar, {
+                                            method: 'GET'
+                                        })
+                                            .then(resp => resp.json())
+                                            .then(a => {
+
+                                                const ctgAModificar = a.categoria;
+
+                                                Texto.innerHTML = a.textarea;
+                                                tituloDeArticulo.value = a.titulo;
+
+                                                blog.classList.toggle('hidden');
+                                                editArticulo.classList.toggle('hidden');
+                                                editArticulo.classList.add('edicion');
+                                                body.classList.add('wC');
+                                                actualizarBtn.classList.toggle('hidden');
+                                                enviar.classList.toggle('hidden');
+
+                                                cerrarVentana.addEventListener('click', () => {
+                                                    editArticulo.classList.add('hidden');
+                                                    editArticulo.classList.remove('edicion');
+                                                    actualizarBtn.classList.toggle('hidden');
+                                                    enviar.classList.toggle('hidden');
+                                                    blog.classList.remove('hidden');
+                                                })
+
+                                                funcionesParaArticulos();
+
+                                                // Botón para actualizar artículo
+                                                actualizarBtn.addEventListener('click', () => {
+
+                                                    const imgParaArticulo = document.querySelector('.imgParaArticulo');
+                                                    const siPortada = document.querySelector('.siPortada');
+                                                    const noPortada = document.querySelector('.noPortada');
+
+                                                    imgParaArticulo.classList.toggle('hidden');
+
+                                                    // Si quiere que tenga img de Portada...
+                                                    siPortada.addEventListener('click', () => {
+
+                                                        const portadaPeticion = document.querySelectorAll('.portadaPeticion');
+
+                                                        portadaPeticion.forEach(p => {
+                                                            p.classList.toggle('hidden');
+                                                        })
+
+                                                        const imgPortadaUrlBtn = document.querySelector('.imgPortadaUrl');
+                                                        const imgPortadaUrl = document.querySelector('#imgPortadaUrl');
+                                                        const imgPortadaFile = document.querySelector('#imgPortadaFile');
+
+                                                        const imgConUrl = () => {
+                                                            const urlImg = imgPortadaUrl.value;
+
+                                                            console.log('urlImg: ' + urlImg);
+
+                                                            const data = { "archivo": `${urlImg}` };
+
+                                                            fetch(uploadIMG + 'subir', {
+                                                                method: 'POST',
+                                                                body: JSON.stringify(data),
+                                                                headers: { 'Content-Type': 'application/json' },
+                                                            })
+                                                                .then(resp => resp.json())
+                                                                .then(url => {
+                                                                    console.log('URL: ' + url)
+                                                                    editArticulo.classList.toggle('hidden');
+                                                                    spinner.classList.toggle('hidden');
+
+                                                                    const ids = idCtg.shift();
+
+                                                                    const data = {
+                                                                        'titulo': `${tituloDeArticulo.value}`,
+                                                                        'contenido': `${resultado.innerText}`,
+                                                                        'img': `${url}`,
+                                                                        'htmlContenido': `${resultado.innerHTML}`,
+                                                                        'textarea': `${Texto.value}`,
+                                                                        'categoria': `${ctgAModificar}`,
+                                                                        'autor': `${idDeUsuario}`,
+                                                                    };
+
+                                                                    let headersList = {
+                                                                        "x-token": `${token}`,
+                                                                        "Content-Type": "application/json"
+                                                                    }
+
+                                                                    fetch(articulos + idParaModificar, {
+                                                                        method: 'PUT',
+                                                                        headers: headersList,
+                                                                        body: JSON.stringify(data)
+                                                                    })
+                                                                        .then(resp => resp.json())
+                                                                        .then(a => {
+                                                                            // Se crea el string para la fecha
+                                                                            const fechaMal = a.creadoEn.split(' ');
+                                                                            const arrayBuena = fechaMal.splice(0, 4);
+
+                                                                            const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                                                            const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                                                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                                                            const html = `
+                                                                                <div class="articuloMini">
+                                                                                    <div class="topArticle">
+                                                                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                                                        <div class="articleText">
+                                                                                            <span class="titleArticle">${a.titulo}</span>
+                                                                                            <span class="descArticle">${a.contenido}</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <span class="fechaArticle">${fecha}</span>
+                                                                                    <div class="buttons">
+                                                                                        <div class="btnRow">
+                                                                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                                                                <button class="wC btn btn-primary">Ver artículo</button>
+                                                                                            </a>
+                                                                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                                                        </div>
+                                                                                        <div class="btnRow">
+                                                                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            `;
+
+                                                                            articulosResultados.innerHTML += html;
+                                                                            imgParaArticulo.classList.toggle('hidden')
+                                                                        })
+                                                                        .then(location.reload())
+                                                                        .catch(console.error)
+                                                                        .finally(() => {
+                                                                            location.reload()
+                                                                        })
+                                                                })
+                                                                .catch(console.error)
+
+                                                        }
+
+                                                        const imgFile = () => {
+
+                                                            var reader = new FileReader();
+
+                                                            reader.onload = function (e) {
+                                                                const imgFile = e.target.result;
+
+                                                                const data = { "archivo": `${imgFile}` };
+
+                                                                fetch(uploadIMG + 'subir', {
+                                                                    method: 'POST',
+                                                                    headers: { 'Content-Type': 'application/json' },
+                                                                    body: JSON.stringify(data)
+                                                                })
+                                                                    .then(resp => resp.json())
+                                                                    .then(url => {
+                                                                        editArticulo.classList.toggle('hidden');
+                                                                        spinner.classList.toggle('hidden');
+
+                                                                        const ids = idCtg.shift();
+
+                                                                        const data = {
+                                                                            'titulo': `${tituloDeArticulo.value}`,
+                                                                            'contenido': `${resultado.innerText}`,
+                                                                            'img': `${url}`,
+                                                                            'htmlContenido': `${resultado.innerHTML}`,
+                                                                            'textarea': `${Texto.value}`,
+                                                                            'categoria': `${ctgAModificar}`,
+                                                                            'autor': `${idDeUsuario}`,
+                                                                        };
+
+                                                                        let headersList = {
+                                                                            "x-token": `${token}`,
+                                                                            "Content-Type": "application/json"
+                                                                        }
+
+                                                                        fetch(articulos + idParaModificar, {
+                                                                            method: 'PUT',
+                                                                            headers: headersList,
+                                                                            body: JSON.stringify(data)
+                                                                        })
+                                                                            .then(resp => resp.json())
+                                                                            .then(a => {
+                                                                                // Se crea el string para la fecha
+                                                                                const fechaMal = a.creadoEn.split(' ');
+                                                                                const arrayBuena = fechaMal.splice(0, 4);
+
+                                                                                const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                                                                const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                                                                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                                                                const html = `
+                                                                                    <div class="articuloMini">
+                                                                                        <div class="topArticle">
+                                                                                            <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                                                            <div class="articleText">
+                                                                                                <span class="titleArticle">${a.titulo}</span>
+                                                                                                <span class="descArticle">${a.contenido}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <span class="fechaArticle">${fecha}</span>
+                                                                                        <div class="buttons">
+                                                                                            <div class="btnRow">
+                                                                                                <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                                                                    <button class="wC btn btn-primary">Ver artículo</button>
+                                                                                                </a>
+                                                                                                <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                                                            </div>
+                                                                                            <div class="btnRow">
+                                                                                                <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                                                                <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                `;
+
+                                                                                articulosResultados.innerHTML += html;
+                                                                                imgParaArticulo.classList.toggle('hidden')
+                                                                            })
+                                                                            .then(location.reload())
+                                                                            .catch(console.error)
+                                                                            .finally(() => {
+                                                                                location.reload()
+                                                                            })
+                                                                    })
+                                                                    .catch(console.error)
+                                                            }
+                                                        }
+
+                                                        imgPortadaUrlBtn.addEventListener('click', imgConUrl);
+                                                        imgPortadaFile.addEventListener('click', imgFile);
+                                                    })
+
+                                                    // Si no quiere una img principal
+                                                    noPortada.addEventListener('click', () => {
+                                                        editArticulo.classList.toggle('hidden');
+                                                        spinner.classList.toggle('hidden');
+
+                                                        const data = {
+                                                            'titulo': `${tituloDeArticulo.value}`,
+                                                            'contenido': `${resultado.innerText}`,
+                                                            'htmlContenido': `${resultado.innerHTML}`,
+                                                            'textarea': `${Texto.value}`,
+                                                        };
+
+                                                        let headersList = {
+                                                            "x-token": `${token}`,
+                                                            "Content-Type": "application/json"
+                                                        }
+
+                                                        fetch(articulos + idParaModificar, {
+                                                            method: 'PUT',
+                                                            headers: headersList,
+                                                            body: JSON.stringify(data)
+                                                        })
+                                                            .then(resp => resp.json())
+                                                            .then(location.reload())
+                                                            .catch(console.error)
+                                                            .finally(() => {
+                                                                location.reload()
+                                                            })
+                                                    })
+                                                })
+                                            })
+                                            .catch(console.error);
+                                    })
+                                })
+                            }
+
+                            btnsParaBorrarYAcyualizar();
+                        })
+                    }
+
+
+                })
+                .catch(console.error)
+
+        })
+        .catch(err => {
+            darChanceDeIrse();
+        })
+        .finally(() => {
+            blog.classList.remove('hidden')
+            spinner.classList.add('hidden');
+        })
+})

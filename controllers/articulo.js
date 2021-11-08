@@ -47,7 +47,9 @@ const obtenerIDS = async (req, res = response) => {
 const mostrarArticulo = async (req, res = response) => {
 
     const { id } = req.params;
-    const articulo = await Articulo.findById(id);
+    const articulo = await Articulo.findById(id)
+        .populate('autor', 'nombre')
+        .populate('categoria', 'nombre')
 
     res.json(articulo);
 
@@ -56,7 +58,7 @@ const mostrarArticulo = async (req, res = response) => {
 const añadirArticulo = async (req, res = response) => {
 
     try {
-        const { titulo, contenido, htmlContenido, img, autor, categoria } = req.body;
+        const { titulo, contenido, htmlContenido, textarea, img, autor, categoria } = req.body;
 
         const articuloDB = await Articulo.findOne({ titulo });
 
@@ -76,6 +78,7 @@ const añadirArticulo = async (req, res = response) => {
             titulo,
             contenido,
             htmlContenido,
+            textarea,
             creadoEn,
             img,
             autor: idDeAutor,

@@ -35,6 +35,7 @@ router.post('/', [
     check('categoria').custom(existeCategoriaPorID),
     check('titulo', 'El titulo es obligatorio').not().isEmpty(),
     check('contenido', 'El contenido es obligatorio').not().isEmpty(),
+    check('textarea', 'El textarea es obligatorio').not().isEmpty(),
     validarCampos
 ], añadirArticulo);
 
