@@ -3,6 +3,23 @@
     padding: 0;
 }
 
+body.dark {
+    background: #333;
+    color: white;
+}
+
+body.dark .categoriasUl > li {
+    color: black;
+}
+
+body.dark .buscador > input {
+    color: white;
+}
+
+body.dark .categoriasDeArticulo {
+    border-top: 1px solid white;
+}
+
 .row {
     --bs-gutter-x: 0;
 }
@@ -25,8 +42,12 @@
 
 /* NavBar */
 .navBar.dark {
-    background: #555;
+    background: #555 !important;
     color: white;
+}
+
+.navBar.dark .enlace > a {
+    color: white !important;
 }
 
 .navBar {
@@ -100,6 +121,7 @@
 .buscador > input {
     background: transparent;
     border: none;
+    margin-left: 5px;
 }
 
 .enlace > #check {
@@ -205,6 +227,11 @@
     max-width: 500px;
 }
 
+#titulo.dark {
+    background: linear-gradient(to bottom, transparent, #333);
+    color: white;
+}
+
 .articulo > .contenido > .cabecera > h1 {
     width: 81%;
     transform: translateY(-76%);
@@ -265,6 +292,11 @@
     border-radius: 10px;
 }
 
+.articuloLi.dark {
+    background: #356;
+    color: white;
+}
+
 .articuloLi > .imgDeArticulos {
     max-width: 250px;
     max-height: 180px;
@@ -279,7 +311,7 @@
 
 .articuloLi > .contenidoDeArticulos {
     padding: 5px;
-    margin-bottom: 5px;
+    margin: 5px 0px;
 }
 
 .articuloLi > .fechaDeArticulos {
@@ -379,6 +411,114 @@
 .alignRight {
     text-align: right !important;
     margin-bottom: 0;
+}
+
+/* Artículos en general */
+.articulosEnGeneral {
+    margin-top: 95px;
+    min-height: 80vh;
+}
+
+.articulosEnGeneral > .intro {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: orange;
+    color: white;
+    width: 100%;
+}
+
+.articulosEnGeneral > .intro > .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.intro > .left > h1 {
+    text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
+    margin-bottom: 10px;
+}
+
+
+.intro > .left > p {
+    font-size: 22px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    padding: 0px 10px;
+    text-align: justify;
+}
+
+.articulosRow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.articulosRow > .titles {
+    text-align: center;
+    border-top: 15px solid yellow;
+    padding: 20px 0px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    box-shadow: 0px 2px 5px rgb(0 0 0 / 50%);
+    width: 100%;
+}
+
+.ultimos3 {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.ultimos3 > .articuloUltimo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 400px;
+    border: 1px solid rgb(0 0 0 / 50%);
+    border-top: 10px solid orange;
+    border-radius: 10px;
+    margin: 0px 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
+    background-color: #a2c7ff;
+}
+
+.ultimos3 > .articuloUltimo > img {
+    max-width: 250px;
+    max-height: 180px;
+    border-radius: 5px;
+}
+
+.ultimos3 > .articuloUltimo > #tituloArticuloCarousel {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.ultimos3 > .articuloUltimo > #descArticuloCarousel {
+    padding: 5px;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+.ultimos3 > .articuloUltimo > #fechaArticuloCarousel {
+    font-weight: 600;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+#botonVermas {
+    width: 100%;
+}
+
+#botonVermas > button {
+    width: 100%;
 }
 
 
@@ -554,6 +694,30 @@ df-messenger {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+    }
+}
+
+@media (max-width: 850px) {
+    .intro {
+        flex-direction: column;
+        background: url(../img/welcome.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 328px;
+    }
+    
+    .intro > .left {
+        backdrop-filter: blur(5px);
+        height: 100%;
+    }
+    
+    .intro > .left > p {
+        padding: 0px 20px;
+        margin: 20px 50px;
+    }
+    
+    .intro > .right {
+        display: none;
     }
 }
 

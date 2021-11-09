@@ -25,6 +25,8 @@ const mostrarUltimos3 = async (req, res = response) => {
     const estado = { estado: true };
 
     Articulo.find(estado).limit(3).sort({ creadoEn: 1 })
+        .populate('autor', 'nombre')
+        .populate('categoria', 'nombre')
         .then(collection => {
             res.json(collection);
         })

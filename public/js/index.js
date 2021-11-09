@@ -15,25 +15,25 @@ const porques = document.querySelectorAll('.unPorque');
 const unPorque = [].slice.call(porques);
 
 // URL's
-const ultimos3 = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/api/articulos/ultimos'
-    : 'https://blogi-node.herokuapp.com/api/articulos/ultimos';
+const tutoriales = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/categorias/articulos/'
+    : 'https://blogi-node.herokuapp.com/api/categorias/articulos/';
 
 const urlParaIDS = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/articulos/obtenerIDS/'
     : 'https://blogi-node.herokuapp.com/api/articulos/obtenerIDS/';
 
 const blogDeAutor = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/blog/blog.html?=id'
-    : 'https://blogi-node.herokuapp.com/blog/blog.html?=id';
+    ? 'http://localhost:5500/public/posts/blog.html?=id'
+    : 'https://blogi-node.herokuapp.com/posts/blog.html?=id';
 
 const articulosUrl = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/articulos/arts.html?id='
-    : 'https://blogi-node.herokuapp.com/articulos/arts.html?id=';
+    ? 'http://localhost:5500/public/posts/arts.html?id='
+    : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
 
 const categorias = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/articulos/ctgr.html?id='
-    : 'https://blogi-node.herokuapp.com/articulos/ctgr.html?id=';
+    ? 'http://localhost:5500/public/posts/ctgr.html?id='
+    : 'https://blogi-node.herokuapp.com/posts/ctgr.html?id=';
 
 // El aparecedor
 window.addEventListener('scroll', () => {
@@ -201,13 +201,12 @@ const cambiarAEspañolMes = (mes) => {
 }
 
 // Fetch para últimos 3
-fetch(ultimos3, {
+fetch(tutoriales + '6186efa6cf94729df2c6fa9e', {
     method: 'GET'
 })
     .then(resp => resp.json())
-    .then(articulosResp => {
-
-        articulosResp.forEach(a => {
+    .then(({ articulos }) => {
+        articulos.forEach(a => {
 
             // Se crea el string para la fecha
             const fechaMal = a.creadoEn.split(' ');
@@ -253,9 +252,9 @@ fetch(ultimos3, {
                                     <br>
                                     <p class="fecha">${fecha}</p>
                                     <br>
-                                    <button class="verMas btn btn-primary">
-                                        <a href="${articulosUrl + a._id}">Ver artículo completo</a>
-                                    </button>
+                                    <a href="${articulosUrl + a._id}">
+                                        <button class="verMas btn btn-primary">Ver artículo completo</button>
+                                    </a>
                                 </div>
                             `;
 

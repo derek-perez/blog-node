@@ -20,8 +20,8 @@ const obtenerCategorias = (window.location.hostname.includes('localhost'))
     : 'https://blogi-node.herokuapp.com/api/categorias/';
 
 const articulosUrl = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/articulos/arts.html?id='
-    : 'https://blogi-node.herokuapp.com/articulos/arts.html?id=';
+    ? 'http://localhost:5500/public/posts/arts.html?id='
+    : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
 
 // Referencias HTML
 const body = document.querySelector('body')

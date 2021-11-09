@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./css/arts.css">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
-    <title>Artículo</title>
+    <title>Artículos de Blogi</title>
 </head>
 
 <body>
 
+    <!-- Navbar -->
     <nav class="navBar">
         <div id="presentacion">
             <img src="../img/logo.png" class="imgLogo" alt="Logo">
@@ -23,7 +24,7 @@
         </div>
         <ul id="enlaces">
             <li class="enlace">
-                <a href="#">
+                <a href="../index.html">
                     Inicio
                 </a>
             </li>
@@ -46,6 +47,7 @@
     </nav>
     <div class="toggle"></div>
 
+    <!-- Articulo -->
     <div class="articulo">
         <div class="contenido">
             <div class="cabecera">
@@ -78,6 +80,32 @@
             <ul class="categoriasUl">
                 <p>Temas que le pueden interesar:</p>
             </ul>
+        </div>
+    </div>
+
+    <!-- Artículos en general -->
+    <div class="articulosEnGeneral hidden">
+        <div class="intro">
+            <div class="left">
+                <h1>Aquí podrás ver nuestros artículos</h1>
+                <p>
+                    Aquí podrás ver los artículos más recientes que haya, los más destacados, y también
+                    podrás ver artículos separados por categoría para que los encuentres más rápido...
+                </p>
+            </div>
+            <div class="right">
+                <img src="./img/welcome.png" alt="Ven y mirá nuestros artículos">
+            </div>
+        </div>
+        <div class="articulosRow">
+            <!-- Últimos 3 -->
+            <h3 class="titles">Aquí hay algunos de nuestros artículos recientes:</h3>
+            <div class="ultimos3">
+
+            </div>
+
+            <!-- Por categoría -->
+
         </div>
     </div>
 
@@ -129,6 +157,7 @@
             chat-title="Blogi" agent-id="cee427dc-5ff2-496f-be92-9c86bb86f9fb" language-code="es">
         </df-messenger>
     </div>
+
 
     <script src="./js/arts.js"></script>
 </body>
