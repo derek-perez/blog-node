@@ -150,7 +150,7 @@ const eliminarArticulo = async (req, res = response) => {
 
     articuloEliminado();
 
-    const articuloBorrado = await Articulo.findByIdAndUpdate(id, { estado: false }, { new: true });
+    const articuloBorrado = await Articulo.findByIdAndDelete(id);
 
     res.json(articuloBorrado);
 

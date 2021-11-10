@@ -137,17 +137,22 @@ const articulo = document.querySelector('.articulo');
 const params = new URLSearchParams(location.search);
 const idArticulo = params.get('id');
 
+// Si no hay "id"...
 if (idArticulo === null || idArticulo === undefined) {
 
     articulosEnGeneral.classList.toggle('hidden');
     articulo.classList.toggle('hidden');
 
+    // Fetch para traer los ultimos 3
     fetch(articulos + 'ultimos', {
         method: 'GET'
     })
         .then(resp => resp.json())
         .then((ultimosArticulos) => {
             ultimosArticulos.forEach(a => {
+
+                const nombreDeAutor = a.autor[0].nombre;
+                const nombreDeCtg = a.categoria[0].nombre;
 
                 const ultimos3 = document.querySelector('.ultimos3');
 
@@ -167,7 +172,18 @@ if (idArticulo === null || idArticulo === undefined) {
                 const html = `
                     <div class="articuloUltimo">
                         <img src="${a.img}" alt="Artículo reciente">
-                        <span id="tituloArticuloCarousel">${a.titulo}</span>
+                        <span id="top">
+                            <span class="primary">Autor:</span>
+                            <span class="secondary">${nombreDeAutor}</span>
+                        </span>
+                        <span>
+                            <span class="primary">Titulo:</span>
+                            <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
+                        </span>
+                        <span id="down">
+                            <span class="primary">Categoría:</span>
+                            <span class="secondary">${nombreDeCtg}</span>
+                        </span>
                         <span id="descArticuloCarousel">${contenido}</span>
                         <span id="fechaArticuloCarousel">${fecha}</span>
                         <a id="botonVermas" href="${articulosPublic + a._id}">
@@ -182,8 +198,127 @@ if (idArticulo === null || idArticulo === undefined) {
         })
         .catch(console.log)
 
+    // Fetch para poner categorias
+    fetch(categorias, {
+        method: 'GET'
+    })
+        .then(resp => resp.json())
+        .then(({ categorias: ctgs }) => {
+            ctgs.forEach(ctg => {
+
+                // Elementos a manejar
+                const articulosCtgUl = document.querySelector('.articulosCtgUl');
+
+                // Obtener datos de la categoria
+                const descripcion = ctg.description;
+                const nombre = ctg.nombre;
+                const _id = ctg._id;
+
+                // Traer artículos de la categoría
+                fetch(`${categorias}articulos/${_id}`, {
+                    method: 'GET'
+                })
+                    .then(resp => resp.json())
+                    .then(({ total, articulos: arts }) => {
+                        if (total >= 1) {
+
+                            const html = `
+                                <li class="categoriaLi">
+                                    <div class="content">
+                                        <h3 class="categoriaTitulo">${nombre}</h3>
+                                        <span class="descCategoria">${descripcion}</span>
+                                    </div>
+                                    <ul id="${_id}" class="articulosDeCtg">
+                                    
+                                    </ul>
+                                </li>
+                            `;
+
+                            articulosCtgUl.innerHTML += html;
+
+                            arts.forEach(a => {
+
+                                const nombreDeAutor = a.autor[0].nombre;
+                                const nombreDeCtg = a.categoria[0].nombre;
+                                const idDeCtg = a.categoria[0]._id;
+
+                                if (idDeCtg === _id) {
+                                    const categoriasLi = document.querySelectorAll('.articulosDeCtg');
+                                    const categoriaLi = [].slice.call(categoriasLi);
+
+                                    categoriaLi.forEach(c => {
+                                        if (c.id === _id) {
+                                            const elBueno = c;
+                                            console.log(elBueno)
+
+                                            // Se crea el string para la fecha
+                                            const fechaMal = a.creadoEn.split(' ');
+                                            const arrayBuena = fechaMal.splice(0, 4);
+
+                                            const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                            const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                            const contenidoCortado = a.contenido.slice(0, 110);
+
+                                            const contenido = contenidoCortado + '...';
+
+                                            const html = `
+                                                <li class="articuloDeCtg">
+                                                    <img class="imgDeArticulos" src="${a.img}">
+                                                    <span id="top">
+                                                        <span class="primary">Autor:</span>
+                                                        <span class="secondary">${nombreDeAutor}</span>
+                                                    </span>
+                                                    <span>
+                                                        <span class="primary">Titulo:</span>
+                                                        <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
+                                                    </span>
+                                                    <span id="down">
+                                                        <span class="primary">Categoría:</span>
+                                                        <span class="secondary">${nombreDeCtg}</span>
+                                                    </span>
+                                                    <span class="contenidoDeArticulos">${contenido}</span>
+                                                    <span class="fechaDeArticulos">${fecha}</span>
+                                                    <a id="botonVermas" href="${articulosPublic + _id}">
+                                                        <button class="btn btn-primary">Ver más...</button>
+                                                    </a>
+                                                </li>
+                                            `;
+
+                                            elBueno.innerHTML += html;
+                                        }
+                                    });
+                                }
+                            })
+
+                        } else {
+                            const html = `
+                                <li id="${_id}" class="categoriaLi">
+                                    <div class="content">
+                                        <h3 class="categoriaTitulo">${nombre}</h3>
+                                        <span class="descCategoria">${descripcion}</span>
+                                        <div class="noHay">
+                                            <img src="./img/void.png">
+                                            <p>Aún no hay artículos en esta categoría</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+
+                            articulosCtgUl.innerHTML += html;
+                        }
+                    })
+                    .catch(console.log)
+
+            })
+        })
+        .catch(console.log)
+
 } else {
 
+    // Si hay "id"...
     const contenidoCuerpo = document.querySelector('#contenidoCuerpo');
     const fecha = document.querySelector('#fecha');
     const portada = document.querySelector('#portada');
@@ -255,6 +390,9 @@ if (idArticulo === null || idArticulo === undefined) {
 
                 articulos.forEach(a => {
 
+                    const nombreDeAutor = a.autor[0].nombre;
+                    const nombreDeCtg = a.categoria[0].nombre;
+
                     // Se crea el string para la fecha
                     const fechaMal = a.creadoEn.split(' ');
                     const arrayBuena = fechaMal.splice(0, 4);
@@ -271,7 +409,18 @@ if (idArticulo === null || idArticulo === undefined) {
                     const html = `
                         <li class="articuloLi">
                             <img class="imgDeArticulos" src="${a.img}">
-                            <span class="tituloDeArticulos">${a.titulo}</span>
+                            <span id="top">
+                                <span class="primary">Autor:</span>
+                                <span class="secondary">${nombreDeAutor}</span>
+                            </span>
+                            <span>
+                                <span class="primary">Titulo:</span>
+                                <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
+                            </span>
+                            <span id="down">
+                                <span class="primary">Categoría:</span>
+                                <span class="secondary">${nombreDeCtg}</span>
+                            </span>
                             <span class="contenidoDeArticulos">${contenido}</span>
                             <span class="fechaDeArticulos">${fecha}</span>
                             <button class="btn btn-primary">

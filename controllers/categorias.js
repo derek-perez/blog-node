@@ -81,6 +81,8 @@ const mostrarArticulosDeCategoria = async (req, res = response) => {
     const [total, articulos] = await Promise.all([
         Articulo.countDocuments(estado),
         Articulo.find(estado)
+            .populate('autor', 'nombre')
+            .populate('categoria', 'nombre')
     ]);
 
     res.json({
