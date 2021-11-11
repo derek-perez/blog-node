@@ -19,10 +19,6 @@ const tutoriales = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/categorias/articulos/'
     : 'https://blogi-node.herokuapp.com/api/categorias/articulos/';
 
-const urlParaIDS = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/api/articulos/obtenerIDS/'
-    : 'https://blogi-node.herokuapp.com/api/articulos/obtenerIDS/';
-
 const blogDeAutor = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/blog.html?=id'
     : 'https://blogi-node.herokuapp.com/posts/blog.html?=id';
@@ -83,7 +79,7 @@ toggle.onclick = () => {
 // Modo oscuro
 const checkbox = document.getElementById('check');
 
-checkbox.addEventListener('change', function () {
+checkbox.addEventListener('change', () => {
     body.classList.toggle('dark');
     bienvenida.classList.toggle('dark');
     navBar.classList.toggle('dark');
@@ -221,46 +217,31 @@ fetch(tutoriales + '6186efa6cf94729df2c6fa9e', {
 
             const contenido = contenidoCortado + '...';
 
-            // Fetch para obtener el nombre de la categoria
-            const data = {
-                usuario: a.autor[0],
-                categoria: a.categoria[0]
-            };
+            const html = `
+                <div class="articulo animate__animated hidden col-sm">
+                    <img src="${a.img}" alt="Img de artículo">
+                    <br>
+                    <span class="contenidoDad">
+                        <span class="contenido"> Autor:</span><a href="${blogDeAutor + a.autor[0]._id}" style="color: white;"> ${a.autor[0].nombre} </a>
+                    </span>
+                    <p class="titleDad">
+                    <span class="title"> Título:</span><span> ${a.titulo} </span>
+                    </p>
+                    <a href="${categorias + a.categoria[0]._id}" title="${a.categoria[0]._id}" class="categoria">
+                        <span class="contenido">Categoría: </span><span>${a.categoria[0].nombre}</span>
+                    </a>
+                    <br>
+                    <span style="padding: 0px 20px;"> ${contenido} </span>
+                    <br>
+                    <p class="fecha">${fecha}</p>
+                    <br>
+                    <a href="${articulosUrl + a._id}">
+                        <button class="verMas btn btn-primary">Ver artículo completo</button>
+                    </a>
+                </div>
+            `;
 
-            fetch(urlParaIDS, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-                .then(resp => resp.json())
-                .then(({ ctg, autor }) => {
-                    const html = `
-                                <div class="articulo animate__animated hidden col-sm">
-                                    <img src="${a.img}" alt="Img de artículo">
-                                    <br>
-                                    <span class="contenidoDad">
-                                        <span class="contenido"> Autor:</span><a href="${blogDeAutor + a.autor}" style="color: white;"> ${autor} </a>
-                                    </span>
-                                    <p class="titleDad">
-                                    <span class="title"> Título:</span><span> ${a.titulo} </span>
-                                    </p>
-                                    <a href="${categorias + a.categoria}" title="${a.categoria}" class="categoria">
-                                     <span class="contenido">Categoría: </span><span>${ctg}</span>
-                                    </a>
-                                    <br>
-                                    <span style="padding: 0px 20px;"> ${contenido} </span>
-                                    <br>
-                                    <p class="fecha">${fecha}</p>
-                                    <br>
-                                    <a href="${articulosUrl + a._id}">
-                                        <button class="verMas btn btn-primary">Ver artículo completo</button>
-                                    </a>
-                                </div>
-                            `;
-
-                    ulArticulos.innerHTML += html;
-                })
-                .catch(console.error)
+            ulArticulos.innerHTML += html;
         })
     })
     .catch(console.error)

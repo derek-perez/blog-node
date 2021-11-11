@@ -28,6 +28,37 @@ toggle.onclick = () => {
     menu.classList.toggle('active');
 }
 
+// Mod oscuro
+const checkbox = document.getElementById('check');
+const body = document.querySelector('body');
+const navBar = document.querySelector('.navBar');
+const articulosEnGeneral = document.querySelector('.articulosEnGeneral');
+const articulo = document.querySelector('.articulo');
+const tituloDark = document.querySelector('#titulo');
+
+checkbox.addEventListener('change', function () {
+    body.classList.toggle('dark');
+    navBar.classList.toggle('dark');
+    articulo.classList.toggle('dark');
+    articulosEnGeneral.classList.toggle('dark');
+    tituloDark.classList.toggle('dark');
+
+    setTimeout(() => {
+        const articulos = document.querySelectorAll('.articuloLi');
+        const articulo = [].slice.call(articulos);
+        articulo.forEach(a => a.classList.toggle('dark'));
+
+        const articuloUltimo = document.querySelectorAll('.articuloUltimo');
+        const articuloU = [].slice.call(articuloUltimo);
+        articuloU.forEach(a => a.classList.toggle('dark'));
+
+        const articulosDeCtg = document.querySelectorAll('.articuloDeCtg');
+        const articuloDeCtg = [].slice.call(articulosDeCtg);
+        articuloDeCtg.forEach(a => a.classList.toggle('dark'));
+
+    }, 100);
+});
+
 // Btns Flotantes
 const abrirIconos = document.querySelector('.abrirIconos');
 const btnsFlotantes = document.querySelector('.btnsFlotantes');
@@ -131,9 +162,6 @@ const cambiarAEspañolMes = (mes) => {
 }
 
 // Fetch para obtener artículo y mostrarlo
-const articulosEnGeneral = document.querySelector('.articulosEnGeneral');
-const articulo = document.querySelector('.articulo');
-
 const params = new URLSearchParams(location.search);
 const idArticulo = params.get('id');
 
@@ -367,26 +395,6 @@ if (idArticulo === null || idArticulo === undefined) {
         })
             .then(resp => resp.json())
             .then(articulos => {
-
-                // Mod oscuro
-                const checkbox = document.getElementById('check');
-                const body = document.querySelector('body');
-                const navBar = document.querySelector('.navBar');
-                const articuloEstructura = document.querySelector('.articulo');
-                const tituloDark = document.querySelector('#titulo');
-
-                checkbox.addEventListener('change', function () {
-                    body.classList.toggle('dark');
-                    navBar.classList.toggle('dark');
-                    articuloEstructura.classList.toggle('dark');
-                    tituloDark.classList.toggle('dark');
-
-                    setTimeout(() => {
-                        const articulos = document.querySelectorAll('.articuloLi');
-                        const articulo = [].slice.call(articulos);
-                        articulo.forEach(a => a.classList.toggle('dark'));
-                    }, 100);
-                });
 
                 articulos.forEach(a => {
 

@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body.dark {
+    background: #333;
+    color: white;
+}
+
+body.dark .categoriasUl > li {
+    color: black;
+}
+
+body.dark .buscador > input {
+    color: white;
+}
+
+body.dark .categoriasDeArticulo {
+    border-top: 1px solid white;
+}
+
+.row {
+    --bs-gutter-x: 0;
+}
+
+.w0 {
+    width: 1% !important;
+}
+
+.wC {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+#top {
+    margin-top: 20px;
+}
+
+#down {
+    margin-bottom: 20px;
+}
+
+.jC {
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+    transition: .5s;
+}
+
+/* NavBar */
+.navBar.dark {
+    background: #555 !important;
+    color: white;
+}
+
+.navBar.dark .enlace > a {
+    color: white !important;
+}
+
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid rgb(0 0 0 / 50%);
+    box-shadow: 0px 1px 3px rgb(0 0 0 / 50%);
+    transition: .5s;
+}
+
+.navBar > #presentacion > .imgLogo {
+    width: 100px;
+}
+
+.navBar > #presentacion > .marca {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.navBar > #enlaces.dark > .enlace a {
+    color: white;
+}
+
+.navBar > #enlaces {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.navBar > #enlaces > .enlace {
+    list-style: none;
+    margin-right: 20px;
+}
+
+.navBar > #enlaces > .enlace a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navBar > #enlaces > .enlace button {
+    border: none;
+    font-size: 18px;
+    padding: 4px;
+    border-radius: 5px;
+    background: orange;
+    color: white;
+    text-shadow: 2px 2px 3px rgb(0 0 0 / 50%);
+    box-shadow: 2px 2px 3px rgb(0 0 0 / 50%);
+    font-weight: 700;
+}
+
+.buscador {
+    background-color: #00000021;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.buscador > input:focus-visible {
+    outline: none;
+}
+
+.buscador > input {
+    background: transparent;
+    border: none;
+    margin-left: 5px;
+}
+
+.enlace > #check {
+    display: none;
+}
+
+.enlace > .modoOscuro {
+    font-family: FontAwesome;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background: #838383;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    width: 70px;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.modoOscuro::after {
+    content: "\f186";
+    display: flex;
+    width: 27px;
+    height: 27px;
+    background: white;
+    border-radius: 100px;
+    border: 1px solid black;
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    transition: .5s;
+    align-items: center;
+    justify-content: center;
+}
+
+#check:checked + .modoOscuro {
+    background: orange;
+}
+
+#check:checked + .modoOscuro::after {
+    content: "\f185";
+    left: 36px;
+}
+
+.toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background: url(../img/openSun.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 10000;
+    cursor: pointer;
+}
+
+.toggle.active {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background: url(../img/closeSun.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 10000;
+    cursor: pointer;
+}

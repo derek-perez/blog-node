@@ -281,10 +281,9 @@ const funcionesParaArticulos = () => {
             arrTextarea.forEach(t => {
                 const parrafo = document.createElement('p');
                 parrafo.innerHTML = t;
-            })
-            const linea = arrTextarea.join('<br>');
 
-            resultado.innerHTML = linea;
+                resultado.appendChild(parrafo);
+            })
         }
 
         espacio();
@@ -592,6 +591,7 @@ const funcionesParaArticulos = () => {
             })
         })
     }, 1000);
+
 }
 
 // Poner categorías y subir artículo

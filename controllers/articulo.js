@@ -32,20 +32,6 @@ const mostrarUltimos3 = async (req, res = response) => {
         })
 }
 
-const obtenerIDS = async (req, res = response) => {
-    const { categoria, usuario } = req.body;
-
-    const [ctg, autor] = await Promise.all([
-        Categoria.findById(categoria).then(c => c.nombre),
-        Usuario.findById(usuario).then(u => u.nombre),
-    ])
-
-    return res.status(200).json({
-        ctg,
-        autor
-    })
-}
-
 const mostrarArticulo = async (req, res = response) => {
 
     const { id } = req.params;
@@ -172,7 +158,6 @@ const mostrarArticulosDeUsuario = async (req, res = response) => {
 module.exports = {
     mostrarArticulos,
     mostrarUltimos3,
-    obtenerIDS,
     mostrarArticulo,
     añadirArticulo,
     editarArticulo,
