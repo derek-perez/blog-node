@@ -409,6 +409,7 @@ body {
 .topArticle > .articleText > .descArticle {
     margin: 5px 0px;
     color: gray;
+    word-break: break-all;
 }
 
 .articulosResultados > .articuloMini > .fechaArticle {
@@ -434,6 +435,61 @@ body {
 .btnArticulo {
     margin-right: 10px;
     width: 47%;
+}
+
+/* Creacion de blog */
+.creacionDeBlog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000cf;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.creacionDeBlog > .formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid white;
+    border-top: 10px solid orange;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.formulario > p {
+    font-size: 25px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+}
+
+.formulario > label {
+    font-weight: 600;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.formulario > input:focus-visible {
+    outline: none;
+}
+
+.formulario > input {
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid orange;
+    width: 100%;
+    font-size: 20px;
+}
+
+#btnCrearBlog {
+    margin-top: 20px;
+    width: 100%;
 }
 
 /* Footer */

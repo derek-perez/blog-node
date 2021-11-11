@@ -4,6 +4,7 @@ const db = require('mongoose');
 const Articulo = require('../models/articulo');
 const Categoria = require('../models/categoria');
 const Usuario = require('../models/usuario');
+const Blog = require('../models/blog');
 
 const mostrarArticulos = async (req, res = response) => {
     const estado = { estado: true };
@@ -46,7 +47,7 @@ const mostrarArticulo = async (req, res = response) => {
 const añadirArticulo = async (req, res = response) => {
 
     try {
-        const { titulo, contenido, htmlContenido, textarea, img, autor, categoria } = req.body;
+        const { titulo, contenido, htmlContenido, textarea, img, autor, blog, categoria } = req.body;
 
         const articuloDB = await Articulo.findOne({ titulo });
 
@@ -60,6 +61,7 @@ const añadirArticulo = async (req, res = response) => {
 
         const idDeCtg = db.Types.ObjectId(categoria);
         const idDeAutor = db.Types.ObjectId(autor);
+        const idDeBlog = db.Types.ObjectId(blog);
 
         // Generar la data a guardar
         const data = {
@@ -70,6 +72,7 @@ const añadirArticulo = async (req, res = response) => {
             creadoEn,
             img,
             autor: idDeAutor,
+            blog: idDeBlog,
             categoria: idDeCtg,
         }
 
@@ -153,6 +156,18 @@ const mostrarArticulosDeUsuario = async (req, res = response) => {
 
 }
 
+const mostrarArticulosDeBlog = async (req, res = response) => {
+
+    const { blog } = req.params;
+
+    const articulo = await Articulo.find({ blog, estado: true })
+        .populate('autor', 'nombre')
+        .populate('categoria', 'nombre')
+
+    res.json(articulo);
+
+}
+
 
 
 module.exports = {
@@ -162,5 +177,6 @@ module.exports = {
     añadirArticulo,
     editarArticulo,
     eliminarArticulo,
-    mostrarArticulosDeUsuario
+    mostrarArticulosDeUsuario,
+    mostrarArticulosDeBlog
 }

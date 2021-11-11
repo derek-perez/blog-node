@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { mostrarArticulos, mostrarArticulo, añadirArticulo, editarArticulo, eliminarArticulo, mostrarArticulosDeUsuario, mostrarUltimos3 } = require('../controllers/articulo');
+const { mostrarArticulos, mostrarArticulo, añadirArticulo, editarArticulo, eliminarArticulo, mostrarArticulosDeUsuario, mostrarUltimos3, mostrarArticulosDeBlog } = require('../controllers/articulo');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../helpers/validar-jwt');
@@ -27,12 +27,18 @@ router.get('/usuario/:usuario', [
     validarCampos
 ], mostrarArticulosDeUsuario);
 
+router.get('/blog/:blog', [
+    check('blog', 'No es un ID de Mongo válido').isMongoId(),
+    validarCampos
+], mostrarArticulosDeBlog);
+
 router.post('/', [
     validarJWT,
     check('categoria', 'No es un ID de Mongo válido').isMongoId(),
     check('categoria').custom(existeCategoriaPorID),
     check('titulo', 'El titulo es obligatorio').not().isEmpty(),
     check('contenido', 'El contenido es obligatorio').not().isEmpty(),
+    check('blog', 'El Blog es obligatorio').not().isEmpty(),
     check('textarea', 'El textarea es obligatorio').not().isEmpty(),
     validarCampos
 ], añadirArticulo);

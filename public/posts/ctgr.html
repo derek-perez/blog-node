@@ -47,6 +47,75 @@
     </nav>
     <div class="toggle"></div>
 
+    <!-- Categoría -->
+    <div class="categoria">
+        <div class="ctgInfo">
+            <h1 id="tituloDeCtg">Historia y arte</h1>
+            <p id="articulosDeCtg">
+                <span class="primary">Artículos: </span>
+                <span>10</span>
+            </p>
+            <p id="descDeCtg">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim quisquam earum similique dignissimos
+                deserunt dolores facere minus aperiam quasi est qui, veritatis, fugit voluptates ea animi reprehenderit
+                ipsa amet commodi?
+            </p>
+        </div>
+        <h2 class="titles">Artículos de la categoría...</h2>
+    </div>
+
+    <!-- Categorías en general -->
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="row">
+            <div class="ayuda col-sm">
+                <h4>Navega por el sitio</h4>
+                <a href="https://blogi-node.herokuapp.com/articulos/">Artículos</a>
+                <a href="https://blogi-node.herokuapp.com/categorias/">Categorías</a>
+                <a href="https://blogi-node.herokuapp.com/blog/articulos/#articulos">Tu blog</a>
+                <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
+            </div>
+            <div class="siguenos col-sm">
+                <h4>Siguenos</h4>
+                <div class="links">
+                    <a href="#">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="elPapi col-sm">
+                <h4>Desarrollador</h4>
+                <p>Derek Pérez - Copyright 2021.</p>
+                <p>v 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botones flotantes -->
+    <i class="fa fa-ellipsis-h abrirIconos animate__animated animate__bounceInRight"></i>
+    <div class="btnsFlotantes animate__animated hidden">
+        <!-- Whats -->
+        <i class="fa fa-whatsapp"></i>
+        <!-- Atención al cliente -->
+        <i class="fa fa-comments"></i>
+    </div>
+    <!-- Chatbot -->
+    <div class="chatbot hidden animate__animated">
+        <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+        <df-messenger
+            chat-icon="https:&#x2F;&#x2F;res.cloudinary.com&#x2F;chugus&#x2F;image&#x2F;upload&#x2F;v1635113376&#x2F;logo_nzedyn.png"
+            chat-title="Blogi" agent-id="cee427dc-5ff2-496f-be92-9c86bb86f9fb" language-code="es">
+        </df-messenger>
+    </div>
+
     <script src="./js/ctgr.js"></script>
 </body>
 

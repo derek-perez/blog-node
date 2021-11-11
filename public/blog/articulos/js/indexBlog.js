@@ -19,6 +19,14 @@ const obtenerCategorias = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/categorias/'
     : 'https://blogi-node.herokuapp.com/api/categorias/';
 
+const usuarios = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/usuarios/'
+    : 'https://blogi-node.herokuapp.com/api/usuarios/';
+
+const blogUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/blog/'
+    : 'https://blogi-node.herokuapp.com/api/blog/';
+
 const articulosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
@@ -50,11 +58,45 @@ const resultadosDeMenu = document.querySelector('.resultadosDeMenu');
 const articulosResultados = document.querySelector('.articulosResultados');
 const noHay = document.querySelector('.noHay');
 
+const blogIdActual = document.querySelector('#blogIdActual');
+const blogActualLista = document.querySelector('.blogActualLista');
+
+let idDeUsuario;
+
 // Verificar si está logueado y personalizar Navbar
 blog.classList.add('hidden')
 spinner.classList.remove('hidden');
 
 const token = localStorage.getItem('token');
+
+window.addEventListener('load', () => {
+    fetch(validarJwt, {
+        method: 'GET',
+        headers: { 'x-token': token }
+    })
+        .then(resp => resp.json())
+        .then(({ msg, usuario }) => {
+            if (msg !== 'Token válido') {
+                darChanceDeIrse();
+            }
+
+            idDeUsuario = usuario.uid;
+
+            // Personalizar Navbar
+            userImg.src = usuario.img;
+            userImgAccount.src = usuario.img;
+            nombre.innerText = usuario.nombre;
+            correo.innerText = usuario.correo;
+
+        })
+        .catch(err => {
+            darChanceDeIrse();
+        })
+        .finally(() => {
+            blog.classList.remove('hidden')
+            spinner.classList.add('hidden');
+        })
+})
 
 const darChanceDeIrse = () => {
     login.classList.remove('hidden');
@@ -146,9 +188,6 @@ const cambiarAEspañolMes = (mes) => {
     return mesBueno;
 }
 
-let idDeUsuario;
-
-
 // Menú responsive
 if (window.innerWidth <= 950) {
     menuDoor.addEventListener('click', () => {
@@ -224,23 +263,8 @@ const aparecedorDeResultado = () => {
 
 window.addEventListener('load', aparecedorDeResultado)
 
-// Poner color a un elemento clickeado del menú e ir a ese elemento
-for (let i = 0; i < itemsBlog.length; i++) {
-    itemsBlog[i].onclick = (e) => {
-
-        // Se toma el title de el item del Menú seleccionado y se pone en la Url
-        const irA = e.path[0].title;
-
-        window.location.href = public + `blog/articulos/#${irA}`;
-
-        let j = 0;
-        while (j < itemsBlog.length) {
-            itemsBlog[j++].className = 'itemBlog';
-        }
-        itemsBlog[i].className = 'itemBlog active';
-        aparecedorDeResultado();
-    }
-}
+// Mostrar blog seleccionado desde la URL
+let actualUrl = window.location.href;
 
 const editArticulo = document.querySelector('.editArticulo');
 const cerrarVentana = document.querySelector('.cerrarVentana');
@@ -276,13 +300,17 @@ const funcionesParaArticulos = () => {
     Texto.addEventListener('keydown', () => {
 
         const arrTextarea = Texto.value.split('\n');
+        const arrResult = [];
 
         const espacio = () => {
             arrTextarea.forEach(t => {
-                const parrafo = document.createElement('p');
-                parrafo.innerHTML = t;
+                const parrafo2 = document.createElement('p');
+                parrafo2.innerHTML = t;
 
-                resultado.appendChild(parrafo);
+                arrResult.push(parrafo2.innerHTML);
+                setTimeout(() => {
+                    resultado.innerHTML = arrResult.join('<br>');
+                }, 100);
             })
         }
 
@@ -636,6 +664,7 @@ enviar.addEventListener('click', () => {
             'contenido': `${resultado.innerText}`,
             'htmlContenido': `${resultado.innerHTML}`,
             'textarea': `${Texto.value}`,
+            'blog': `${blogId}`,
             'categoria': `${ids}`,
             'autor': `${idDeUsuario}`,
         };
@@ -730,6 +759,7 @@ enviar.addEventListener('click', () => {
                         'img': `${url}`,
                         'htmlContenido': `${resultado.innerHTML}`,
                         'textarea': `${Texto.value}`,
+                        'blog': `${blogId}`,
                         'categoria': `${ids}`,
                         'autor': `${idDeUsuario}`,
                     };
@@ -819,6 +849,7 @@ enviar.addEventListener('click', () => {
                             'img': `${url}`,
                             'htmlContenido': `${resultado.innerHTML}`,
                             'textarea': `${Texto.value}`,
+                            'blog': `${blogId}`,
                             'categoria': `${ids}`,
                             'autor': `${idDeUsuario}`,
                         };
@@ -907,264 +938,212 @@ const closeDelete = document.querySelector('.closeDelete');
 
 windowBorrarArticulo.classList.toggle('hidden');
 
-// Validar token y poner artículos y textareas para crear/editar artículos
-window.addEventListener('load', () => {
-    fetch(validarJwt, {
-        method: 'GET',
-        headers: { 'x-token': token }
+let blogId;
+
+// Crear blog
+const crearBlog = document.querySelector('.crearBlog');
+const creacionDeBlog = document.querySelector('.creacionDeBlog');
+const nombreDeBlog = document.getElementById('nombreDeBlog');
+const descDeBlog = document.getElementById('descDeBlog');
+
+crearBlog.addEventListener('click', () => {
+    creacionDeBlog.classList.toggle('hidden');
+
+    const data = {
+        'nombre': `${nombreDeBlog.value}`,
+        'descripcion': `${descDeBlog.value}`
+    }
+
+    const headersList2 = {
+        'token': `${token}`,
+        'Content-Type': 'application/json'
+    }
+
+    fetch(blogUrl, {
+        method: 'POST',
+        headers: headersList2,
+        body: JSON.stringify(data)
     })
         .then(resp => resp.json())
-        .then(({ msg, usuario }) => {
-            if (msg !== 'Token válido') {
-                darChanceDeIrse();
-            }
+        .then(console.log)
+        .catch(console.log)
+})
 
-            idDeUsuario = usuario.uid;
+// Poner blog
+setTimeout(() => {
 
-            // Personalizar Navbar
-            userImg.src = usuario.img;
-            userImgAccount.src = usuario.img;
-            nombre.innerText = usuario.nombre;
-            correo.innerText = usuario.correo;
+    fetch(blogUrl + 'usuario/' + idDeUsuario, {
+        method: 'GET'
+    })
+        .then(resp => resp.json())
+        .then(b => {
 
-            fetch(`${articulos}/usuario/${idDeUsuario}`, {
-                method: 'GET'
-            })
-                .then(resp => resp.json())
-                .then(articulo => {
-                    if (articulo.length === 0) {
-                        noHay.classList.remove('hidden')
-                    } else {
-                        articulo.forEach(a => {
+            b.forEach(bC => {
 
-                            // Se crea el string para la fecha
-                            const fechaMal = a.creadoEn.split(' ');
-                            const arrayBuena = fechaMal.splice(0, 4);
+                const idDeBlog = bC._id;
+                const nombreDeBlog = bC.titulo;
 
-                            const dia = cambiarAEspañolDia(arrayBuena[0]);
-                            const mes = cambiarAEspañolMes(arrayBuena[1]);
+                blogId = idDeBlog;
 
-                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+                actualUrl += `#${blogId}`;
 
-                            const contenidoCortado = a.contenido.slice(0, 110);
+                blogIdActual.innerHTML = nombreDeBlog;
+                blogIdActual.id = idDeBlog;
 
-                            const contenido = contenidoCortado + '...';
+                const html = `
+                    <span id="${idDeBlog}">${nombreDeBlog}</span>
+                `;
 
-                            const html = `
-                                <div class="articuloMini">
-                                    <div class="topArticle">
-                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                        <div class="articleText">
-                                            <span class="titleArticle">${a.titulo}</span>
-                                            <span class="descArticle">${contenido}</span>
+                blogActualLista.innerHTML += html;
+
+                fetch(articulos + 'blog/' + idDeBlog, {
+                    method: 'GET'
+                })
+                    .then(resp => resp.json())
+                    .then(arts => {
+                        if (arts.length === 0) {
+                            noHay.classList.remove('hidden')
+                        } else {
+                            arts.forEach(a => {
+
+                                // Se crea el string para la fecha
+                                const fechaMal = a.creadoEn.split(' ');
+                                const arrayBuena = fechaMal.splice(0, 4);
+
+                                const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                const contenidoCortado = a.contenido.slice(0, 110);
+
+                                const contenido = contenidoCortado + '...';
+
+                                const html = `
+                                        <div class="articuloMini">
+                                            <div class="topArticle">
+                                                <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                <div class="articleText">
+                                                    <span class="titleArticle">${a.titulo}</span>
+                                                    <span class="descArticle">${contenido}</span>
+                                                </div>
+                                            </div>
+                                            <span class="fechaArticle">${fecha}</span>
+                                            <div class="buttons">
+                                                <div class="btnRow">
+                                                    <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                        <button class="wC btn btn-primary">Ver artículo</button>
+                                                    </a>
+                                                    <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                </div>
+                                                <div class="btnRow">
+                                                    <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                    <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <span class="fechaArticle">${fecha}</span>
-                                    <div class="buttons">
-                                        <div class="btnRow">
-                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                <button class="wC btn btn-primary">Ver artículo</button>
-                                            </a>
-                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                        </div>
-                                        <div class="btnRow">
-                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
+                                    `;
 
-                            articulosResultados.innerHTML += html;
+                                articulosResultados.innerHTML += html;
 
-                            const btnsParaBorrarYAcyualizar = () => {
-                                // Borrar artículo
-                                const borrarArticulo = document.querySelectorAll('.borrarArticulo');
-                                borrarArticulo.forEach(a => {
-                                    a.addEventListener('click', () => {
-                                        const idParaBorrar = a.id;
-                                        windowBorrarArticulo.classList.toggle('hidden');
-
-                                        closeDelete.addEventListener('click', () => {
+                                const btnsParaBorrarYAcyualizar = () => {
+                                    // Borrar artículo
+                                    const borrarArticulo = document.querySelectorAll('.borrarArticulo');
+                                    borrarArticulo.forEach(a => {
+                                        a.addEventListener('click', () => {
+                                            const idParaBorrar = a.id;
                                             windowBorrarArticulo.classList.toggle('hidden');
-                                        })
 
-                                        deleteArt.addEventListener('click', () => {
-                                            fetch(articulos + idParaBorrar, {
-                                                method: 'DELETE',
-                                                headers: { "x-token": `${token}` }
+                                            closeDelete.addEventListener('click', () => {
+                                                windowBorrarArticulo.classList.toggle('hidden');
                                             })
-                                                .then(resp => resp.json())
-                                                .then(location.reload())
-                                                .catch(console.error)
+
+                                            deleteArt.addEventListener('click', () => {
+                                                fetch(articulos + idParaBorrar, {
+                                                    method: 'DELETE',
+                                                    headers: { "x-token": `${token}` }
+                                                })
+                                                    .then(resp => resp.json())
+                                                    .then(location.reload())
+                                                    .catch(console.error)
+                                            })
                                         })
                                     })
-                                })
 
-                                // Editar artículo
-                                const actualizarArt = document.querySelectorAll('.actualizarArt');
-                                const actualizarBtn = document.querySelector('.actualizarBtn');
+                                    // Editar artículo
+                                    const actualizarArt = document.querySelectorAll('.actualizarArt');
+                                    const actualizarBtn = document.querySelector('.actualizarBtn');
 
-                                actualizarArt.forEach(a => {
-                                    a.addEventListener('click', () => {
+                                    actualizarArt.forEach(a => {
+                                        a.addEventListener('click', () => {
 
-                                        const idParaModificar = a.id;
+                                            const idParaModificar = a.id;
 
-                                        fetch(articulos + idParaModificar, {
-                                            method: 'GET'
-                                        })
-                                            .then(resp => resp.json())
-                                            .then(a => {
+                                            fetch(articulos + idParaModificar, {
+                                                method: 'GET'
+                                            })
+                                                .then(resp => resp.json())
+                                                .then(a => {
 
-                                                const ctgAModificar = a.categoria;
+                                                    const ctgAModificar = a.categoria;
 
-                                                Texto.innerHTML = a.textarea;
-                                                tituloDeArticulo.value = a.titulo;
+                                                    Texto.innerHTML = a.textarea;
+                                                    tituloDeArticulo.value = a.titulo;
 
-                                                blog.classList.toggle('hidden');
-                                                editArticulo.classList.toggle('hidden');
-                                                editArticulo.classList.add('edicion');
-                                                body.classList.add('wC');
-                                                actualizarBtn.classList.toggle('hidden');
-                                                enviar.classList.toggle('hidden');
-
-                                                cerrarVentana.addEventListener('click', () => {
-                                                    editArticulo.classList.add('hidden');
-                                                    editArticulo.classList.remove('edicion');
+                                                    blog.classList.toggle('hidden');
+                                                    editArticulo.classList.toggle('hidden');
+                                                    editArticulo.classList.add('edicion');
+                                                    body.classList.add('wC');
                                                     actualizarBtn.classList.toggle('hidden');
                                                     enviar.classList.toggle('hidden');
-                                                    blog.classList.remove('hidden');
-                                                })
 
-                                                funcionesParaArticulos();
+                                                    cerrarVentana.addEventListener('click', () => {
+                                                        editArticulo.classList.add('hidden');
+                                                        editArticulo.classList.remove('edicion');
+                                                        actualizarBtn.classList.toggle('hidden');
+                                                        enviar.classList.toggle('hidden');
+                                                        blog.classList.remove('hidden');
+                                                    })
 
-                                                // Botón para actualizar artículo
-                                                actualizarBtn.addEventListener('click', () => {
+                                                    funcionesParaArticulos();
 
-                                                    const imgParaArticulo = document.querySelector('.imgParaArticulo');
-                                                    const siPortada = document.querySelector('.siPortada');
-                                                    const noPortada = document.querySelector('.noPortada');
+                                                    // Botón para actualizar artículo
+                                                    actualizarBtn.addEventListener('click', () => {
 
-                                                    imgParaArticulo.classList.toggle('hidden');
+                                                        const imgParaArticulo = document.querySelector('.imgParaArticulo');
+                                                        const siPortada = document.querySelector('.siPortada');
+                                                        const noPortada = document.querySelector('.noPortada');
 
-                                                    // Si quiere que tenga img de Portada...
-                                                    siPortada.addEventListener('click', () => {
+                                                        imgParaArticulo.classList.toggle('hidden');
 
-                                                        const portadaPeticion = document.querySelectorAll('.portadaPeticion');
+                                                        // Si quiere que tenga img de Portada...
+                                                        siPortada.addEventListener('click', () => {
 
-                                                        portadaPeticion.forEach(p => {
-                                                            p.classList.toggle('hidden');
-                                                        })
+                                                            const portadaPeticion = document.querySelectorAll('.portadaPeticion');
 
-                                                        const imgPortadaUrlBtn = document.querySelector('.imgPortadaUrl');
-                                                        const imgPortadaUrl = document.querySelector('#imgPortadaUrl');
-                                                        const imgPortadaFile = document.querySelector('#imgPortadaFile');
-
-                                                        const imgConUrl = () => {
-                                                            const urlImg = imgPortadaUrl.value;
-
-                                                            console.log('urlImg: ' + urlImg);
-
-                                                            const data = { "archivo": `${urlImg}` };
-
-                                                            fetch(uploadIMG + 'subir', {
-                                                                method: 'POST',
-                                                                body: JSON.stringify(data),
-                                                                headers: { 'Content-Type': 'application/json' },
+                                                            portadaPeticion.forEach(p => {
+                                                                p.classList.toggle('hidden');
                                                             })
-                                                                .then(resp => resp.json())
-                                                                .then(url => {
-                                                                    console.log('URL: ' + url)
-                                                                    editArticulo.classList.toggle('hidden');
-                                                                    spinner.classList.toggle('hidden');
 
-                                                                    const ids = idCtg.shift();
+                                                            const imgPortadaUrlBtn = document.querySelector('.imgPortadaUrl');
+                                                            const imgPortadaUrl = document.querySelector('#imgPortadaUrl');
+                                                            const imgPortadaFile = document.querySelector('#imgPortadaFile');
 
-                                                                    const data = {
-                                                                        'titulo': `${tituloDeArticulo.value}`,
-                                                                        'contenido': `${resultado.innerText}`,
-                                                                        'img': `${url}`,
-                                                                        'htmlContenido': `${resultado.innerHTML}`,
-                                                                        'textarea': `${Texto.value}`,
-                                                                        'categoria': `${ctgAModificar}`,
-                                                                        'autor': `${idDeUsuario}`,
-                                                                    };
+                                                            const imgConUrl = () => {
+                                                                const urlImg = imgPortadaUrl.value;
 
-                                                                    let headersList = {
-                                                                        "x-token": `${token}`,
-                                                                        "Content-Type": "application/json"
-                                                                    }
+                                                                console.log('urlImg: ' + urlImg);
 
-                                                                    fetch(articulos + idParaModificar, {
-                                                                        method: 'PUT',
-                                                                        headers: headersList,
-                                                                        body: JSON.stringify(data)
-                                                                    })
-                                                                        .then(resp => resp.json())
-                                                                        .then(a => {
-                                                                            // Se crea el string para la fecha
-                                                                            const fechaMal = a.creadoEn.split(' ');
-                                                                            const arrayBuena = fechaMal.splice(0, 4);
-
-                                                                            const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                                            const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                                                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                                            const html = `
-                                                                                <div class="articuloMini">
-                                                                                    <div class="topArticle">
-                                                                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                                        <div class="articleText">
-                                                                                            <span class="titleArticle">${a.titulo}</span>
-                                                                                            <span class="descArticle">${a.contenido}</span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <span class="fechaArticle">${fecha}</span>
-                                                                                    <div class="buttons">
-                                                                                        <div class="btnRow">
-                                                                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                                <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                            </a>
-                                                                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                                        </div>
-                                                                                        <div class="btnRow">
-                                                                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            `;
-
-                                                                            articulosResultados.innerHTML += html;
-                                                                            imgParaArticulo.classList.toggle('hidden')
-                                                                        })
-                                                                        .then(location.reload())
-                                                                        .catch(console.error)
-                                                                        .finally(() => {
-                                                                            location.reload()
-                                                                        })
-                                                                })
-                                                                .catch(console.error)
-
-                                                        }
-
-                                                        const imgFile = () => {
-
-                                                            var reader = new FileReader();
-
-                                                            reader.onload = function (e) {
-                                                                const imgFile = e.target.result;
-
-                                                                const data = { "archivo": `${imgFile}` };
+                                                                const data = { "archivo": `${urlImg}` };
 
                                                                 fetch(uploadIMG + 'subir', {
                                                                     method: 'POST',
+                                                                    body: JSON.stringify(data),
                                                                     headers: { 'Content-Type': 'application/json' },
-                                                                    body: JSON.stringify(data)
                                                                 })
                                                                     .then(resp => resp.json())
                                                                     .then(url => {
+                                                                        console.log('URL: ' + url)
                                                                         editArticulo.classList.toggle('hidden');
                                                                         spinner.classList.toggle('hidden');
 
@@ -1176,6 +1155,7 @@ window.addEventListener('load', () => {
                                                                             'img': `${url}`,
                                                                             'htmlContenido': `${resultado.innerHTML}`,
                                                                             'textarea': `${Texto.value}`,
+                                                                            'blog': `${blogId}`,
                                                                             'categoria': `${ctgAModificar}`,
                                                                             'autor': `${idDeUsuario}`,
                                                                         };
@@ -1202,29 +1182,29 @@ window.addEventListener('load', () => {
                                                                                 let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
 
                                                                                 const html = `
-                                                                                    <div class="articuloMini">
-                                                                                        <div class="topArticle">
-                                                                                            <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                                            <div class="articleText">
-                                                                                                <span class="titleArticle">${a.titulo}</span>
-                                                                                                <span class="descArticle">${a.contenido}</span>
+                                                                                        <div class="articuloMini">
+                                                                                            <div class="topArticle">
+                                                                                                <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                                                                <div class="articleText">
+                                                                                                    <span class="titleArticle">${a.titulo}</span>
+                                                                                                    <span class="descArticle">${a.contenido}</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <span class="fechaArticle">${fecha}</span>
+                                                                                            <div class="buttons">
+                                                                                                <div class="btnRow">
+                                                                                                    <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                                                                        <button class="wC btn btn-primary">Ver artículo</button>
+                                                                                                    </a>
+                                                                                                    <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                                                                </div>
+                                                                                                <div class="btnRow">
+                                                                                                    <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                                                                    <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <span class="fechaArticle">${fecha}</span>
-                                                                                        <div class="buttons">
-                                                                                            <div class="btnRow">
-                                                                                                <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                                    <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                                </a>
-                                                                                                <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                                            </div>
-                                                                                            <div class="btnRow">
-                                                                                                <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                                <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                `;
+                                                                                    `;
 
                                                                                 articulosResultados.innerHTML += html;
                                                                                 imgParaArticulo.classList.toggle('hidden')
@@ -1236,63 +1216,149 @@ window.addEventListener('load', () => {
                                                                             })
                                                                     })
                                                                     .catch(console.error)
+
                                                             }
-                                                        }
 
-                                                        imgPortadaUrlBtn.addEventListener('click', imgConUrl);
-                                                        imgPortadaFile.addEventListener('click', imgFile);
-                                                    })
+                                                            const imgFile = () => {
 
-                                                    // Si no quiere una img principal
-                                                    noPortada.addEventListener('click', () => {
-                                                        editArticulo.classList.toggle('hidden');
-                                                        spinner.classList.toggle('hidden');
+                                                                var reader = new FileReader();
 
-                                                        const data = {
-                                                            'titulo': `${tituloDeArticulo.value}`,
-                                                            'contenido': `${resultado.innerText}`,
-                                                            'htmlContenido': `${resultado.innerHTML}`,
-                                                            'textarea': `${Texto.value}`,
-                                                        };
+                                                                reader.onload = function (e) {
+                                                                    const imgFile = e.target.result;
 
-                                                        let headersList = {
-                                                            "x-token": `${token}`,
-                                                            "Content-Type": "application/json"
-                                                        }
+                                                                    const data = { "archivo": `${imgFile}` };
 
-                                                        fetch(articulos + idParaModificar, {
-                                                            method: 'PUT',
-                                                            headers: headersList,
-                                                            body: JSON.stringify(data)
+                                                                    fetch(uploadIMG + 'subir', {
+                                                                        method: 'POST',
+                                                                        headers: { 'Content-Type': 'application/json' },
+                                                                        body: JSON.stringify(data)
+                                                                    })
+                                                                        .then(resp => resp.json())
+                                                                        .then(url => {
+                                                                            editArticulo.classList.toggle('hidden');
+                                                                            spinner.classList.toggle('hidden');
+
+                                                                            const ids = idCtg.shift();
+
+                                                                            const data = {
+                                                                                'titulo': `${tituloDeArticulo.value}`,
+                                                                                'contenido': `${resultado.innerText}`,
+                                                                                'img': `${url}`,
+                                                                                'htmlContenido': `${resultado.innerHTML}`,
+                                                                                'textarea': `${Texto.value}`,
+                                                                                'blog': `${blogId}`,
+                                                                                'categoria': `${ctgAModificar}`,
+                                                                                'autor': `${idDeUsuario}`,
+                                                                            };
+
+                                                                            let headersList = {
+                                                                                "x-token": `${token}`,
+                                                                                "Content-Type": "application/json"
+                                                                            }
+
+                                                                            fetch(articulos + idParaModificar, {
+                                                                                method: 'PUT',
+                                                                                headers: headersList,
+                                                                                body: JSON.stringify(data)
+                                                                            })
+                                                                                .then(resp => resp.json())
+                                                                                .then(a => {
+                                                                                    // Se crea el string para la fecha
+                                                                                    const fechaMal = a.creadoEn.split(' ');
+                                                                                    const arrayBuena = fechaMal.splice(0, 4);
+
+                                                                                    const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                                                                    const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                                                                    let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                                                                    const html = `
+                                                                                            <div class="articuloMini">
+                                                                                                <div class="topArticle">
+                                                                                                    <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                                                                    <div class="articleText">
+                                                                                                        <span class="titleArticle">${a.titulo}</span>
+                                                                                                        <span class="descArticle">${a.contenido}</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <span class="fechaArticle">${fecha}</span>
+                                                                                                <div class="buttons">
+                                                                                                    <div class="btnRow">
+                                                                                                        <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                                                                            <button class="wC btn btn-primary">Ver artículo</button>
+                                                                                                        </a>
+                                                                                                        <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                                                                    </div>
+                                                                                                    <div class="btnRow">
+                                                                                                        <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                                                                        <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        `;
+
+                                                                                    articulosResultados.innerHTML += html;
+                                                                                    imgParaArticulo.classList.toggle('hidden')
+                                                                                })
+                                                                                .then(location.reload())
+                                                                                .catch(console.error)
+                                                                                .finally(() => {
+                                                                                    location.reload()
+                                                                                })
+                                                                        })
+                                                                        .catch(console.error)
+                                                                }
+                                                            }
+
+                                                            imgPortadaUrlBtn.addEventListener('click', imgConUrl);
+                                                            imgPortadaFile.addEventListener('click', imgFile);
                                                         })
-                                                            .then(resp => resp.json())
-                                                            .then(location.reload())
-                                                            .catch(console.error)
-                                                            .finally(() => {
-                                                                location.reload()
+
+                                                        // Si no quiere una img principal
+                                                        noPortada.addEventListener('click', () => {
+                                                            editArticulo.classList.toggle('hidden');
+                                                            spinner.classList.toggle('hidden');
+
+                                                            const data = {
+                                                                'titulo': `${tituloDeArticulo.value}`,
+                                                                'contenido': `${resultado.innerText}`,
+                                                                'htmlContenido': `${resultado.innerHTML}`,
+                                                                'blog': `${blogId}`,
+                                                                'textarea': `${Texto.value}`,
+                                                            };
+
+                                                            let headersList = {
+                                                                "x-token": `${token}`,
+                                                                "Content-Type": "application/json"
+                                                            }
+
+                                                            fetch(articulos + idParaModificar, {
+                                                                method: 'PUT',
+                                                                headers: headersList,
+                                                                body: JSON.stringify(data)
                                                             })
+                                                                .then(resp => resp.json())
+                                                                .then(location.reload())
+                                                                .catch(console.error)
+                                                                .finally(() => {
+                                                                    location.reload()
+                                                                })
+                                                        })
                                                     })
                                                 })
-                                            })
-                                            .catch(console.error);
+                                                .catch(console.error);
+                                        })
                                     })
-                                })
-                            }
+                                }
 
-                            btnsParaBorrarYAcyualizar();
-                        })
-                    }
-
-
-                })
-                .catch(console.error)
+                                btnsParaBorrarYAcyualizar();
+                            })
+                        }
+                    })
+                    .catch(console.log)
+            })
 
         })
-        .catch(err => {
-            darChanceDeIrse();
-        })
-        .finally(() => {
-            blog.classList.remove('hidden')
-            spinner.classList.add('hidden');
-        })
-})
+        .catch(console.log)
+
+}, 1000);

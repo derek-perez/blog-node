@@ -1,4 +1,7 @@
 const Blog = require('../models/blog');
+const Usuario = require('../models/articulo');
+const db = require('mongoose');
+const { response } = require('express');
 
 const mostrarBlogs = async (req, res = response) => {
     const estado = { estado: true };
@@ -6,7 +9,7 @@ const mostrarBlogs = async (req, res = response) => {
     const [total, blogs] = await Promise.all([
         Blog.countDocuments(estado),
         Blog.find(estado)
-            .populate('autor', 'nombre')
+        // .populate('autor', 'nombre')
     ]);
 
     res.json({
@@ -22,7 +25,7 @@ const mostrarBlog = async (req, res = response) => {
     const [total, blogs] = await Promise.all([
         Blog.countDocuments(estado),
         Blog.find(estado)
-            .populate('autor', 'nombre')
+        // .populate('autor', 'nombre')
     ]);
 
     res.json({
@@ -31,8 +34,24 @@ const mostrarBlog = async (req, res = response) => {
     });
 }
 
+
+const mostrarBlogDeUsuario = async (req, res = response) => {
+
+    try {
+        const { id } = req.params;
+
+        const blog = await Blog.find({ id })
+            .populate('autor', 'nombre')
+
+        res.status(200).json(blog);
+
+    } catch (error) {
+        res.json(error)
+    }
+}
+
 const añadirBlog = async (req, res = response) => {
-    const { titulo, autor } = req.body;
+    const { titulo, descripcion, autor } = req.body;
 
     const blogDB = await Blog.findOne({ titulo });
 
@@ -49,8 +68,9 @@ const añadirBlog = async (req, res = response) => {
     // Generar la data a guardar
     const data = {
         titulo,
+        descripcion,
         creadoEn,
-        idDeAutor
+        autor: idDeAutor
     }
 
     const blog = new Blog(data);
@@ -61,10 +81,19 @@ const añadirBlog = async (req, res = response) => {
     res.status(200).json(blog);
 }
 
+const eliminarBlog = async (req, res) => {
+    const { id } = req.params;
+    await Blog.findByIdAndDelete(id)
+
+    res.status(200).json({ msg: 'Blog eliminado correctamente' })
+}
+
 
 
 module.exports = {
     mostrarBlog,
     mostrarBlogs,
-    añadirBlog
+    mostrarBlogDeUsuario,
+    añadirBlog,
+    eliminarBlog
 }

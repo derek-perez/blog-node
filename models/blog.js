@@ -5,6 +5,9 @@ const BlogSchema = db.Schema({
         type: String,
         required: [true, 'El titulo es obligatorio']
     },
+    descripcion: {
+        type: String
+    },
     creadoEn: {
         type: String,
         required: true
@@ -17,12 +20,10 @@ const BlogSchema = db.Schema({
         type: Boolean,
         default: true
     },
-    autor: [
-        {
-            type: db.Schema.Types.ObjectId,
-            ref: 'Usuario'
-        }
-    ]
+    autor: {
+        type: db.Schema.Types.ObjectId,
+        ref: 'Usuario'
+    }
 })
 
 BlogSchema.methods.toJSON = function () {

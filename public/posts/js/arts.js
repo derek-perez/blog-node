@@ -11,10 +11,6 @@ const categorias = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/categorias/'
     : 'https://blogi-node.herokuapp.com/api/categorias/';
 
-const categoriasPublic = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/posts/ctgr.html?id='
-    : 'https://blogi-node.herokuapp.com/posts/ctgr.html?id=';
-
 const articulosPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
@@ -209,8 +205,8 @@ if (idArticulo === null || idArticulo === undefined) {
                             <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
                         </span>
                         <span id="down">
-                            <span class="primary">Categoría:</span>
-                            <span class="secondary">${nombreDeCtg}</span>
+                            <span class="primary">Categoría: </span>
+                            <span>${a.categoria[0].nombre}</span>
                         </span>
                         <span id="descArticuloCarousel">${contenido}</span>
                         <span id="fechaArticuloCarousel">${fecha}</span>
@@ -304,8 +300,8 @@ if (idArticulo === null || idArticulo === undefined) {
                                                         <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
                                                     </span>
                                                     <span id="down">
-                                                        <span class="primary">Categoría:</span>
-                                                        <span class="secondary">${nombreDeCtg}</span>
+                                                        <span class="primary">Categoría: </span>
+                                                        <span>${a.categoria[0].nombre}</span>
                                                     </span>
                                                     <span class="contenidoDeArticulos">${contenido}</span>
                                                     <span class="fechaDeArticulos">${fecha}</span>
@@ -426,8 +422,8 @@ if (idArticulo === null || idArticulo === undefined) {
                                 <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
                             </span>
                             <span id="down">
-                                <span class="primary">Categoría:</span>
-                                <span class="secondary">${nombreDeCtg}</span>
+                                <span class="primary">Categoría: </span>
+                                <span>${a.categoria[0].nombre}</span>
                             </span>
                             <span class="contenidoDeArticulos">${contenido}</span>
                             <span class="fechaDeArticulos">${fecha}</span>

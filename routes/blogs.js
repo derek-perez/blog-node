@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { mostrarBlogs, añadirBlog, mostrarBlog } = require('../controllers/blogs');
+const { mostrarBlogs, añadirBlog, mostrarBlog, mostrarBlogDeUsuario, eliminarBlog } = require('../controllers/blogs');
 const { existeUsuarioPorID } = require('../helpers/db-validators');
 const { validarJWT } = require('../helpers/validar-jwt');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -8,9 +8,11 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
 
-router.get('/', mostrarBlog);
+router.get('/', mostrarBlogs);
 
-router.get('/:id', mostrarBlogs);
+router.get('/:id', mostrarBlog);
+
+router.get('/usuario/:id', mostrarBlogDeUsuario);
 
 router.post('/', [
     validarJWT,
@@ -18,6 +20,10 @@ router.post('/', [
     check('autor').custom(existeUsuarioPorID),
     validarCampos
 ], añadirBlog);
+
+router.delete('/:id', [
+    validarJWT,
+], eliminarBlog);
 
 
 module.exports = router;

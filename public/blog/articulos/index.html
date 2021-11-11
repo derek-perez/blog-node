@@ -66,12 +66,11 @@
             <div class="menuBlog col-sm-4 animate__animated animate__bounceInLeft">
                 <i class="close fa fa-times"></i>
                 <div class="blogsTitles">
-                    <span class="blogActual">Chugus' Blog <i class="fa fa-angle-down"></i></span>
+                    <span class="blogActual"><span id="blogIdActual"></span> <i class="fa fa-angle-down"></i></span>
                     <div class="tusBlogs hidden">
                         <span class="titleTusBlogs">Tus blogs</span>
                         <div class="blogActualLista">
-                            <span>Chugus' Blog</span>
-                            <span>Chugus' Blog 2</span>
+
                         </div>
                         <button class="crearBlog btn btn-outline-success">
                             <a href="#">Crear blog</a>
@@ -157,6 +156,18 @@
             </df-messenger>
         </div>
 
+    </div>
+
+    <!-- Creación de nuevo blog -->
+    <div class="creacionDeBlog hidden">
+        <div class="formulario">
+            <p>Crear un nuevo blog...</p>
+            <label for="nombreDeBlog">¿Qué nombre quiere que tenga su blog?</label>
+            <input type="text" name="nombreDeBlog" id="nombreDeBlog" placeholder="Tu blog...">
+            <label for="descDeBlog">¿Alguna descripción de su blog?</label>
+            <input type="text" name="descDeBlog" id="descDeBlog" placeholder="Tu blog...">
+            <button id="btnCrearBlog" class="btn btn-primary">Crear...</button>
+        </div>
     </div>
 
     <!-- Hoja para editar/escribir artículo -->

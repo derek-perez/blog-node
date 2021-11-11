@@ -35,6 +35,12 @@ const ArticuloSchema = db.Schema({
             ref: 'Usuario'
         }
     ],
+    blog: [
+        {
+            type: db.Schema.Types.ObjectId,
+            ref: 'Blog'
+        }
+    ],
     categoria: [
         {
             type: db.Schema.Types.ObjectId,

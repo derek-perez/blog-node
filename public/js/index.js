@@ -27,10 +27,6 @@ const articulosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
 
-const categorias = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/posts/ctgr.html?id='
-    : 'https://blogi-node.herokuapp.com/posts/ctgr.html?id=';
-
 // El aparecedor
 window.addEventListener('scroll', () => {
 
@@ -227,9 +223,10 @@ fetch(tutoriales + '6186efa6cf94729df2c6fa9e', {
                     <p class="titleDad">
                     <span class="title"> Título:</span><span> ${a.titulo} </span>
                     </p>
-                    <a href="${categorias + a.categoria[0]._id}" title="${a.categoria[0]._id}" class="categoria">
-                        <span class="contenido">Categoría: </span><span>${a.categoria[0].nombre}</span>
-                    </a>
+                    <span>
+                        <span class="primary">Categoría: </span>
+                        <span>${a.categoria[0].nombre}</span>
+                    </span>
                     <br>
                     <span style="padding: 0px 20px;"> ${contenido} </span>
                     <br>
