@@ -87,7 +87,7 @@ const agregarUsuario = async (req, res = response) => {
 const modificarUsuario = async (req, res = response) => {
 
     const id = req.params.id;
-    const { _id, password, google, correo, ...resto } = req.body;
+    const { _id, password, google, rol, estado, ...resto } = req.body;
 
     if (password) {
         const salt = bcryptjs.genSaltSync();

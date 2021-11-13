@@ -579,18 +579,13 @@ const funcionesParaArticulos = () => {
     const imgConUrl = () => {
         const urlImg = imgDeVentana.value;
 
-        const data = { "archivo": `${urlImg}` };
+        if (urlImg.includes('data:image/')) {
+            alert('No se admite ese tipo de enlaces');
 
-        fetch(uploadIMG + 'subir', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then(resp => resp.json())
-            .then(url => {
-                insertAtCaret('conHtml', `<img src="${url}" class="imgTextarea"></img>`);
-            })
-            .catch(console.error)
+            imgDeVentana.classList.toggle('hidden');
+        } else {
+            insertAtCaret('conHtml', `<img src="${urlImg}" class="imgTextarea"></img>`);
+        }
 
     }
 
@@ -750,86 +745,82 @@ enviar.addEventListener('click', () => {
         const imgConUrl = () => {
             const urlImg = imgPortadaUrl.value;
 
-            const data = { "archivo": `${urlImg}` };
+            if (urlImg.includes('data:image/')) {
+                alert('No se admite ese tipo de enlaces');
 
-            fetch(uploadIMG + 'subir', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then(resp => resp.json())
-                .then(url => {
-                    editArticulo.classList.toggle('hidden');
-                    spinner.classList.toggle('hidden');
+                imgParaArticulo.classList.add('hidden');
+            } else {
+                editArticulo.classList.toggle('hidden');
+                spinner.classList.toggle('hidden');
 
-                    const ids = idCtg.shift();
+                const ids = idCtg.shift();
 
-                    const data = {
-                        'titulo': `${tituloDeArticulo.value}`,
-                        'contenido': `${resultado.innerText}`,
-                        'img': `${url}`,
-                        'htmlContenido': `${resultado.innerHTML}`,
-                        'textarea': `${Texto.value}`,
-                        'blog': `${blogId}`,
-                        'categoria': `${ids}`,
-                        'autor': `${idDeUsuario}`,
-                    };
+                const data = {
+                    'titulo': `${tituloDeArticulo.value}`,
+                    'contenido': `${resultado.innerText}`,
+                    'img': `${urlImg}`,
+                    'htmlContenido': `${resultado.innerHTML}`,
+                    'textarea': `${Texto.value}`,
+                    'blog': `${blogId}`,
+                    'categoria': `${ids}`,
+                    'autor': `${idDeUsuario}`,
+                };
 
-                    let headersList = {
-                        "x-token": `${token}`,
-                        "Content-Type": "application/json"
-                    }
+                let headersList = {
+                    "x-token": `${token}`,
+                    "Content-Type": "application/json"
+                }
 
-                    fetch(articulos, {
-                        method: 'POST',
-                        headers: headersList,
-                        body: JSON.stringify(data)
-                    })
-                        .then(resp => resp.json())
-                        .then(a => {
-                            // Se crea el string para la fecha
-                            const fechaMal = a.creadoEn.split(' ');
-                            const arrayBuena = fechaMal.splice(0, 4);
+                fetch(articulos, {
+                    method: 'POST',
+                    headers: headersList,
+                    body: JSON.stringify(data)
+                })
+                    .then(resp => resp.json())
+                    .then(a => {
+                        // Se crea el string para la fecha
+                        const fechaMal = a.creadoEn.split(' ');
+                        const arrayBuena = fechaMal.splice(0, 4);
 
-                            const dia = cambiarAEspañolDia(arrayBuena[0]);
-                            const mes = cambiarAEspañolMes(arrayBuena[1]);
+                        const dia = cambiarAEspañolDia(arrayBuena[0]);
+                        const mes = cambiarAEspañolMes(arrayBuena[1]);
 
-                            let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
 
-                            const html = `
-                                <div class="articuloMini">
-                                    <div class="topArticle">
-                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                        <div class="articleText">
-                                            <span class="titleArticle">${a.titulo}</span>
-                                            <span class="descArticle">${a.contenido}</span>
-                                        </div>
-                                    </div>
-                                    <span class="fechaArticle">${fecha}</span>
-                                    <div class="buttons">
-                                        <div class="btnRow">
-                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                <button class="wC btn btn-primary">Ver artículo</button>
-                                            </a>
-                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                        </div>
-                                        <div class="btnRow">
-                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                        </div>
+                        const html = `
+                            <div class="articuloMini">
+                                <div class="topArticle">
+                                    <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                    <div class="articleText">
+                                        <span class="titleArticle">${a.titulo}</span>
+                                        <span class="descArticle">${a.contenido}</span>
                                     </div>
                                 </div>
-                            `;
+                                <span class="fechaArticle">${fecha}</span>
+                                <div class="buttons">
+                                    <div class="btnRow">
+                                        <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                            <button class="wC btn btn-primary">Ver artículo</button>
+                                        </a>
+                                        <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                    </div>
+                                    <div class="btnRow">
+                                        <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                        <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
 
-                            articulosResultados.innerHTML += html;
-                            location.reload();
-                        })
-                        .catch(console.error)
-                        .finally(() => {
-                            location.reload()
-                        })
-                })
-                .catch(console.error)
+                        articulosResultados.innerHTML += html;
+                        location.reload();
+                    })
+                    .catch(console.error)
+                    .finally(() => {
+                        location.reload()
+                    })
+            }
+
 
         }
 
@@ -1250,90 +1241,83 @@ setTimeout(() => {
                                                                     const imgConUrl = () => {
                                                                         const urlImg = imgPortadaUrl.value;
 
-                                                                        console.log('urlImg: ' + urlImg);
+                                                                        if (urlImg.includes('data:image/')) {
+                                                                            alert('No se admite ese tipo de enlaces');
 
-                                                                        const data = { "archivo": `${urlImg}` };
+                                                                            imgParaArticulo.classList.add('hidden');
+                                                                        } else {
 
-                                                                        fetch(uploadIMG + 'subir', {
-                                                                            method: 'POST',
-                                                                            body: JSON.stringify(data),
-                                                                            headers: { 'Content-Type': 'application/json' },
-                                                                        })
-                                                                            .then(resp => resp.json())
-                                                                            .then(url => {
-                                                                                console.log('URL: ' + url)
-                                                                                editArticulo.classList.toggle('hidden');
-                                                                                spinner.classList.toggle('hidden');
+                                                                            editArticulo.classList.toggle('hidden');
+                                                                            spinner.classList.toggle('hidden');
 
-                                                                                const ids = idCtg.shift();
+                                                                            const data = {
+                                                                                'titulo': `${tituloDeArticulo.value}`,
+                                                                                'contenido': `${resultado.innerText}`,
+                                                                                'img': `${urlImg}`,
+                                                                                'htmlContenido': `${resultado.innerHTML}`,
+                                                                                'textarea': `${Texto.value}`,
+                                                                                'blog': `${blogId}`,
+                                                                                'categoria': `${ctgAModificar}`,
+                                                                                'autor': `${idDeUsuario}`,
+                                                                            };
 
-                                                                                const data = {
-                                                                                    'titulo': `${tituloDeArticulo.value}`,
-                                                                                    'contenido': `${resultado.innerText}`,
-                                                                                    'img': `${url}`,
-                                                                                    'htmlContenido': `${resultado.innerHTML}`,
-                                                                                    'textarea': `${Texto.value}`,
-                                                                                    'blog': `${blogId}`,
-                                                                                    'categoria': `${ctgAModificar}`,
-                                                                                    'autor': `${idDeUsuario}`,
-                                                                                };
+                                                                            let headersList = {
+                                                                                "x-token": `${token}`,
+                                                                                "Content-Type": "application/json"
+                                                                            }
 
-                                                                                let headersList = {
-                                                                                    "x-token": `${token}`,
-                                                                                    "Content-Type": "application/json"
-                                                                                }
+                                                                            fetch(articulos + idParaModificar, {
+                                                                                method: 'PUT',
+                                                                                headers: headersList,
+                                                                                body: JSON.stringify(data)
+                                                                            })
+                                                                                .then(resp => resp.json())
+                                                                                .then(a => {
+                                                                                    // Se crea el string para la fecha
+                                                                                    const fechaMal = a.creadoEn.split(' ');
+                                                                                    const arrayBuena = fechaMal.splice(0, 4);
 
-                                                                                fetch(articulos + idParaModificar, {
-                                                                                    method: 'PUT',
-                                                                                    headers: headersList,
-                                                                                    body: JSON.stringify(data)
-                                                                                })
-                                                                                    .then(resp => resp.json())
-                                                                                    .then(a => {
-                                                                                        // Se crea el string para la fecha
-                                                                                        const fechaMal = a.creadoEn.split(' ');
-                                                                                        const arrayBuena = fechaMal.splice(0, 4);
+                                                                                    const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                                                                    const mes = cambiarAEspañolMes(arrayBuena[1]);
 
-                                                                                        const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                                                        const mes = cambiarAEspañolMes(arrayBuena[1]);
+                                                                                    let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
 
-                                                                                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                                                        const html = `
-                                                                                            <div class="articuloMini">
-                                                                                                <div class="topArticle">
-                                                                                                    <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                                                    <div class="articleText">
-                                                                                                        <span class="titleArticle">${a.titulo}</span>
-                                                                                                        <span class="descArticle">${a.contenido}</span>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <span class="fechaArticle">${fecha}</span>
-                                                                                                <div class="buttons">
-                                                                                                    <div class="btnRow">
-                                                                                                        <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                                            <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                                        </a>
-                                                                                                        <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                                                    </div>
-                                                                                                    <div class="btnRow">
-                                                                                                        <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                                        <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                                                    </div>
+                                                                                    const html = `
+                                                                                        <div class="articuloMini">
+                                                                                            <div class="topArticle">
+                                                                                                <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                                                                <div class="articleText">
+                                                                                                    <span class="titleArticle">${a.titulo}</span>
+                                                                                                    <span class="descArticle">${a.contenido}</span>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        `;
+                                                                                            <span class="fechaArticle">${fecha}</span>
+                                                                                            <div class="buttons">
+                                                                                                <div class="btnRow">
+                                                                                                    <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                                                                        <button class="wC btn btn-primary">Ver artículo</button>
+                                                                                                    </a>
+                                                                                                    <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                                                                </div>
+                                                                                                <div class="btnRow">
+                                                                                                    <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                                                                    <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    `;
 
-                                                                                        articulosResultados.innerHTML += html;
-                                                                                        imgParaArticulo.classList.toggle('hidden')
-                                                                                    })
-                                                                                    .then(location.reload())
-                                                                                    .catch(console.error)
-                                                                                    .finally(() => {
-                                                                                        location.reload()
-                                                                                    })
-                                                                            })
-                                                                            .catch(console.error)
+                                                                                    articulosResultados.innerHTML += html;
+                                                                                    imgParaArticulo.classList.toggle('hidden')
+                                                                                })
+                                                                                .then(location.reload())
+                                                                                .catch(console.error)
+                                                                                .finally(() => {
+                                                                                    location.reload()
+                                                                                })
+
+                                                                        }
+
 
                                                                     }
 
@@ -1619,90 +1603,85 @@ setTimeout(() => {
                                                                 const imgConUrl = () => {
                                                                     const urlImg = imgPortadaUrl.value;
 
-                                                                    console.log('urlImg: ' + urlImg);
+                                                                    if (urlImg.includes('data:image/')) {
+                                                                        alert('No se admite ese tipo de enlaces');
 
-                                                                    const data = { "archivo": `${urlImg}` };
+                                                                        imgParaArticulo.classList.add('hidden');
+                                                                    } else {
 
-                                                                    fetch(uploadIMG + 'subir', {
-                                                                        method: 'POST',
-                                                                        body: JSON.stringify(data),
-                                                                        headers: { 'Content-Type': 'application/json' },
-                                                                    })
-                                                                        .then(resp => resp.json())
-                                                                        .then(url => {
-                                                                            console.log('URL: ' + url)
-                                                                            editArticulo.classList.toggle('hidden');
-                                                                            spinner.classList.toggle('hidden');
+                                                                        editArticulo.classList.toggle('hidden');
+                                                                        spinner.classList.toggle('hidden');
 
-                                                                            const ids = idCtg.shift();
+                                                                        const ids = idCtg.shift();
 
-                                                                            const data = {
-                                                                                'titulo': `${tituloDeArticulo.value}`,
-                                                                                'contenido': `${resultado.innerText}`,
-                                                                                'img': `${url}`,
-                                                                                'htmlContenido': `${resultado.innerHTML}`,
-                                                                                'textarea': `${Texto.value}`,
-                                                                                'blog': `${blogId}`,
-                                                                                'categoria': `${ctgAModificar}`,
-                                                                                'autor': `${idDeUsuario}`,
-                                                                            };
+                                                                        const data = {
+                                                                            'titulo': `${tituloDeArticulo.value}`,
+                                                                            'contenido': `${resultado.innerText}`,
+                                                                            'img': `${urlImg}`,
+                                                                            'htmlContenido': `${resultado.innerHTML}`,
+                                                                            'textarea': `${Texto.value}`,
+                                                                            'blog': `${blogId}`,
+                                                                            'categoria': `${ctgAModificar}`,
+                                                                            'autor': `${idDeUsuario}`,
+                                                                        };
 
-                                                                            let headersList = {
-                                                                                "x-token": `${token}`,
-                                                                                "Content-Type": "application/json"
-                                                                            }
+                                                                        let headersList = {
+                                                                            "x-token": `${token}`,
+                                                                            "Content-Type": "application/json"
+                                                                        }
 
-                                                                            fetch(articulos + idParaModificar, {
-                                                                                method: 'PUT',
-                                                                                headers: headersList,
-                                                                                body: JSON.stringify(data)
-                                                                            })
-                                                                                .then(resp => resp.json())
-                                                                                .then(a => {
-                                                                                    // Se crea el string para la fecha
-                                                                                    const fechaMal = a.creadoEn.split(' ');
-                                                                                    const arrayBuena = fechaMal.splice(0, 4);
-
-                                                                                    const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                                                    const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                                                                    let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                                                    const html = `
-                                                                                        <div class="articuloMini">
-                                                                                            <div class="topArticle">
-                                                                                                <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                                                <div class="articleText">
-                                                                                                    <span class="titleArticle">${a.titulo}</span>
-                                                                                                    <span class="descArticle">${a.contenido}</span>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <span class="fechaArticle">${fecha}</span>
-                                                                                            <div class="buttons">
-                                                                                                <div class="btnRow">
-                                                                                                    <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                                        <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                                    </a>
-                                                                                                    <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                                                </div>
-                                                                                                <div class="btnRow">
-                                                                                                    <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                                    <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    `;
-
-                                                                                    articulosResultados.innerHTML += html;
-                                                                                    imgParaArticulo.classList.toggle('hidden')
-                                                                                })
-                                                                                .then(location.reload())
-                                                                                .catch(console.error)
-                                                                                .finally(() => {
-                                                                                    location.reload()
-                                                                                })
+                                                                        fetch(articulos + idParaModificar, {
+                                                                            method: 'PUT',
+                                                                            headers: headersList,
+                                                                            body: JSON.stringify(data)
                                                                         })
-                                                                        .catch(console.error)
+                                                                            .then(resp => resp.json())
+                                                                            .then(a => {
+                                                                                // Se crea el string para la fecha
+                                                                                const fechaMal = a.creadoEn.split(' ');
+                                                                                const arrayBuena = fechaMal.splice(0, 4);
+
+                                                                                const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                                                                const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                                                                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                                                                const html = `
+                                                                                <div class="articuloMini">
+                                                                                    <div class="topArticle">
+                                                                                        <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
+                                                                                        <div class="articleText">
+                                                                                            <span class="titleArticle">${a.titulo}</span>
+                                                                                            <span class="descArticle">${a.contenido}</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <span class="fechaArticle">${fecha}</span>
+                                                                                    <div class="buttons">
+                                                                                        <div class="btnRow">
+                                                                                            <a class="btnArticulo" href="${articulosUrl + a._id}">
+                                                                                                <button class="wC btn btn-primary">Ver artículo</button>
+                                                                                            </a>
+                                                                                            <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
+                                                                                        </div>
+                                                                                        <div class="btnRow">
+                                                                                            <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                                                            <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            `;
+
+                                                                                articulosResultados.innerHTML += html;
+                                                                                imgParaArticulo.classList.toggle('hidden')
+                                                                            })
+                                                                            .then(location.reload())
+                                                                            .catch(console.error)
+                                                                            .finally(() => {
+                                                                                location.reload()
+                                                                            })
+
+                                                                    }
+
 
                                                                 }
 

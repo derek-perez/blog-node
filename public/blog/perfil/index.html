@@ -16,6 +16,30 @@
 
 <body>
 
+    <!-- Spinner -->
+    <div class="spinner hidden">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+
+    <div class="login hidden">
+        <div class="content">
+            <h1>Necesita tener una cuenta</h1>
+            <br>
+            <p>
+                Necesita una cuenta para ver su perfil, sino no podrá hacerlo... 😢
+                <br>
+                <br>
+                Así que se le redirigirá a la página de autenticación en 10 segundos.
+                <br>
+                <br>
+                O tal vez necesite volver a iniciar sesión
+            </p>
+            <br>
+            <a class="irARegister btn btn-primary" href="">Ir a autenticación</a>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="navBar">
         <div id="presentacion">
@@ -24,18 +48,21 @@
         </div>
         <ul id="enlaces">
             <li class="enlace">
-                <a href="../index.html">
+                <a href="../../index.html">
                     Inicio
                 </a>
             </li>
-            <li class="enlace buscador">
-                <i style="margin-left: 10px;" class="fa fa-search"></i>
-                <input type="text" name="buscar" id="buscar" placeholder="Busca artículos">
+            <li class="enlace">
+                <a href="../../posts/arts.html">
+                    <button style="padding: 5px 10px;">
+                        Ir a articulos
+                    </button>
+                </a>
             </li>
             <li class="enlace">
-                <a href="../auth.html">
-                    <button>
-                        Iniciar Sesión
+                <a href="../articulos/">
+                    <button style="padding: 5px 10px;">
+                        Ir a su blog
                     </button>
                 </a>
             </li>
@@ -49,11 +76,114 @@
 
     <!-- Perfil -->
     <div class="perfil">
-        <h1>PERFIL</h1>
+        <hr>
+        <div class="divCentral">
+            <!-- Lateral izquierdo -->
+            <div class="lateral">
+                <img id="imgLateral" src="" alt="Tu img de perfil en Blogi">
 
-        <!-- Lateral izquierdo -->
+                <label for="nombreLateral">Nombre:</label>
+                <span name="nombreLateral" id="nombreLateral"></span>
 
-        <!-- Y el resto -->
+                <label for="correoLateral">Correo:</label>
+                <span name="correoLateral" id="correoLateral"></span>
+
+                <p id="caracteristicasGeneralesLateral" class="gris togglePerfil">Características en general:</p>
+                <p id="imgDePerfilLateral" class="togglePerfil">Img. de perfil:</p>
+                <p id="passwordLateral" class="togglePerfil">Contraseña:</p>
+            </div>
+
+            <!-- Características en general -->
+            <div class="window caracteristicas">
+                <h2>Tu perfil:</h2>
+
+                <strong>Características sobre ti:</strong>
+                <br>
+                <label for="nombre">Su nombre:</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre...">
+                <br>
+                <label for="about">Más sobre usted:</label>
+                <textarea type="text" name="about" id="about" rows="10"
+                    placeholder="Intereses, a qué se dedica, que le gusta, etc..."></textarea>
+                <br>
+                <label for="profesion">Algun titulo:</label>
+                <input type="text" name="profesion" id="profesion" placeholder="Doctor, Maestro, Ingeniero, etc...">
+
+                <hr>
+
+                <strong>Enlaces:</strong>
+                <br>
+                <div class="display-table">
+                    <span>Su propio sitio</span>
+                    <input type="text" name="facebook" id="web" placeholder="http(s)://">
+                </div>
+                <br>
+                <div class="display-table">
+                    <span>https://facebook.com/</span>
+                    <input type="text" name="facebook" id="facebook" placeholder="Nombre de usuario">
+                </div>
+                <br>
+                <div class="display-table">
+                    <span>https://twitter.com/</span>
+                    <input type="text" name="facebook" id="twitter" placeholder="Nombre de usuario">
+                </div>
+                <br>
+                <div class="display-table">
+                    <span>https://linkedin.com/</span>
+                    <input type="text" name="facebook" id="linkedin" placeholder="Nombre de usuario">
+                </div>
+                <br>
+                <div class="display-table">
+                    <span>https://youtube.com/</span>
+                    <input type="text" name="facebook" id="youtube" placeholder="Nombre de usuario">
+                </div>
+
+                <button id="guardarUsuarioBtn" class="btn btn-warning w-100 mt-3">Guardar</button>
+            </div>
+
+            <div class="window imgDePerfil hidden">
+                <h2>Tu imágen de perfil</h2>
+                <strong>Agregue una imagen a su perfil...</strong>
+                <div class="vistaPrevia">
+                    <div class="sinImg">
+                        <img src="https://res.cloudinary.com/chugus/image/upload/v1635046576/noHay_mxiiiu.png"
+                            alt="Vista previa">
+                    </div>
+                    <div class="conImg hidden">
+                        <img id="imgPrevia" src="">
+                    </div>
+                </div>
+                <br>
+                <input type="file" name="imgParaSubir" id="imgParaSubir">
+                <br>
+                <button id="guardarImg" class="btn btn-warning w-100">Guardar</button>
+            </div>
+
+            <div class="window password hidden">
+                <h2>Su cuenta:</h2>
+                <strong>Edite la configuración de su cuenta y cambie la contraseña aquí:</strong>
+                <hr>
+                <strong style="font-size: 18px;">Su correo:</strong>
+                <div class="correo">
+                    <p id="correoText">
+                        Su dirección de correo electrónico es:
+                        <input type="text" id="correo">
+                    </p>
+                </div>
+                <hr>
+                <strong style="font-size: 18px;">Contraseña:</strong>
+                <div class="passwordInputs">
+                    <input type="password" name="passwordNueva" id="passwordNueva" placeholder="Contraseña nueva">
+                    <input type="password" name="password" id="password"
+                        placeholder="Escribe la contraseña nueva otra vez">
+                    <div class="alert alert-danger hidden" role="alert">
+                        No ha escrito correctamente la contraseña
+                    </div>
+                </div>
+                <br>
+                <button id="guardarCuenta" class="btn btn-warning w-100">Guardar</button>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->

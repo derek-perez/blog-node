@@ -32,7 +32,6 @@ router.post('/', [
 router.put('/:id', [
     validarJWT,
     check('id').custom(existeUsuarioPorID),
-    check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     validarCampos
 ], modificarUsuario);
 
