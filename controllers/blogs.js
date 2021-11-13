@@ -40,7 +40,7 @@ const mostrarBlogDeUsuario = async (req, res = response) => {
     try {
         const { id } = req.params;
 
-        const blog = await Blog.find({ id })
+        const blog = await Blog.find({ autor: id })
             .populate('autor', 'nombre')
 
         res.status(200).json(blog);

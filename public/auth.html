@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -81,11 +81,15 @@
                 <strong>¡Oh no!</strong> <span class="msgError"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <input type="text" name="nombre" id="nombre" class="form-control mb-2" placeholder="Nombre">
-            <input type="email" name="correo" id="correo" class="form-control mb-2" placeholder="Correo">
-            <input type="text" name="password" id="password" class="form-control mb-2" placeholder="Contraseña">
 
-            <button class="btn btn-primary">Regístrate</button>
+            <input type="text" name="nombre" id="nombreRegister" class="form-control mb-2" placeholder="Nombre"
+                required>
+            <input type="email" name="correo" id="correoRegister" class="form-control mb-2" placeholder="Correo"
+                required>
+            <input type="text" name="password" id="passwordRegister" class="form-control mb-2" placeholder="Contraseña"
+                minlength="6" required>
+
+            <button id="btnRegister" class="btn btn-primary">Regístrate</button>
             <p>Si ya tienes una cuenta solo <span class="toggle">inicia sesión aquí</span> </p>
         </form>
     </div>

@@ -15,6 +15,10 @@ const articulosPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
 
+const articulosPublicGeneral = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/posts/arts.html'
+    : 'https://blogi-node.herokuapp.com/posts/arts.html';
+
 // Menú responsive
 const menu = document.querySelector('#enlaces');
 const toggle = document.querySelector('.toggle');
@@ -273,7 +277,6 @@ if (idArticulo === null || idArticulo === undefined) {
                                     categoriaLi.forEach(c => {
                                         if (c.id === _id) {
                                             const elBueno = c;
-                                            console.log(elBueno)
 
                                             // Se crea el string para la fecha
                                             const fechaMal = a.creadoEn.split(' ');
@@ -305,7 +308,7 @@ if (idArticulo === null || idArticulo === undefined) {
                                                     </span>
                                                     <span class="contenidoDeArticulos">${contenido}</span>
                                                     <span class="fechaDeArticulos">${fecha}</span>
-                                                    <a id="botonVermas" href="${articulosPublic + _id}">
+                                                    <a id="botonVermas" href="${articulosPublic + a._id}">
                                                         <button class="btn btn-primary">Ver más...</button>
                                                     </a>
                                                 </li>
@@ -451,7 +454,7 @@ if (idArticulo === null || idArticulo === undefined) {
         .then(({ categorias }) => {
             categorias.forEach(c => {
                 categoriasUl.innerHTML += `
-                    <li><a href="${categoriasPublic + c._id}">${c.nombre}</a></li>
+                    <li>${c.nombre}</li>
                 `;
             })
         })

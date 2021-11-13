@@ -46,35 +46,42 @@ const mostrarUsuario = async (req, res = response) => {
 
 const agregarUsuario = async (req, res = response) => {
 
-    const { nombre, correo, password } = req.body;
-    const usuario = new Usuario({ nombre, correo, password });
+    try {
 
-    // Encriptar la contraseña
-    const salt = bcryptjs.genSaltSync();
-    usuario.password = bcryptjs.hashSync(password, salt);
+        const { nombre, correo, password } = req.body;
 
-    // Guardar en la DB
-    await usuario.save();
+        const usuario = new Usuario({ nombre, correo, password });
 
-    // Generar el JWT
-    const nuevoUsuario = () => {
-        Usuario.find({ correo })
-            .then(async user => {
+        // Encriptar la contraseña
+        const salt = bcryptjs.genSaltSync();
+        usuario.password = bcryptjs.hashSync(password, salt);
 
-                const idMal = user[0]._id;
-                const idAString = idMal.toString();
-                const id = idAString.split('"');
+        // Guardar en la DB
+        await usuario.save();
 
-                const token = await generarJWT(id);
+        // Generar el JWT
+        const nuevoUsuario = () => {
+            Usuario.find({ correo })
+                .then(async user => {
 
-                return res.json({
-                    usuario,
-                    token
-                });
-            })
+                    const idMal = user[0]._id;
+                    const idAString = idMal.toString();
+                    const id = idAString.split('"');
+
+                    const token = await generarJWT(id);
+
+                    return res.json({
+                        usuario,
+                        token
+                    });
+                })
+        }
+
+        nuevoUsuario();
+
+    } catch (error) {
+        console.log(error)
     }
-
-    nuevoUsuario();
 }
 
 const modificarUsuario = async (req, res = response) => {

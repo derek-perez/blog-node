@@ -57,7 +57,9 @@
                 <span class="nombre">DEste Man</span>
                 <span class="correo">deste@deste.com</span>
                 <hr>
-                <button class="verCuenta btn btn-outline-primary">Ver perfil</button>
+                <a href="" id="verPerfil">
+                    <button class="verCuenta btn btn-outline-primary">Ver perfil</button>
+                </a>
                 <button class="cerrarSesion btn btn-outline-danger">Cerrar sesión</button>
             </div>
         </div>
@@ -73,7 +75,7 @@
 
                         </div>
                         <button class="crearBlog btn btn-outline-success">
-                            <a href="#">Crear blog</a>
+                            Crear blog
                         </button>
                     </div>
                 </div>
@@ -88,7 +90,7 @@
             </div>
             <div class="resultadosDeMenu col-sm-8 animate__animated animate__bounceInRight">
                 <div class="articulosResultados resultado" id="articulos">
-                    <div class="noHay hidden">
+                    <div class="noHay">
                         <img src="../img/void.png" alt="Todavía no tienes artículos">
                         <p>Todavía no tienes artículos</p>
                         <br>
@@ -147,6 +149,7 @@
             <!-- Atención al cliente -->
             <i class="fa fa-comments"></i>
         </div>
+
         <!-- Chatbot -->
         <div class="chatbot hidden animate__animated">
             <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -158,14 +161,117 @@
 
     </div>
 
+    <!-- Página para crear blog -->
+    <div class="introDeBlog hidden">
+        <div class="intro">
+            <h1>¡Bienvenido...!</h1>
+            <h3>Que bueno que esté por acá...</h3>
+            <p>
+                Este es un pequeño tutorial para que:
+                <br>
+                1) haga su blog y
+                <br>
+                2) vea qué podrá hacer y qué verá.
+                <br>
+                <br>
+                También tendrá un enlace en el que podrá ver tutoriales para conocer mejor a Blogi
+            </p>
+            <button class="btn btn-primary" id="primerSiguiente">
+                Siguiente <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="crearlo hidden">
+            <p>Para empezar:</p>
+            <label for="nombreDeBlogCrear">¿Qué nombre quiere que tenga su blog?</label>
+            <input type="text" name="nombreDeBlogCrear" id="nombreDeBlogCrear" placeholder="p. ej: Mi blog">
+
+            <label for="descDeBlogCrear">¿Alguna descripción para su blog?</label>
+            <input type="text" name="descDeBlogCrear" id="descDeBlogCrear"
+                placeholder="p. ej: Este es un blog personal">
+
+            <button id="segundoSiguiente" class="btn btn-primary">
+                Siguiente <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="descripciones hidden">
+            <h1>Esto será lo que verá en su panel de control:</h1>
+            <div class="cuadro">
+                <span>Lo primero que verá, será su panel:</span>
+                <img src="../img/panelDeBlog.png" alt="Panel del blog">
+            </div>
+            <div class="cuadro">
+                <span id="muchoTexto">
+                    Al presionar en la imágen que está en la esquina, verá este cuadrito. Aquí
+                    podrá cerrar sesión y ver su perfil en caso de que quiera modificar algo...
+                </span>
+                <img id="cuadroDePerfil" src="../img/cuadroDePerfil.png" alt="Cuadro de perfil">
+            </div>
+            <div class="cuadro">
+                <span>Al presionar este botón, le aparecerá una página para crear un artículo:</span>
+                <img id="crearArticulo" src=" ../img/crearArticulo.png" alt="Cuadro de perfil">
+                <span>Esta es su página:</span>
+                <img id="hojaDeEstilo" src="../img/hojaDeEstilo.png" alt="Tu pagina para crear artículos">
+            </div>
+            <div class="cuadro">
+                <h1 id="funciones">A continuación, las funciones de cada cosa:</h1>
+                <ul id="ulFunciones">
+                    <li>
+                        <span>Aquí podrá escribir el título de su articulo:</span>
+                        <br>
+                        <img src="../img/titulo.png">
+                    </li>
+                    <li id="botonesUl">
+                        <span>Estos son los botones que hay en la esquina:</span>
+                        <ul>
+                            <li>El botón de la izquierda es para ver la vista previa</li>
+                            <li>El de en medio es para guardar su artículo</li>
+                            <li>El de la derecha es para cerrar el documento</li>
+                        </ul>
+                        <br>
+                        <img src=" ../img/btns.png">
+                    </li>
+                    <li id="botonesUl">
+                        <span>Estos son los botones para la edición:</span>
+                        <ul>
+                            <li>El 1ro es para poner titulos, subtítulos y párrafos</li>
+                            <li>Los botones 2do a 4to dicen por sí mismas que le hacen al texto que subraye</li>
+                            <li>El 5to botón es para la alineación del texto que haya subrayado</li>
+                            <li>El 6to botón es para agregar un link a sú página</li>
+                            <li>Y el 7mo botón es para agregar imágenes</li>
+                        </ul>
+                        <p>En un momento más verá un enlace para que aprenda el uso de algunos de estos</p>
+                        <br>
+                        <img src="../img/edicion.png">
+                    </li>
+                    <li>
+                        <span>Aquí podrá escribir el contenido de su articulo:</span>
+                        <br>
+                        <img src="../img/textarea.png">
+                    </li>
+                    <li>
+                        <span>Esta es la lista de categorías o temas en los que podrá agregar su artículo:</span>
+                        <br>
+                        <img src="../img/categorias.png">
+                    </li>
+                </ul>
+            </div>
+            <button id="tercerSiguiente" class="btn btn-primary">
+                Siguiente <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Creación de nuevo blog -->
     <div class="creacionDeBlog hidden">
         <div class="formulario">
             <p>Crear un nuevo blog...</p>
             <label for="nombreDeBlog">¿Qué nombre quiere que tenga su blog?</label>
-            <input type="text" name="nombreDeBlog" id="nombreDeBlog" placeholder="Tu blog...">
-            <label for="descDeBlog">¿Alguna descripción de su blog?</label>
-            <input type="text" name="descDeBlog" id="descDeBlog" placeholder="Tu blog...">
+
+            <input type="text" name="nombreDeBlog" id="nombreDeBlog" placeholder="p. ej: Mi blog">
+            <label for="descDeBlog">¿Alguna descripción para su blog?</label>
+
+            <input type="text" name="descDeBlog" id="descDeBlog" placeholder="p. ej: Este es un blog personal">
+
             <button id="btnCrearBlog" class="btn btn-primary">Crear...</button>
         </div>
     </div>
