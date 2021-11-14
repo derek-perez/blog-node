@@ -40,29 +40,44 @@
     </div>
 
     <div class="blog">
-        <div class="navBar">
+        <!-- Navbar -->
+        <nav class="navBar">
             <div class="imgMenu">
                 <i class="menuDoor fa fa-bars"></i>
                 <a href="../../">
                     <img src="../img/logo.png" alt="Logo de blog">
                 </a>
             </div>
-            <div class="buscador">
-                <i class="fa fa-search"></i>
-                <input type="text" name="buscar" placeholder="Buscar artículos" id="buscador">
-            </div>
-            <img src="../img/persona-2.png" alt="" class="userImg">
-            <div class="userAccount hidden">
-                <img class="userImgAccount" src="../img/persona-2.png" alt="Img de usuario" id="logoUser">
-                <span class="nombre">DEste Man</span>
-                <span class="correo">deste@deste.com</span>
-                <hr>
-                <a href="" id="verPerfil">
-                    <button class="verCuenta btn btn-outline-primary">Ver perfil</button>
-                </a>
-                <button class="cerrarSesion btn btn-outline-danger">Cerrar sesión</button>
-            </div>
-        </div>
+            <ul id="enlaces">
+                <li class="enlace">
+                    <a href="../../index.html">
+                        Inicio
+                    </a>
+                </li>
+                <li id="buscadorEnlace" class="enlace">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="buscar" placeholder="Buscar artículos" id="buscador">
+                </li>
+                <li style="margin-right: 0;" class="enlace">
+                    <img src="" alt="" class="userImg">
+                    <div class="userAccount hidden">
+                        <img class="userImgAccount" src="" alt="Img de usuario" id="logoUser">
+                        <span class="nombre"></span>
+                        <span class="correo"></span>
+                        <hr>
+                        <a href="" id="verPerfil">
+                            <button class="verCuenta btn btn-outline-primary">Ver perfil</button>
+                        </a>
+                        <button class="cerrarSesion btn btn-outline-danger">Cerrar sesión</button>
+                    </div>
+                </li>
+                <li class="enlace">
+                    <input type="checkbox" name="check" id="check">
+                    <label for="check" class="modoOscuro"></label>
+                </li>
+            </ul>
+        </nav>
+        <div class="toggle"></div>
 
         <div class="row blogStructure">
             <div class="menuBlog col-sm-4 animate__animated animate__bounceInLeft">

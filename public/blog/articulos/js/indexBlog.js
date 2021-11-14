@@ -110,6 +110,13 @@ const darChanceDeIrse = () => {
     }, 10000);
 }
 
+// Modo oscuro
+const checkbox = document.getElementById('check');
+
+checkbox.addEventListener('change', () => {
+    body.classList.toggle('dark')
+})
+
 // Función para cambiar de Inglés a Español
 const diasEspañol = [
     'Lunes',
@@ -190,28 +197,6 @@ const cambiarAEspañolMes = (mes) => {
     }
 
     return mesBueno;
-}
-
-// Menú responsive
-if (window.innerWidth <= 950) {
-    menuDoor.addEventListener('click', () => {
-        menuBlog.classList.remove('hidden');
-        menuBlog.classList.add('responsive');
-        menuBlog.classList.remove('animate__bounceOutLeft');
-    })
-
-    close.addEventListener('click', () => {
-        menuBlog.classList.add('animate__bounceOutLeft');
-        menuBlog.classList.add('hidden');
-    })
-} else {
-    menuDoor.addEventListener('click', () => {
-        menuBlog.classList.toggle('animate__bounceOutLeft');
-        setTimeout(() => {
-            menuBlog.classList.toggle('hidden');
-            resultadosDeMenu.classList.toggle('wC');
-        }, 500);
-    })
 }
 
 // Btns Flotantes
