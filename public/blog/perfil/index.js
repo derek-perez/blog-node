@@ -236,12 +236,17 @@ guardarImg.addEventListener('click', () => {
         const imgFile = e.target.result;
 
         const data = {
-            'archivo': `${imgFile}`
+            'img': `${imgFile}`
         };
 
-        fetch(`${uploads}usuarios/${idDeUsuario}`, {
+        const headersList = {
+            'x-token': `${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        fetch(usuarios + idDeUsuario, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: headersList,
             body: JSON.stringify(data)
         })
             .then(resp => resp.json())

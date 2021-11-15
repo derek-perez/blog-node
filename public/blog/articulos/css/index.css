@@ -8,6 +8,66 @@ body {
     width: 100%;
 }
 
+body.dark {
+    background-color: #333;
+    color: white;
+}
+
+body.dark #enlaces.active {
+    background-color: #555;
+    color: white;
+}
+
+body.dark .tusBlogs {
+    background-color: #555;
+}
+
+body.dark #titulo {
+    background: transparent;
+    color: white;
+}
+
+body.dark #conHtml {
+    background: transparent;
+    color: white;
+}
+
+body.dark .btn-outline-secondary {
+    background-color: #6c757d;
+}
+
+body.dark .userAccount {
+    background-color: #555;
+}
+
+body.dark .userAccount .btn-outline-primary {
+    color: white;
+    background-color: #0d6efd;
+}
+
+body.dark .userAccount .btn-outline-danger {
+    color: white;
+    background-color: #dc3545;
+}
+
+body.dark .articuloMini {
+    border: 1px solid #555;
+    border-top: 10px solid orange;
+}
+
+body.dark .formulario {
+    background-color: #555;
+}
+
+body.dark .formulario input::placeholder {
+    color: #ccc;
+}
+
+body.dark .formulario input {
+    background: transparent;
+    color: white;
+}
+
 .row {
     --bs-gutter-x: 0;
 }
@@ -36,6 +96,18 @@ body {
 
 .navBar.dark .enlace > a {
     color: white !important;
+}
+
+.navBar.dark #buscadorEnlace {
+    background: #666;
+}
+
+.navBar.dark #buscador::placeholder {
+    color: #ccc;
+}
+
+.navBar.dark #buscador {
+    color: white;
 }
 
 .navBar {
@@ -191,6 +263,20 @@ body {
 #check:checked + .modoOscuro::after {
     content: "\f185";
     left: 36px;
+}
+
+.toggle.active.responsive {
+    background: url(../../img/closeMoon.png) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+
+body.dark .toggle.responsive {
+    background: url(../../img/openMoon.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .toggle {
@@ -369,6 +455,11 @@ body {
     min-height: 75ch;
 }
 
+.menuBlog.dark {
+    background-color: #333 !important;
+    color: white;
+}
+
 .blogStructure > .menuBlog {
     display: flex;
     flex-direction: column;
@@ -403,11 +494,21 @@ body {
     margin-left: 10px;
 }
 
-.blogsTitles > .tusBlogs {
+.tusBlogsWindow {
     position: fixed;
     top: 0;
-    left: 25%;
-    transform: translate(15%, 41%);
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #333333eb;
+    z-index: 10000;
+}
+
+.tusBlogs {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 274px;
     background-color: white;
     display: flex;
@@ -418,12 +519,12 @@ body {
     box-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
 }
 
-.blogsTitles > .tusBlogs > .titleTusBlogs {
+.tusBlogs > .titleTusBlogs {
     color: gray;
     margin-bottom: 7px;
 }
 
-.blogsTitles > .tusBlogs > .blogActualLista {
+.tusBlogs > .blogActualLista {
     margin-bottom: 10px;
     padding: 10px;
     border-top: 1px solid rgb(0 0 0 / 50%);
@@ -431,18 +532,18 @@ body {
     transition: .5s;
 }
 
-.blogsTitles > .tusBlogs > .blogActualLista > span {
+.tusBlogs > .blogActualLista > span {
     padding: 5px;
     margin-bottom: 10px !important;
 }
 
-.blogsTitles > .tusBlogs > .blogActualLista > span:hover {
+.tusBlogs > .blogActualLista > span:hover {
     background-color: rgb(201, 201, 201);
     border-radius: 10px;
     transition: .5s;
 }
 
-.blogsTitles > .tusBlogs > .crearBlog > a {
+.tusBlogs > .crearBlog > a {
     text-decoration: none;
     color: inherit;
 }
@@ -458,9 +559,6 @@ body {
     padding: 10px;
     font-size: 18px;
     border-top: 1px solid rgb(0 0 0 / 50%);
-}
-.listaMenuBlog > .itemBlog:hover {
-    background-color: #eee;
 }
 
 .listaMenuBlog > .itemBlog > i {
@@ -504,6 +602,7 @@ body {
     margin-top: 10px;
     border-radius: 10px;
     box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
+    z-index: 100;
 }
 
 .articuloMini > .topArticle {
@@ -1281,7 +1380,7 @@ df-messenger {
 
     #enlaces.active {
         display: flex !important;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
         position: fixed;
         top: 0;

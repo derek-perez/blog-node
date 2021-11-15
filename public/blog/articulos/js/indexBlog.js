@@ -44,6 +44,9 @@ const irARegister = document.querySelector('.irARegister');
 const blog = document.querySelector('.blog');
 const spinner = document.querySelector('.spinner');
 
+const toggle = document.querySelector('.toggle');
+const enlaces = document.querySelector('#enlaces');
+
 const userAccount = document.querySelector('.userAccount');
 const userImg = document.querySelector('.userImg');
 const userImgAccount = document.querySelector('.userImgAccount');
@@ -52,7 +55,7 @@ const correo = document.querySelector('.correo');
 const cerrarSesion = document.querySelector('.cerrarSesion');
 
 const blogsTitles = document.querySelector('.blogsTitles');
-const tusBlogs = document.querySelector('.tusBlogs');
+const tusBlogsWindow = document.querySelector('.tusBlogsWindow');
 const menuBlog = document.querySelector('.menuBlog');
 const menuDoor = document.querySelector('.menuDoor');
 const itemsBlog = document.querySelectorAll('.itemBlog');
@@ -112,9 +115,19 @@ const darChanceDeIrse = () => {
 
 // Modo oscuro
 const checkbox = document.getElementById('check');
+const navBar = document.querySelector('.navBar');
 
 checkbox.addEventListener('change', () => {
-    body.classList.toggle('dark')
+    body.classList.toggle('dark');
+    navBar.classList.toggle('dark');
+    menuBlog.classList.toggle('dark');
+    toggle.classList.toggle('responsive');
+})
+
+// Menú responsive
+toggle.addEventListener('click', () => {
+    enlaces.classList.toggle('active')
+    toggle.classList.toggle('active')
 })
 
 // Función para cambiar de Inglés a Español
@@ -237,7 +250,11 @@ cerrarSesion.addEventListener('click', () => {
 
 // Ver todos los blogs
 blogsTitles.addEventListener('click', () => {
-    tusBlogs.classList.toggle('hidden')
+    tusBlogsWindow.classList.toggle('hidden')
+})
+
+tusBlogsWindow.addEventListener('click', () => {
+    tusBlogsWindow.classList.toggle('hidden')
 })
 
 // Función para sacar id de Url e ir a ese elemento ocultando los demás
@@ -1115,6 +1132,20 @@ setTimeout(() => {
 
                                         const html = `
                                             <div class="articuloMini">
+                                                <div class="hidden compartido alert alert-success alert-dismissible fade show d-flex w-100 align-items-center" role="alert">
+                                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                                                    <div>Se ha compartido exitósamente</div>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                                <div class="hidden noCompartido alert alert-danger alert-dismissible fade show d-flex w-100 align-items-center" role="alert">
+                                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                                    <div>
+                                                        No se ha podido exitósamente
+                                                        <br>
+                                                        Por favor, intpentelo más tarde
+                                                    </div>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
                                                 <div class="topArticle">
                                                     <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
                                                     <div class="articleText">
@@ -1131,7 +1162,7 @@ setTimeout(() => {
                                                         <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
                                                     </div>
                                                     <div class="btnRow">
-                                                        <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
+                                                        <button id="${a._id}" class="btnArticulo compartirArticulo btn btn-success">Compartir artículo</button>
                                                         <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
                                                     </div>
                                                 </div>
@@ -1139,6 +1170,43 @@ setTimeout(() => {
                                         `;
 
                                         articulosResultados.innerHTML += html;
+
+                                        const btnsParaCompartir = () => {
+
+                                            const compartirArticulo = document.querySelectorAll('.compartirArticulo');
+
+                                            const compartido = document.querySelector('.compartido');
+                                            const noCompartido = document.querySelector('.noCompartido');
+
+                                            compartirArticulo.forEach(c => {
+                                                c.addEventListener('click', () => {
+                                                    const idDeArticulo = c.id;
+
+                                                    fetch(articulos + idDeArticulo, {
+                                                        method: 'GET'
+                                                    })
+                                                        .then(resp => resp.json())
+                                                        .then(async a => {
+                                                            const shareData = {
+                                                                'title': `${a.titulo}`,
+                                                                'text': 'Blogi es una plataforma web donde puedes crear un blog y compartirlo con la comunidad, y también puedes ver los blogs de otros',
+                                                                'url': `${articulosUrl + a._id}`
+                                                            };
+
+                                                            try {
+                                                                await navigator.share(shareData);
+                                                                compartido.classList.toggle('hidden')
+                                                            } catch (error) {
+                                                                console.log(error)
+                                                                noCompartido.classList.toggle('hidden')
+                                                            }
+                                                        })
+                                                        .catch(console.log)
+                                                })
+                                            })
+                                        }
+
+                                        btnsParaCompartir();
 
                                         const btnsParaBorrarYAcyualizar = () => {
                                             // Borrar artículo
