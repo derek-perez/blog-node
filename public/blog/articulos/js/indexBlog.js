@@ -1188,8 +1188,7 @@ setTimeout(() => {
                                                         .then(resp => resp.json())
                                                         .then(async a => {
                                                             const shareData = {
-                                                                // 'title': `${a.titulo}`,
-                                                                // 'text': 'Blogi es una plataforma web donde puedes crear un blog y compartirlo con la comunidad, y también puedes ver los blogs de otros\n',
+                                                                'text': `${a.titulo}\n`,
                                                                 'url': `${articulosUrl + a._id}`
                                                             };
 
