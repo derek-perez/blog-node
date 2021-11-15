@@ -1140,9 +1140,7 @@ setTimeout(() => {
                                                 <div class="hidden noCompartido alert alert-danger alert-dismissible fade show d-flex w-100 align-items-center" role="alert">
                                                     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                                                     <div>
-                                                        No se ha podido exitósamente
-                                                        <br>
-                                                        Por favor, intpentelo más tarde
+                                                        No se ha podido enviar exitósamente.  favor, intpentelo más tarde
                                                     </div>
                                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                                 </div>

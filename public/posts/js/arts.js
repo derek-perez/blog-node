@@ -363,6 +363,28 @@ if (idArticulo === null || idArticulo === undefined) {
             titulo.innerHTML = a.titulo;
             contenidoCuerpo.innerHTML = a.htmlContenido;
             idDeUsuario.unshift(a.autor[0]._id);
+
+            const compartirArticulo = () => {
+                const compartir = document.querySelector('.compartir');
+                const compartido = document.querySelector('.compartido');
+                const noCompartido = document.querySelector('.noCompartido');
+
+                compartir.addEventListener('click', async () => {
+                    const dataSend = {
+                        'text': `${a.titulo}\n`,
+                        'url': `${articulosPublic + a._id}`
+                    }
+
+                    try {
+                        await navigator.share(dataSend);
+                        compartido.classList.toggle('hidden');
+                    } catch (error) {
+                        noCompartido.classList.toggle('hidden');
+                    }
+                })
+            }
+
+            compartirArticulo();
         })
         .catch(console.log)
 

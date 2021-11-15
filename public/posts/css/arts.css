@@ -252,6 +252,7 @@ body.dark .categoriasDeArticulo {
 .articulo > .contenido > .cabecera > img {
     max-width: 500px;
     margin-top: 5px;
+    width: 100%;
 }
 
 #titulo.dark {
@@ -381,7 +382,14 @@ body.dark .categoriasDeArticulo {
     max-height: 100px;
 }
 
-.autor > .imagenBox > span.principal {
+.autor > .imagenBox > .campos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.autor > .imagenBox > .campos > span.principal {
     font-weight: 600;
     font-size: 18px;
     text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
@@ -868,6 +876,16 @@ df-messenger {
 
     #enlaces.active > .enlace {
         margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .imagenBox {
+        flex-direction: column !important;
+    }
+
+    .campos {
+        margin-bottom: 15px;
     }
 }
 
