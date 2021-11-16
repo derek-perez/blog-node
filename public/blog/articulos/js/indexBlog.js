@@ -940,7 +940,6 @@ const windowBorrarArticulo = document.querySelector('.windowBorrarArticulo');
 const deleteArt = document.querySelector('.delete');
 const closeDelete = document.querySelector('.closeDelete');
 
-windowBorrarArticulo.classList.toggle('hidden');
 
 let blogId;
 

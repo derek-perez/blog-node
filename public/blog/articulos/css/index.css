@@ -1088,11 +1088,24 @@ df-messenger {
 }
 
 .windowBorrarArticulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #333333eb;
+    z-index: 1000;
+}
+
+.borrarArticuloWindow {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 90%;
+    width: 90%;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -1105,19 +1118,19 @@ df-messenger {
     padding: 10px;
 }
 
-.windowBorrarArticulo > p {
+.borrarArticuloWindow > p {
     text-align: center;
-    font-size: 30px;
+    font-size: 35px;
     text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
     font-weight: 600;
 }
 
-.windowBorrarArticulo > button {
+.borrarArticuloWindow > button {
     font-size: 20px;
     box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
 }
 
-.windowBorrarArticulo > .closeDelete {
+.borrarArticuloWindow > .closeDelete {
     position: absolute;
     bottom: 0;
     right: 10px;

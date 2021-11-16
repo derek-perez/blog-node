@@ -1,6 +1,7 @@
 const db = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
-const UsuarioSchema = db.Schema({
+const UsuarioSchema = new db.Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatario']
@@ -20,7 +21,8 @@ const UsuarioSchema = db.Schema({
     },
     titulo: {
         type: String,
-        required: false
+        required: false,
+        default: 'Escritor en Blogi'
     },
     img: {
         type: String,

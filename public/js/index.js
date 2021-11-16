@@ -20,8 +20,8 @@ const tutoriales = (window.location.hostname.includes('localhost'))
     : 'https://blogi-node.herokuapp.com/api/categorias/articulos/';
 
 const blogDeAutor = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:5500/public/posts/blog.html?=id'
-    : 'https://blogi-node.herokuapp.com/posts/blog.html?=id';
+    ? 'http://localhost:5500/public/posts/blog.html?id='
+    : 'https://blogi-node.herokuapp.com/posts/blog.html?id=';
 
 const articulosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='

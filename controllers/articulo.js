@@ -49,14 +49,6 @@ const añadirArticulo = async (req, res = response) => {
     try {
         const { titulo, contenido, htmlContenido, textarea, img, autor, blog, categoria } = req.body;
 
-        const articuloDB = await Articulo.findOne({ titulo });
-
-        if (articuloDB) {
-            return res.status(400).json({
-                msg: `El articulo ${articuloDB.titulo} ya existe`
-            });
-        }
-
         const creadoEn = new Date();
 
         const idDeCtg = db.Types.ObjectId(categoria);
@@ -96,7 +88,7 @@ const añadirArticulo = async (req, res = response) => {
         res.status(200).json(articulo);
 
     } catch (error) {
-        console.log('Awi esta el error')
+        console.log(error)
     }
 }
 

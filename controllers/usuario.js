@@ -25,22 +25,16 @@ const mostrarUsuario = async (req, res = response) => {
     const { id } = req.params;
     const usuario = await Usuario.findById(id);
 
-    const articulos = [];
-
     // Extrae los articulos que ha hecho el usuario
     const condicion = { estado: true, autor: id }
-    const articulo = await Articulo.find(condicion)
-        .then(a => {
-            for (i in a) {
-                articulos.push(a[i].titulo);
-            }
+    await Articulo.paginate(condicion)
+        .then(resp => {
+            return res.status(200).json({
+                articulos: resp.docs,
+                usuario
+            })
         })
-
-    res.json({
-        usuario,
-        articulos,
-        articulos
-    });
+        .catch(console.log)
 
 }
 

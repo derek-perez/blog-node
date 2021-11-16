@@ -15,6 +15,10 @@ const articulosPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
 
+const blogPublic = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/posts/blog.html?id='
+    : 'https://blogi-node.herokuapp.com/posts/blog.html?id=';
+
 const articulosPublicGeneral = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html'
     : 'https://blogi-node.herokuapp.com/posts/arts.html';
@@ -202,7 +206,7 @@ if (idArticulo === null || idArticulo === undefined) {
                         <img src="${a.img}" alt="Artículo reciente">
                         <span id="top">
                             <span class="primary">Autor:</span>
-                            <span class="secondary">${nombreDeAutor}</span>
+                            <a href="${blogPublic + a._id}" style="color: white;">${nombreDeAutor}</a>
                         </span>
                         <span>
                             <span class="primary">Titulo:</span>
@@ -296,7 +300,7 @@ if (idArticulo === null || idArticulo === undefined) {
                                                     <img class="imgDeArticulos" src="${a.img}">
                                                     <span id="top">
                                                         <span class="primary">Autor:</span>
-                                                        <span class="secondary">${nombreDeAutor}</span>
+                                                        <a href="${blogPublic + a._id}" style="color: white;">${nombreDeAutor}</a>
                                                     </span>
                                                     <span>
                                                         <span class="primary">Titulo:</span>
@@ -440,7 +444,7 @@ if (idArticulo === null || idArticulo === undefined) {
                             <img class="imgDeArticulos" src="${a.img}">
                             <span id="top">
                                 <span class="primary">Autor:</span>
-                                <span class="secondary">${nombreDeAutor}</span>
+                                <a href="${blogPublic + a._id}" style="color: white;">${nombreDeAutor}</a>
                             </span>
                             <span>
                                 <span class="primary">Titulo:</span>

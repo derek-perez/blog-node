@@ -1,4 +1,5 @@
 const db = require('mongoose');
+const mongoosePagination = require('mongoose-paginate-v2');
 
 const ArticuloSchema = db.Schema({
     titulo: {
@@ -54,6 +55,8 @@ ArticuloSchema.methods.toJSON = function () {
 
     return data;
 }
+
+ArticuloSchema.plugin(mongoosePagination)
 
 
 module.exports = db.model('Articulo', ArticuloSchema);
