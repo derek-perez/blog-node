@@ -310,25 +310,28 @@ const funcionesParaArticulos = () => {
     const subrayado = document.querySelector('.subrayado');
     const cursiva = document.querySelector('.cursiva');
 
-    Texto.addEventListener('keydown', () => {
+    const espacio = () => {
 
         const arrTextarea = Texto.value.split('\n');
         const arrResult = [];
 
-        const espacio = () => {
-            arrTextarea.forEach(t => {
-                const parrafo2 = document.createElement('p');
-                parrafo2.innerHTML = t;
+        arrTextarea.forEach(t => {
+            const parrafo2 = document.createElement('p');
+            parrafo2.innerHTML = t;
 
-                arrResult.push(parrafo2.innerHTML);
-                setTimeout(() => {
-                    resultado.innerHTML = arrResult.join('<br>');
-                }, 100);
-            })
-        }
+            arrResult.push(parrafo2.innerHTML);
+            setTimeout(() => {
+                resultado.innerHTML = arrResult.join('<br>');
+            }, 100);
+        })
+    }
 
+    setTimeout(() => {
         espacio();
+    }, 500);
 
+    Texto.addEventListener('keydown', () => {
+        espacio();
     })
 
     // Negrita, subrayado, cursiva

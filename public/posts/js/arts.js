@@ -206,7 +206,7 @@ if (idArticulo === null || idArticulo === undefined) {
                         <img src="${a.img}" alt="Artículo reciente">
                         <span id="top">
                             <span class="primary">Autor:</span>
-                            <a href="${blogPublic + a._id}" style="color: white;">${nombreDeAutor}</a>
+                            <a href="${blogPublic + a.autor[0]._id}" style="color: white;">${nombreDeAutor}</a>
                         </span>
                         <span>
                             <span class="primary">Titulo:</span>
@@ -300,7 +300,7 @@ if (idArticulo === null || idArticulo === undefined) {
                                                     <img class="imgDeArticulos" src="${a.img}">
                                                     <span id="top">
                                                         <span class="primary">Autor:</span>
-                                                        <a href="${blogPublic + a._id}" style="color: white;">${nombreDeAutor}</a>
+                                                        <a href="${blogPublic + a.autor[0]._id}" style="color: white;">${nombreDeAutor}</a>
                                                     </span>
                                                     <span>
                                                         <span class="primary">Titulo:</span>
@@ -444,7 +444,7 @@ if (idArticulo === null || idArticulo === undefined) {
                             <img class="imgDeArticulos" src="${a.img}">
                             <span id="top">
                                 <span class="primary">Autor:</span>
-                                <a href="${blogPublic + a._id}" style="color: white;">${nombreDeAutor}</a>
+                                <a href="${blogPublic + a.autor[0]._id}" style="color: white;">${nombreDeAutor}</a>
                             </span>
                             <span>
                                 <span class="primary">Titulo:</span>

@@ -83,8 +83,6 @@ const ponerArticulos = (usuario, resp) => {
     sobreMi.innerHTML = usuario.descripcion;
     imgDePerfil.src = usuario.img;
 
-    console.log(resp)
-
     if (usuario.twitter !== '') {
         twitterLink.href = `https://twitter.com/${usuario.twitter}`;
     } else {
@@ -252,66 +250,50 @@ fetch(usuarios + idAutor, {
             const actual = resp.page;
             const siguientes = resp.totalPages;
 
-            const elResto = siguientes - 1;
+            for (let i = 0; i < siguientes; i++) {
 
-            const newSiguiente = `${actual}${elResto}${siguientes}`;
+                const myFunc = num => Number(num);
 
-            const myFunc = num => Number(num);
+                const deste = Array.from(String(i), myFunc)
 
-            const deste = Array.from(String(newSiguiente), myFunc)
+                deste.forEach(n => {
+                    const html = `
+                        <li class="page-item">
+                            <span id="${n + 1}" class="page-link">${n + 1}</span>
+                        </li>
+                    `;
 
-            deste.forEach(n => {
-                const html = `
-                    <li class="page-item">
-                        <span id="${n}" class="page-link">${n}</span>
-                    </li>
-                `;
+                    pagination.innerHTML += html;
 
-                pagination.innerHTML += html;
-            })
+                    setTimeout(() => {
+                        const pageLinks = document.querySelectorAll('.page-link');
+                        const pageLink = [].slice.call(pageLinks);
 
-            setTimeout(() => {
-                const pageLinks = document.querySelectorAll('.page-link');
-                const pageLink = [].slice.call(pageLinks);
+                        pageLink.forEach(p => {
 
-                pageLink.forEach(p => {
+                            p.addEventListener('click', () => {
+                                const paginaRequerida = p.id
 
-                    p.addEventListener('click', () => {
-                        const paginaRequerida = p.id
-
-                        fetch(usuarios + 'page/', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ id: idAutor, page: paginaRequerida })
-                        })
-                            .then(response => response.json())
-                            .then(resp => {
-                                ponerArticulos(usuario, resp.resp);
+                                fetch(usuarios + 'page/', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ id: idAutor, page: paginaRequerida })
+                                })
+                                    .then(response => response.json())
+                                    .then(resp => {
+                                        ponerArticulos(usuario, resp.resp);
+                                    })
+                                    .catch(console.error)
                             })
-                            .catch(console.error)
-                    })
-                })
+                        })
 
-            }, 500);
+                    }, 500);
+                })
+            }
+
         }
 
         ponerPaginacion();
-
-        if (resp.hasNextPage === true) {
-            pagination.innerHTML += `
-                <li class="page-item">
-                    <span class="page-link" href="#" aria-label="Next">&raquo;</span>
-                </li>
-            `;
-        }
-
-        if (resp.hasPrevPage === true) {
-            pagination.innerHTML += `
-                <li class="page-item">
-                    <span class="page-link" href="#" aria-label="Previous">&laquo;</span>
-                </li>
-            `;
-        }
 
         // Poner blog(s)
         blog.forEach(b => {

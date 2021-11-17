@@ -587,6 +587,14 @@ df-messenger {
 
 }
 
+@media (max-width: 650px) {
+    .articulosUl {
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+
 @media (max-width: 625px) {
     .footer > .row > div {
         display: flex;

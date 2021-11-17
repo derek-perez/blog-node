@@ -32,7 +32,7 @@ const mostrarUsuario = async (req, res = response) => {
 
     // Extrae los articulos que ha hecho el usuario
     const condicion = { estado: true, autor: id }
-    await Articulo.paginate(condicion, { populate: 'categoria' })
+    await Articulo.paginate(condicion, { populate: 'categoria', limit: 6 })
         .then(resp => {
             return res.status(200).json({
                 resp,
@@ -112,7 +112,7 @@ const mostrarPerPage = async (req, res = response) => {
     const { page, id } = req.body;
 
     const condicion = { estado: true, autor: id }
-    await Articulo.paginate(condicion, { populate: 'categoria', page })
+    await Articulo.paginate(condicion, { populate: 'categoria', page, limit: 6 })
         .then(resp => {
             return res.status(200).json({
                 resp
