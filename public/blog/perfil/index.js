@@ -235,27 +235,36 @@ guardarImg.addEventListener('click', () => {
     reader.onload = function (e) {
         const imgFile = e.target.result;
 
-        const data = {
-            'img': `${imgFile}`
-        };
-
-        const headersList = {
-            'x-token': `${token}`,
-            'Content-Type': 'application/json'
-        };
-
-        fetch(usuarios + idDeUsuario, {
-            method: 'PUT',
-            headers: headersList,
-            body: JSON.stringify(data)
+        fetch(uploads + 'subir', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'archivo': `${imgFile}` })
         })
             .then(resp => resp.json())
-            .then(location.reload())
-            .catch(console.log)
-    }
+            .then(async url => {
+                const data = {
+                    'img': `${url}`
+                };
 
+                const headersList = {
+                    'x-token': `${token}`,
+                    'Content-Type': 'application/json'
+                };
+
+                await fetch(usuarios + idDeUsuario, {
+                    method: 'PUT',
+                    headers: headersList,
+                    body: JSON.stringify(data)
+                })
+                    .then(resp => resp.json())
+                    .then(location.reload())
+                    .catch(console.log)
+            })
+            .catch(console.log)
+
+    }
     reader.readAsDataURL(imgParaSubir.files[0]);
-})
+});
 
 // Actualizar cuenta
 guardarCuenta.addEventListener('click', () => {

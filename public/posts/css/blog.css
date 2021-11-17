@@ -306,7 +306,7 @@ body.dark .toggle.responsive {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: calc(50% - 1.6rem);
+    width: calc(50% - 1.6rem);
     border: 1px solid rgb(0 0 0 / 30%);
     border-top: 10px solid orange;
     margin: 10px;
@@ -351,6 +351,9 @@ body.dark .toggle.responsive {
     letter-spacing: 1px;
 }
 
+.page-item {
+    cursor: pointer;
+}
 
 .blog > .bloguero {
     width: 25%;
@@ -369,6 +372,9 @@ body.dark .toggle.responsive {
 
 .btnsGroup {
     margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .btnsGroup > a > button {

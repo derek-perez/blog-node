@@ -1095,20 +1095,7 @@ setTimeout(() => {
 
                             if (arts.length === 0) {
 
-                                const html = `
-                                    <div class="noHay">
-                                        <img src="../img/void.png" alt="Todavía no tienes artículos">
-                                        <p>Todavía no tienes artículos</p>
-                                        <br>
-                                        <p style="text-align: center;">
-                                            Para escribir un artículo, presiona en el botón azúl
-                                            <br>
-                                            "Crear articulo", que se encuentra en el menú
-                                        </p>
-                                    </div>
-                                `;
-
-                                articulosResultados.innerHTML = html;
+                                noHay.classList.toggle('hidden');
 
                             } else {
 
@@ -1522,7 +1509,7 @@ setTimeout(() => {
                         .then(resp => resp.json())
                         .then(arts => {
                             if (arts.length === 0) {
-                                noHay.classList.remove('hidden')
+                                noHay.classList.toggle('hidden')
                             } else {
                                 arts.forEach(a => {
 

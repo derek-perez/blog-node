@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { mostrarUsuarios, agregarUsuario, modificarUsuario, eliminarUsuario, mostrarUsuario, obtenerIDSUsuario } = require('../controllers/usuario');
+const { mostrarUsuarios, agregarUsuario, modificarUsuario, eliminarUsuario, mostrarUsuario, obtenerIDSUsuario, mostrarPerPage } = require('../controllers/usuario');
 
 const { existeEmail, existeUsuarioPorID, esAdminRole } = require('../helpers/db-validators');
 const { validarJWT } = require('../helpers/validar-jwt');
@@ -14,6 +14,8 @@ const router = Router();
 
 
 router.get('/', mostrarUsuarios);
+
+router.post('/page', mostrarPerPage);
 
 router.get('/:id', [
     check('id', 'No es un ID de Mongo válido').isMongoId(),

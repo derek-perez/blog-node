@@ -17,6 +17,7 @@ const navBar = document.querySelector('.navBar');
 const toggle = document.querySelector('.toggle');
 const enlaces = document.querySelector('#enlaces');
 
+const articulosUl = document.querySelector('.articulosUl');
 const articulosLi = document.querySelectorAll('.articulosLi');
 
 // Tomar ID
@@ -64,16 +65,258 @@ const nombre = document.querySelector('.nombre');
 const titulo = document.querySelector('.titulo');
 const correo = document.querySelector('.correo');
 const sobreMi = document.querySelector('.sobreMi');
+const imgDePerfil = document.querySelector('.imgDePerfil');
+const totalDeArticulos = document.querySelector('.totalDeArticulos');
+const pagination = document.querySelector('.pagination');
+
+const webLink = document.getElementById('webLink');
+const twitterLink = document.getElementById('twitterLink');
+const facebookLink = document.getElementById('facebookLink');
+const linkedinLink = document.getElementById('linkedinLink');
+const youtubeLink = document.getElementById('youtubeLink');
+
+const ponerArticulos = (usuario, resp) => {
+    // Poner usuario
+    nombre.innerHTML = usuario.nombre;
+    correo.innerHTML = usuario.correo;
+    titulo.innerHTML = usuario.titulo;
+    sobreMi.innerHTML = usuario.descripcion;
+    imgDePerfil.src = usuario.img;
+
+    console.log(resp)
+
+    if (usuario.twitter !== '') {
+        twitterLink.href = `https://twitter.com/${usuario.twitter}`;
+    } else {
+        twitterLink.classList.toggle('hidden')
+    }
+
+    if (usuario.linkedin !== '') {
+        linkedinLink.href = `https://linkedin.com/in/${usuario.linkedin}`;
+    } else {
+        linkedinLink.classList.toggle('hidden')
+    }
+
+    if (usuario.youtube !== '') {
+        youtubeLink.href = `https://youtube.com/channel/${usuario.youtube}`;
+    } else {
+        youtubeLink.classList.toggle('hidden')
+    }
+
+    if (usuario.facebook !== '') {
+        facebookLink.href = `https://facebook.com/${usuario.facebook}`;
+    } else {
+        facebookLink.classList.toggle('hidden')
+    }
+
+    if (usuario.web !== '') {
+        webLink.href = usuario.web;
+    } else {
+        webLink.classList.toggle('hidden')
+    }
+
+    // Poner artículos
+    const diasEspañol = [
+        'Lunes',
+        'Martes',
+        'Miércoles',
+        'Jueves',
+        'Viernes',
+        'Sábado',
+        'Domingo'
+    ];
+
+    const mesesEspañol = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+    ];
+
+    const cambiarAEspañolDia = (dia) => {
+
+        let diaBueno = '';
+
+        if (dia === 'Mon') {
+            diaBueno = diasEspañol[0];
+        } else if (dia === 'Tue') {
+            diaBueno = diasEspañol[1]
+        } else if (dia === 'Wen') {
+            diaBueno = diasEspañol[2]
+        } else if (dia === 'Thu') {
+            diaBueno = diasEspañol[3]
+        } else if (dia === 'Fri') {
+            diaBueno = diasEspañol[4]
+        } else if (dia === 'Sat') {
+            diaBueno = diasEspañol[5]
+        } else if (dia === 'Sun') {
+            diaBueno = diasEspañol[6]
+        }
+
+        return diaBueno;
+    }
+
+    const cambiarAEspañolMes = (mes) => {
+
+        let mesBueno = '';
+
+        if (mes === 'Jan') {
+            mesBueno = mesesEspañol[0];
+        } else if (mes === 'Feb') {
+            mesBueno = mesesEspañol[1]
+        } else if (mes === 'Mar') {
+            mesBueno = mesesEspañol[2]
+        } else if (mes === 'Apr') {
+            mesBueno = mesesEspañol[3]
+        } else if (mes === 'May') {
+            mesBueno = mesesEspañol[4]
+        } else if (mes === 'Jun') {
+            mesBueno = mesesEspañol[5]
+        } else if (mes === 'Jul') {
+            mesBueno = mesesEspañol[6]
+        } else if (mes === 'Aug') {
+            mesBueno = mesesEspañol[7]
+        } else if (mes === 'Sep') {
+            mesBueno = mesesEspañol[8]
+        } else if (mes === 'Oct') {
+            mesBueno = mesesEspañol[9]
+        } else if (mes === 'Nov') {
+            mesBueno = mesesEspañol[10]
+        } else if (mes === 'Dec') {
+            mesBueno = mesesEspañol[11]
+        }
+
+        return mesBueno;
+    }
+
+    const articulos = resp.docs;
+
+    totalDeArticulos.innerHTML = resp.totalDocs;
+
+    articulosUl.innerHTML = '';
+
+    articulos.forEach(a => {
+
+        // Se crea el string para la fecha
+        const fechaMal = a.creadoEn.split(' ');
+        const arrayBuena = fechaMal.splice(0, 4);
+
+        const dia = cambiarAEspañolDia(arrayBuena[0]);
+        const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+        const contenidoCortado = a.contenido.slice(0, 110);
+
+        const html = `
+            <li class="articulosLi">
+                <img src="${a.img}" alt="Artículo reciente">
+                <span id="top">
+                    <span class="primary">Categoría: </span>
+                    <span>${a.categoria[0].nombre}</span>
+                </span>
+                <span id="down">
+                    <span class="primary">Titulo:</span>
+                    <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
+                </span>
+                <span id="descArticuloCarousel">${contenidoCortado}</span>
+                <span id="fechaArticuloCarousel">${fecha}</span>
+                <a id="botonVermas" href="${articulosPublic + a._id}">
+                    <button class="btn btn-primary">Ver más</button>
+                </a>
+            </li>
+        `;
+
+        articulosUl.innerHTML += html;
+    })
+}
 
 fetch(usuarios + idAutor, {
     method: 'GET'
 })
     .then(resp => resp.json())
-    .then(({ usuario, articulos }) => {
-        // Poner usuario
-        nombre.innerHTML = usuario.nombre;
-        correo.innerHTML = usuario.correo;
-        titulo.innerHTML = usuario.titulo;
-        sobreMi.innerHTML = usuario.descripcion;
+    .then(({ blog, usuario, resp }) => {
+
+        ponerArticulos(usuario, resp);
+
+        const ponerPaginacion = () => {
+
+            const actual = resp.page;
+            const siguientes = resp.totalPages;
+
+            const elResto = siguientes - 1;
+
+            const newSiguiente = `${actual}${elResto}${siguientes}`;
+
+            const myFunc = num => Number(num);
+
+            const deste = Array.from(String(newSiguiente), myFunc)
+
+            deste.forEach(n => {
+                const html = `
+                    <li class="page-item">
+                        <span id="${n}" class="page-link">${n}</span>
+                    </li>
+                `;
+
+                pagination.innerHTML += html;
+            })
+
+            setTimeout(() => {
+                const pageLinks = document.querySelectorAll('.page-link');
+                const pageLink = [].slice.call(pageLinks);
+
+                pageLink.forEach(p => {
+
+                    p.addEventListener('click', () => {
+                        const paginaRequerida = p.id
+
+                        fetch(usuarios + 'page/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: idAutor, page: paginaRequerida })
+                        })
+                            .then(response => response.json())
+                            .then(resp => {
+                                ponerArticulos(usuario, resp.resp);
+                            })
+                            .catch(console.error)
+                    })
+                })
+
+            }, 500);
+        }
+
+        ponerPaginacion();
+
+        if (resp.hasNextPage === true) {
+            pagination.innerHTML += `
+                <li class="page-item">
+                    <span class="page-link" href="#" aria-label="Next">&raquo;</span>
+                </li>
+            `;
+        }
+
+        if (resp.hasPrevPage === true) {
+            pagination.innerHTML += `
+                <li class="page-item">
+                    <span class="page-link" href="#" aria-label="Previous">&laquo;</span>
+                </li>
+            `;
+        }
+
+        // Poner blog(s)
+        blog.forEach(b => {
+            blogDeUsuario.innerHTML += `${b.titulo}; `;
+        })
+
     })
     .catch(console.log)

@@ -5,6 +5,7 @@ const { generarJWT } = require('../helpers/generar-jwt');
 
 const Usuario = require('../models/usuario');
 const Articulo = require("../models/articulo");
+const Blog = require("../models/blog");
 
 const mostrarUsuarios = async (req, res = response) => {
     const estado = { estado: true };
@@ -22,16 +23,21 @@ const mostrarUsuarios = async (req, res = response) => {
 
 const mostrarUsuario = async (req, res = response) => {
 
+    // Obtener usuario
     const { id } = req.params;
     const usuario = await Usuario.findById(id);
 
+    // Obtener blog(s) del usuario
+    const blog = await Blog.find({ autor: id });
+
     // Extrae los articulos que ha hecho el usuario
     const condicion = { estado: true, autor: id }
-    await Articulo.paginate(condicion)
+    await Articulo.paginate(condicion, { populate: 'categoria' })
         .then(resp => {
             return res.status(200).json({
-                articulos: resp.docs,
-                usuario
+                resp,
+                usuario,
+                blog
             })
         })
         .catch(console.log)
@@ -102,6 +108,18 @@ const eliminarUsuario = async (req, res = response) => {
     res.json({ usuario });
 }
 
+const mostrarPerPage = async (req, res = response) => {
+    const { page, id } = req.body;
+
+    const condicion = { estado: true, autor: id }
+    await Articulo.paginate(condicion, { populate: 'categoria', page })
+        .then(resp => {
+            return res.status(200).json({
+                resp
+            })
+        })
+        .catch(console.log)
+}
 
 
 
@@ -111,5 +129,6 @@ module.exports = {
     mostrarUsuario,
     agregarUsuario,
     modificarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    mostrarPerPage
 }
