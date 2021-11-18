@@ -52,7 +52,9 @@ body.dark .userAccount .btn-outline-danger {
 
 body.dark .articuloMini {
     border: 1px solid #555;
+    background-color: #60554a;
     border-top: 10px solid orange;
+    color: white;
 }
 
 body.dark .formulario {
@@ -81,6 +83,10 @@ body.dark .formulario input {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.h80 {
+    height: 80%;
 }
 
 .hidden {
@@ -423,6 +429,7 @@ body.dark .toggle.responsive {
     width: 100%;
     height: 100%;
     background: #ffa500bd;
+    z-index: 10000;
 }
 
 .spinner > i {
@@ -570,6 +577,19 @@ body.dark .toggle.responsive {
     font-weight: 600;
 }
 
+.page-item {
+    cursor: pointer;
+}
+
+.page-link {
+    font-size: 25px !important;
+}
+
+.page-link.dark {
+    background: #555;
+    color: white !important;
+}
+
 /* Articulos */
 .articulosResultados {
     margin-left: 10px;
@@ -603,6 +623,7 @@ body.dark .toggle.responsive {
     border-radius: 10px;
     box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
     z-index: 100;
+    transition: all .5s;
 }
 
 .articuloMini > .topArticle {
@@ -630,12 +651,10 @@ body.dark .toggle.responsive {
 .topArticle > .articleText > .titleArticle {
     font-weight: 600;
     font-size: 18px;
-    color: gray;
 }
 
 .topArticle > .articleText > .descArticle {
     margin: 5px 0px;
-    color: gray;
     word-break: break-all;
 }
 
@@ -717,6 +736,20 @@ body.dark .toggle.responsive {
 #btnCrearBlog {
     margin-top: 20px;
     width: 100%;
+}
+
+.busquedaMala {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.busquedaMala > p {
+    font-weight: 600;
+    font-size: 20px;
 }
 
 /* Footer */
@@ -1412,6 +1445,21 @@ df-messenger {
         display: none;
     }
 
+}
+
+@media (max-width: 750px) {
+    .blogStructure {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menuBlog {
+        width: 100% !important;
+    }
+
+    .resultadosDeMenu {
+        width: 100%;
+    }
 }
 
 @media (max-width: 575px) {

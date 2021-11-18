@@ -15,10 +15,10 @@ const articulosPublic = (window.location.hostname.includes('localhost'))
 const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
 const toggle = document.querySelector('.toggle');
+const spinner = document.querySelector('.spinner');
 const enlaces = document.querySelector('#enlaces');
 
 const articulosUl = document.querySelector('.articulosUl');
-const articulosLi = document.querySelectorAll('.articulosLi');
 
 // Tomar ID
 const params = new URLSearchParams(location.search);
@@ -37,8 +37,13 @@ checkbox.addEventListener('change', () => {
     body.classList.toggle('dark');
     navBar.classList.toggle('dark');
     toggle.classList.toggle('responsive');
+    setTimeout(() => {
+        const articulosLi = document.querySelectorAll('.articulosLi');
+        articulosLi.forEach(a => a.classList.toggle('dark'));
 
-    articulosLi.forEach(a => a.classList.toggle('dark'));
+        const pageLinks = document.querySelectorAll('.page-link');
+        pageLinks.forEach(p => p.classList.toggle('dark'));
+    }, 50);
 })
 
 // Btns Flotantes
@@ -247,7 +252,6 @@ fetch(usuarios + idAutor, {
 
         const ponerPaginacion = () => {
 
-            const actual = resp.page;
             const siguientes = resp.totalPages;
 
             for (let i = 0; i < siguientes; i++) {
@@ -258,7 +262,7 @@ fetch(usuarios + idAutor, {
 
                 deste.forEach(n => {
                     const html = `
-                        <li class="page-item">
+                        <li class="page-item" style="margin-left: 10px;">
                             <span id="${n + 1}" class="page-link">${n + 1}</span>
                         </li>
                     `;
@@ -272,18 +276,27 @@ fetch(usuarios + idAutor, {
                         pageLink.forEach(p => {
 
                             p.addEventListener('click', () => {
-                                const paginaRequerida = p.id
 
-                                fetch(usuarios + 'page/', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ id: idAutor, page: paginaRequerida })
-                                })
-                                    .then(response => response.json())
-                                    .then(resp => {
-                                        ponerArticulos(usuario, resp.resp);
+                                spinner.classList.remove('hidden');
+
+                                setTimeout(() => {
+                                    const paginaRequerida = p.id;
+
+                                    fetch(usuarios + 'page/', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ id: idAutor, page: paginaRequerida })
                                     })
-                                    .catch(console.error)
+                                        .then(response => response.json())
+                                        .then(resp => {
+                                            ponerArticulos(usuario, resp.resp);
+                                        })
+                                        .catch(console.error)
+                                        .finally(() => {
+                                            spinner.classList.add('hidden');
+                                        })
+                                }, 500);
+
                             })
                         })
 

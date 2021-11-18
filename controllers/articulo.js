@@ -152,13 +152,25 @@ const mostrarArticulosDeBlog = async (req, res = response) => {
 
     const { blog } = req.params;
 
-    const articulo = await Articulo.find({ blog, estado: true })
-        .populate('autor', 'nombre')
+    const articulos = await Articulo.find({ blog, estado: true })
         .populate('categoria', 'nombre')
+        .populate('autor', 'nombre')
 
-    res.json(articulo);
+    res.status(200).json({ articulos });
+}
+
+const buscador = async (req, res = response) => {
+
+    const { buscar } = req.params;
+
+    const articulos = await Articulo.find({ estado: true, $or: [{ titulo: { $regex: '.*' + buscar + '.*', $options: 'i' } }, { contenido: { $regex: '.*' + buscar + '.*', $options: 'i' } }] })
+        .populate('categoria', 'nombre')
+        .populate('autor', 'nombre')
+
+    res.status(200).json(articulos)
 
 }
+
 
 
 
@@ -170,5 +182,6 @@ module.exports = {
     editarArticulo,
     eliminarArticulo,
     mostrarArticulosDeUsuario,
-    mostrarArticulosDeBlog
+    mostrarArticulosDeBlog,
+    buscador
 }

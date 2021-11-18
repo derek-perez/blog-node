@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { mostrarArticulos, mostrarArticulo, añadirArticulo, editarArticulo, eliminarArticulo, mostrarArticulosDeUsuario, mostrarUltimos3, mostrarArticulosDeBlog } = require('../controllers/articulo');
+const { mostrarArticulos, mostrarArticulo, añadirArticulo, editarArticulo, eliminarArticulo, mostrarArticulosDeUsuario, mostrarUltimos3, mostrarArticulosDeBlog, buscador } = require('../controllers/articulo');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../helpers/validar-jwt');
@@ -20,6 +20,8 @@ router.get('/:id', [
     check('id').custom(existeArticuloPorID),
     validarCampos
 ], mostrarArticulo);
+
+router.get('/buscar/:buscar', buscador);
 
 router.get('/usuario/:usuario', [
     check('usuario', 'No es un ID de Mongo válido').isMongoId(),
