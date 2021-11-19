@@ -411,6 +411,94 @@ body.dark .toggle.responsive {
     box-shadow: 3px 4px 6px rgb(0 0 0 / 50%);
 }
 
+.pocoApoco {
+    animation: pocoApoco 10s;
+    color: white;
+    text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
+}
+
+@keyframes pocoApoco {
+    0% {
+        background: #fff;
+    }
+
+    10% {
+        background: linear-gradient(to left, #fff 90%, #0d6efd 10%);
+    }
+    
+    15% {
+        background: linear-gradient(to left, #fff 85%, #0d6efd 15%);
+    }
+
+    20% {
+        background: linear-gradient(to left, #fff 80%, #0d6efd 20%);
+    }
+    
+    25% {
+        background: linear-gradient(to left, #fff 75%, #0d6efd 25%);
+    }
+
+    30% {
+        background: linear-gradient(to left, #fff 70%, #0d6efd 30%);
+    }
+    
+    35% {
+        background: linear-gradient(to left, #fff 65%, #0d6efd 35%);
+    }
+
+    40% {
+        background: linear-gradient(to left, #fff 60%, #0d6efd 40%);
+    }
+    
+    45% {
+        background: linear-gradient(to left, #fff 55%, #0d6efd 45%);
+    }
+
+    50% {
+        background: linear-gradient(to left, #fff 50%, #0d6efd 50%);
+    }
+    
+    55% {
+        background: linear-gradient(to left, #fff 45%, #0d6efd 55%);
+    }
+
+    60% {
+        background: linear-gradient(to left, #fff 40%, #0d6efd 60%);
+    }
+    
+    65% {
+        background: linear-gradient(to left, #fff 35%, #0d6efd 65%);
+    }
+
+    70% {
+        background: linear-gradient(to left, #fff 30%, #0d6efd 70%);
+    }
+    
+    75% {
+        background: linear-gradient(to left, #fff 25%, #0d6efd 75%);
+    }
+
+    80% {
+        background: linear-gradient(to left, #fff 20%, #0d6efd 80%);
+    }
+    
+    85% {
+        background: linear-gradient(to left, #fff 15%, #0d6efd 85%);
+    }
+
+    90% {
+        background: linear-gradient(to left, #fff 10%, #0d6efd 90%);
+    }
+    
+    95% {
+        background: linear-gradient(to left, #fff 5%, #0d6efd 95%);
+    }
+
+    100% {
+        background: linear-gradient(to left, #fff 0%, #0d6efd 100%);
+    }
+}
+
 /* Spinner */
 .spinner::before {
     content: "";
@@ -566,6 +654,7 @@ body.dark .toggle.responsive {
     padding: 10px;
     font-size: 18px;
     border-top: 1px solid rgb(0 0 0 / 50%);
+    cursor: pointer;
 }
 
 .listaMenuBlog > .itemBlog > i {

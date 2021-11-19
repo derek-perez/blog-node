@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { mostrarBlogs, añadirBlog, mostrarBlog, mostrarBlogDeUsuario, eliminarBlog } = require('../controllers/blogs');
+const { mostrarBlogs, añadirBlog, mostrarBlog, mostrarBlogDeUsuario, eliminarBlog, actualizarBlog } = require('../controllers/blogs');
 const { existeUsuarioPorID } = require('../helpers/db-validators');
 const { validarJWT } = require('../helpers/validar-jwt');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -20,6 +20,8 @@ router.post('/', [
     check('autor').custom(existeUsuarioPorID),
     validarCampos
 ], añadirBlog);
+
+router.put('/:id', validarJWT, actualizarBlog);
 
 router.delete('/:id', [
     validarJWT,

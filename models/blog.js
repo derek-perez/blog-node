@@ -6,7 +6,13 @@ const BlogSchema = db.Schema({
         required: [true, 'El titulo es obligatorio']
     },
     descripcion: {
-        type: String
+        type: String,
+        default: 'Este es un blog más de Blogi con contenido seguramente interesante'
+    },
+    public: {
+        type: Boolean,
+        default: true,
+        required: false
     },
     creadoEn: {
         type: String,

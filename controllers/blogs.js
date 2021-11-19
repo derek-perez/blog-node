@@ -20,18 +20,11 @@ const mostrarBlogs = async (req, res = response) => {
 
 const mostrarBlog = async (req, res = response) => {
     const { id } = req.params;
-    const estado = { estado: true, id };
+    const estado = { estado: true, _id: id };
 
-    const [total, blogs] = await Promise.all([
-        Blog.countDocuments(estado),
-        Blog.find(estado)
-        // .populate('autor', 'nombre')
-    ]);
+    const blog = await Blog.find(estado);
 
-    res.json({
-        total,
-        blogs
-    });
+    res.json(blog);
 }
 
 
@@ -88,6 +81,20 @@ const eliminarBlog = async (req, res) => {
     res.status(200).json({ msg: 'Blog eliminado correctamente' })
 }
 
+const actualizarBlog = async (req, res = response) => {
+    try {
+        const { id } = req.params;
+        const cambios = req.body;
+
+        const blogCambiado = await Blog.findByIdAndUpdate(id, cambios, { new: true });
+
+        res.status(200).json(blogCambiado);
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 
 module.exports = {
@@ -95,5 +102,6 @@ module.exports = {
     mostrarBlogs,
     mostrarBlogDeUsuario,
     añadirBlog,
-    eliminarBlog
+    eliminarBlog,
+    actualizarBlog
 }

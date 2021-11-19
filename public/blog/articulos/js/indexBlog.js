@@ -106,7 +106,10 @@ window.addEventListener('load', () => {
 
 const darChanceDeIrse = () => {
     login.classList.remove('hidden');
+
     irARegister.href = public + 'auth.html';
+    irARegister.classList.add('pocoApoco');
+
     setTimeout(() => {
         window.location.href = public + 'auth.html';
     }, 10000);
@@ -274,6 +277,13 @@ const aparecedorDeResultado = () => {
 }
 
 window.addEventListener('load', aparecedorDeResultado)
+
+// Ir a configuracion
+const configuracionLateral = document.querySelector('#configuracion');
+
+configuracionLateral.addEventListener('click', () => {
+    location.href = public + 'blog/configuracion/'
+})
 
 // Mostrar blog seleccionado desde la URL
 let actualUrl = window.location.href;
@@ -744,9 +754,11 @@ enviar.addEventListener('click', () => {
 
         const imgPortadaUrlBtn = document.querySelector('.imgPortadaUrl');
         const imgPortadaUrl = document.querySelector('#imgPortadaUrl');
-        const imgPortadaFile = document.querySelector('#imgPortadaFile');
+        const imgPortadaFileArchivo = document.querySelector('#imgPortadaFile');
+        const imgPortadaFile = document.querySelector('.imgPortadaFile');
 
         const imgConUrl = () => {
+
             const urlImg = imgPortadaUrl.value;
 
             if (urlImg.includes('data:image/')) {
@@ -781,44 +793,7 @@ enviar.addEventListener('click', () => {
                     body: JSON.stringify(data)
                 })
                     .then(resp => resp.json())
-                    .then(a => {
-                        // Se crea el string para la fecha
-                        const fechaMal = a.creadoEn.split(' ');
-                        const arrayBuena = fechaMal.splice(0, 4);
-
-                        const dia = cambiarAEspañolDia(arrayBuena[0]);
-                        const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                        const html = `
-                            <div class="articuloMini">
-                                <div class="topArticle">
-                                    <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                    <div class="articleText">
-                                        <span class="titleArticle">${a.titulo}</span>
-                                        <span class="descArticle">${a.contenido}</span>
-                                    </div>
-                                </div>
-                                <span class="fechaArticle">${fecha}</span>
-                                <div class="buttons">
-                                    <div class="btnRow">
-                                        <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                            <button class="wC btn btn-primary">Ver artículo</button>
-                                        </a>
-                                        <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                    </div>
-                                    <div class="btnRow">
-                                        <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                        <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-
-                        articulosResultados.innerHTML += html;
-                        location.reload();
-                    })
+                    .then(a => location.reload())
                     .catch(console.error)
                     .finally(() => {
                         location.reload()
@@ -832,18 +807,19 @@ enviar.addEventListener('click', () => {
 
             var reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = async function (e) {
                 const imgFile = e.target.result;
 
                 const data = { "archivo": `${imgFile}` };
 
-                fetch(uploadIMG + 'subir', {
+                await fetch(uploadIMG + 'subir', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 })
                     .then(resp => resp.json())
-                    .then(url => {
+                    .then(async url => {
+
                         editArticulo.classList.toggle('hidden');
                         spinner.classList.toggle('hidden');
 
@@ -865,50 +841,13 @@ enviar.addEventListener('click', () => {
                             "Content-Type": "application/json"
                         }
 
-                        fetch(articulos, {
+                        await fetch(articulos, {
                             method: 'POST',
                             headers: headersList,
                             body: JSON.stringify(data)
                         })
                             .then(resp => resp.json())
-                            .then(a => {
-                                // Se crea el string para la fecha
-                                const fechaMal = a.creadoEn.split(' ');
-                                const arrayBuena = fechaMal.splice(0, 4);
-
-                                const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                const html = `
-                                    <div class="articuloMini">
-                                        <div class="topArticle">
-                                            <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                            <div class="articleText">
-                                                <span class="titleArticle">${a.titulo}</span>
-                                                <span class="descArticle">${a.contenido}</span>
-                                            </div>
-                                        </div>
-                                        <span class="fechaArticle">${fecha}</span>
-                                        <div class="buttons">
-                                            <div class="btnRow">
-                                                <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                    <button class="wC btn btn-primary">Ver artículo</button>
-                                                </a>
-                                                <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                            </div>
-                                            <div class="btnRow">
-                                                <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-
-                                articulosResultados.innerHTML += html;
-                                location.reload();
-                            })
+                            .then(a => location.reload())
                             .catch(console.error)
                             .finally(() => {
                                 location.reload()
@@ -916,6 +855,8 @@ enviar.addEventListener('click', () => {
                     })
                     .catch(console.error)
             }
+
+            reader.readAsDataURL(imgPortadaFileArchivo.files[0]);
         }
 
         imgPortadaUrlBtn.addEventListener('click', imgConUrl);
@@ -1128,7 +1069,8 @@ const mostrarYFuncionesParaArticulos = (arts) => {
 
                                         const imgPortadaUrlBtn = document.querySelector('.imgPortadaUrl');
                                         const imgPortadaUrl = document.querySelector('#imgPortadaUrl');
-                                        const imgPortadaFile = document.querySelector('#imgPortadaFile');
+                                        const imgPortadaFileArchivo = document.querySelector('#imgPortadaFile');
+                                        const imgPortadaFile = document.querySelector('.imgPortadaFile');
 
                                         const imgConUrl = () => {
                                             const urlImg = imgPortadaUrl.value;
@@ -1164,44 +1106,7 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                     body: JSON.stringify(data)
                                                 })
                                                     .then(resp => resp.json())
-                                                    .then(a => {
-                                                        // Se crea el string para la fecha
-                                                        const fechaMal = a.creadoEn.split(' ');
-                                                        const arrayBuena = fechaMal.splice(0, 4);
-
-                                                        const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                        const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                        const html = `
-                                                            <div class="articuloMini">
-                                                                <div class="topArticle">
-                                                                    <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                    <div class="articleText">
-                                                                        <span class="titleArticle">${a.titulo}</span>
-                                                                        <span class="descArticle">${a.contenido}</span>
-                                                                    </div>
-                                                                </div>
-                                                                <span class="fechaArticle">${fecha}</span>
-                                                                <div class="buttons">
-                                                                    <div class="btnRow">
-                                                                        <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                            <button class="wC btn btn-primary">Ver artículo</button>
-                                                                        </a>
-                                                                        <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                    </div>
-                                                                    <div class="btnRow">
-                                                                        <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                        <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        `;
-
-                                                        articulosResultados.innerHTML += html;
-                                                        imgParaArticulo.classList.toggle('hidden')
-                                                    })
+                                                    .then(a => location.reload())
                                                     .then(location.reload())
                                                     .catch(console.error)
                                                     .finally(() => {
@@ -1213,7 +1118,7 @@ const mostrarYFuncionesParaArticulos = (arts) => {
 
                                         }
 
-                                        const imgFile = () => {
+                                        const imgFile = async () => {
 
                                             var reader = new FileReader();
 
@@ -1228,9 +1133,8 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                     body: JSON.stringify(data)
                                                 })
                                                     .then(resp => resp.json())
-                                                    .then(url => {
+                                                    .then(async url => {
                                                         editArticulo.classList.toggle('hidden');
-                                                        spinner.classList.toggle('hidden');
 
                                                         const ids = idCtg.shift();
 
@@ -1240,9 +1144,6 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                             'img': `${url}`,
                                                             'htmlContenido': `${resultado.innerHTML}`,
                                                             'textarea': `${Texto.value}`,
-                                                            'blog': `${blogId}`,
-                                                            'categoria': `${ctgAModificar}`,
-                                                            'autor': `${idDeUsuario}`,
                                                         };
 
                                                         let headersList = {
@@ -1250,58 +1151,20 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                             "Content-Type": "application/json"
                                                         }
 
-                                                        fetch(articulos + idParaModificar, {
+                                                        await fetch(articulos + idParaModificar, {
                                                             method: 'PUT',
                                                             headers: headersList,
                                                             body: JSON.stringify(data)
                                                         })
                                                             .then(resp => resp.json())
-                                                            .then(a => {
-                                                                // Se crea el string para la fecha
-                                                                const fechaMal = a.creadoEn.split(' ');
-                                                                const arrayBuena = fechaMal.splice(0, 4);
-
-                                                                const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                                                const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                                                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                                                const html = `
-                                                                    <div class="articuloMini">
-                                                                        <div class="topArticle">
-                                                                            <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                                                                            <div class="articleText">
-                                                                                <span class="titleArticle">${a.titulo}</span>
-                                                                                <span class="descArticle">${a.contenido}</span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span class="fechaArticle">${fecha}</span>
-                                                                        <div class="buttons">
-                                                                            <div class="btnRow">
-                                                                                <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                                                                    <button class="wC btn btn-primary">Ver artículo</button>
-                                                                                </a>
-                                                                                <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                                                                            </div>
-                                                                            <div class="btnRow">
-                                                                                <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                                                                <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                `;
-
-                                                                articulosResultados.innerHTML += html;
-                                                                imgParaArticulo.classList.toggle('hidden')
-                                                            })
                                                             .then(location.reload())
                                                             .catch(console.error)
-                                                            .finally(() => {
-                                                                location.reload()
-                                                            })
+                                                            .finally(() => location.reload())
                                                     })
                                                     .catch(console.error)
                                             }
+
+                                            reader.readAsDataURL(imgPortadaFileArchivo.files[0]);
                                         }
 
                                         imgPortadaUrlBtn.addEventListener('click', imgConUrl);
@@ -1459,6 +1322,8 @@ setTimeout(() => {
 
                 blogId = idDeBlog;
 
+                localStorage.setItem('blog', idDeBlog);
+
                 blogIdActual.innerHTML = nombreDeBlog;
                 blogIdActual.id = idDeBlog;
 
@@ -1482,6 +1347,9 @@ setTimeout(() => {
                     const blogRequerido = b.id;
 
                     blogId = blogRequerido;
+
+                    localStorage.removeItem('blog');
+                    localStorage.setItem('blog', blogRequerido);
 
                     blogIdActual.innerHTML = b.title;
                     blogIdActual.id = blogRequerido;

@@ -73,7 +73,10 @@ window.addEventListener('load', () => {
 
 const darChanceDeIrse = () => {
     login.classList.remove('hidden');
+
     irARegister.href = public + 'auth.html';
+    irARegister.classList.add('pocoApoco');
+
     setTimeout(() => {
         window.location.href = public + 'auth.html';
     }, 10000);
@@ -97,6 +100,14 @@ checkbox.addEventListener('change', () => {
     windowDiv.forEach(w => w.classList.toggle('dark'));
 })
 
+// Menú responsive
+const toggle = document.querySelector('.toggle');
+const enlaces = document.querySelector('#enlaces');
+
+toggle.addEventListener('click', () => {
+    enlaces.classList.toggle('active')
+    toggle.classList.toggle('active')
+})
 
 // Funciones de botones laterales
 const caracteristicasGeneralesLateral = document.getElementById('caracteristicasGeneralesLateral');
