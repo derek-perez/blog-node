@@ -19,6 +19,10 @@ const blogPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/blog.html?id='
     : 'https://blogi-node.herokuapp.com/posts/blog.html?id=';
 
+const buscadorUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/busquedas/?q='
+    : 'https://blogi-node.herokuapp.com/busquedas/?q';
+
 const articulosPublicGeneral = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html'
     : 'https://blogi-node.herokuapp.com/posts/arts.html';
@@ -36,6 +40,7 @@ toggle.onclick = () => {
 const checkbox = document.getElementById('check');
 const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
+const spinner = document.querySelector('.spinner');
 const articulosEnGeneral = document.querySelector('.articulosEnGeneral');
 const articulo = document.querySelector('.articulo');
 const tituloDark = document.querySelector('#titulo');
@@ -79,6 +84,22 @@ abrirIconos.addEventListener('click', () => {
     abrirIconos.classList.toggle('mover');
     abrirIconos.classList.toggle('animate__zoomInDown');
     abrirIconos.classList.toggle('animate__bounceInRight');
+})
+
+// Buscador
+const btnBuscador = document.querySelector('.btnBucador');
+const buscar = document.querySelector('#buscar');
+
+btnBuscador.addEventListener('click', () => {
+    spinner.classList.toggle('hidden');
+
+    if (buscar.value === '') {
+        location.reload();
+    }
+
+    setTimeout(() => {
+        location.href = buscadorUrl + buscar.value;
+    }, 500);
 })
 
 // Poner articulos de usuario

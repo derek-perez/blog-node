@@ -1,3 +1,13 @@
+body.dark {
+    background-color: #333;
+    color: white;
+}
+
+body.dark .articulo {
+    background-color: #356;
+    color: white;
+}
+
 .hidden {
     display: none !important;
     transition: .5s;
@@ -44,6 +54,10 @@
 /* NavBar */
 .navBar.dark {
     background: #555 !important;
+    color: white;
+}
+
+.navBar.dark #buscar {
     color: white;
 }
 
@@ -222,7 +236,7 @@ body.dark .toggle.responsive {
 
 /* Articulos */
 .articulos {
-    margin-top: 50px;
+    margin-top: 25px;
     min-height: 80vh;
     width: 100%;
     display: flex;
@@ -236,6 +250,20 @@ body.dark .toggle.responsive {
     text-align: center;
 }
 
+.busquedaMala {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.busquedaMala > p {
+    font-weight: 600;
+    font-size: 20px;
+}
+
 .articulo.dark {
     background-color: #356;
 }
@@ -246,16 +274,16 @@ body.dark .toggle.responsive {
     align-items: center;
     justify-content: center;
     background-color: #42a1d0;
+    width: calc(50% - 2rem);
+    min-height: 460px;
     color: white;
-    text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
     border: 1px solid gray;
     border-top: 20px solid orange;
-    margin: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
     border-radius: 5px;
     box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
-    padding: 15px;
-    width: calc(50% - 1.5rem);
-    min-height: 460px;
+    text-shadow: 2px 2px 2px rgb(0 0 0 / 50%);
 }
 
 .articulo > img {

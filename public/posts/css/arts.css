@@ -65,6 +65,27 @@ body.dark .categoriasDeArticulo {
     transition: .5s;
 }
 
+/* Spinner */
+.spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffa500e8;
+    z-index: 10000;
+}
+
+.spinner > i {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 92px;
+    color: white;
+    text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+}
+
 /* NavBar */
 .navBar.dark {
     background: #555 !important;

@@ -11,6 +11,10 @@ const articulosPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
 
+const buscadorUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/busquedas/?q='
+    : 'https://blogi-node.herokuapp.com/busquedas/?q';
+
 // Variables
 const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
@@ -62,6 +66,22 @@ abrirIconos.addEventListener('click', () => {
     abrirIconos.classList.toggle('mover');
     abrirIconos.classList.toggle('animate__zoomInDown');
     abrirIconos.classList.toggle('animate__bounceInRight');
+})
+
+// Buscador
+const btnBuscador = document.querySelector('.btnBuscador');
+const buscar = document.querySelector('#buscar');
+
+btnBuscador.addEventListener('click', () => {
+    spinner.classList.toggle('hidden');
+
+    if (buscar.value === '') {
+        location.reload();
+    }
+
+    setTimeout(() => {
+        location.href = buscadorUrl + buscar.value;
+    }, 500);
 })
 
 // Fetch para traer todos los artículos del usuario

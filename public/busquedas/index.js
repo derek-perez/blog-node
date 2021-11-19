@@ -11,6 +11,10 @@ const blogsPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/blog.html?id='
     : 'https://blogi-node.herokuapp.com/posts/blog.html?id=';
 
+const buscadorUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/busquedas/?q='
+    : 'https://blogi-node.herokuapp.com/busquedas/?q';
+
 // Variables
 const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
@@ -48,6 +52,30 @@ abrirIconos.addEventListener('click', () => {
 // Obtener parámetro par la búsqueda
 const params = new URLSearchParams(location.search);
 const busqueda = params.get('q');
+
+// Buscador
+const btnBuscador = document.querySelector('.btnBuscador');
+const buscar = document.querySelector('#buscar');
+
+btnBuscador.addEventListener('click', () => {
+    spinner.classList.toggle('hidden');
+
+    if (buscar.value === '') {
+        location.reload();
+    }
+
+    setTimeout(() => {
+        location.href = buscadorUrl + buscar.value;
+    }, 500);
+})
+
+// Modo oscuro
+const checkbox = document.querySelector('#check');
+
+checkbox.addEventListener('change', () => {
+    body.classList.toggle('dark');
+    navBar.classList.toggle('dark');
+})
 
 // Función para cambiar de Inglés a Español
 const diasEspañol = [
@@ -137,6 +165,27 @@ fetch(articulos + 'buscar/' + busqueda, {
 })
     .then(resp => resp.json())
     .then(articulos => {
+
+        if (articulos.length === 0) {
+            const html = `
+                <li style="padding: 10px;" class="busquedaMala">
+                    <p style="text-align: center;">No hay artículos que coincidan con la búsqueda</p>
+                    <br>
+                    <img src="../img/void.png" alt="Todavía no tienes artículos">
+                    <br>
+                    <strong>Sugerencias:</strong>
+                    <ul>
+                    <li>Asegúrese de escribir las palabras correctamente.</li>
+                    <li>Escriba palabras menos específicas.</li>
+                    <li>No escriba muchas palabras para la búsqueda.</li>
+                    </ul>
+                    <br>
+                </li>
+            `;
+
+            articulosUl.innerHTML = html;
+        }
+
         articulos.forEach(a => {
 
             // Se crea el string para la fecha
