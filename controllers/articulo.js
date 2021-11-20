@@ -7,7 +7,7 @@ const Usuario = require('../models/usuario');
 const Blog = require('../models/blog');
 
 const mostrarArticulos = async (req, res = response) => {
-    const estado = { estado: true };
+    const estado = { public: true };
 
     const [total, articulos] = await Promise.all([
         Articulo.countDocuments(estado),
@@ -23,9 +23,9 @@ const mostrarArticulos = async (req, res = response) => {
 }
 
 const mostrarUltimos3 = async (req, res = response) => {
-    const estado = { estado: true };
+    const estado = { public: true };
 
-    Articulo.find(estado).limit(3).sort({ creadoEn: 1 })
+    Articulo.find(estado).limit(3).sort({ creadoEn: -1 })
         .populate('autor', 'nombre')
         .populate('categoria', 'nombre')
         .then(collection => {
@@ -47,7 +47,7 @@ const mostrarArticulo = async (req, res = response) => {
 const añadirArticulo = async (req, res = response) => {
 
     try {
-        const { titulo, contenido, htmlContenido, textarea, img, autor, blog, categoria } = req.body;
+        const { titulo, contenido, htmlContenido, textarea, img, autor, blog, categoria, public } = req.body;
 
         const creadoEn = new Date();
 
@@ -63,6 +63,7 @@ const añadirArticulo = async (req, res = response) => {
             textarea,
             creadoEn,
             img,
+            public,
             autor: idDeAutor,
             blog: idDeBlog,
             categoria: idDeCtg,
@@ -74,7 +75,7 @@ const añadirArticulo = async (req, res = response) => {
         await articulo.save();
 
         // Cuenta cuantos articulos hay en la categoria
-        const estado = { estado: true, categoria }
+        const estado = { categoria }
         const total = await Articulo.countDocuments(estado);
 
         // Cambia la cantidad de articulos en "numberOfArticles"
@@ -140,7 +141,7 @@ const eliminarArticulo = async (req, res = response) => {
 const mostrarArticulosDeUsuario = async (req, res = response) => {
 
     const { usuario } = req.params;
-    const articulo = await Articulo.find({ autor: usuario, estado: true })
+    const articulo = await Articulo.find({ autor: usuario, public: true })
         .populate('autor', 'nombre')
         .populate('categoria', 'nombre')
 
@@ -163,7 +164,7 @@ const buscador = async (req, res = response) => {
 
     const { buscar } = req.params;
 
-    const articulos = await Articulo.find({ estado: true, $or: [{ titulo: { $regex: '.*' + buscar + '.*', $options: 'i' } }, { contenido: { $regex: '.*' + buscar + '.*', $options: 'i' } }] })
+    const articulos = await Articulo.find({ public: true, $or: [{ titulo: { $regex: '.*' + buscar + '.*', $options: 'i' } }, { contenido: { $regex: '.*' + buscar + '.*', $options: 'i' } }] })
         .populate('categoria', 'nombre')
         .populate('autor', 'nombre')
 

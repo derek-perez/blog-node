@@ -77,7 +77,8 @@ const mostrarArticulosDeCategoria = async (req, res = response) => {
 
     // Toma los articulos que estén en la categoría
     const { id } = req.params;
-    const estado = { estado: true, categoria: id };
+    const estado = { public: true, categoria: id };
+
     const [total, articulos] = await Promise.all([
         Articulo.countDocuments(estado),
         Articulo.find(estado)

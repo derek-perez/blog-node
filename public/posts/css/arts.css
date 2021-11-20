@@ -548,6 +548,7 @@ body.dark .categoriasDeArticulo {
     align-items: center;
     justify-content: center;
     min-width: 325px;
+    width: 33%;
     border: 1px solid rgb(0 0 0 / 30%);
     border-top: 10px solid orange;
     margin: 5px 10px;

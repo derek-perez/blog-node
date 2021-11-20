@@ -22,6 +22,10 @@ const ArticuloSchema = db.Schema({
         type: String,
         required: true
     },
+    public: {
+        type: Boolean,
+        default: true
+    },
     estado: {
         type: Boolean,
         default: true

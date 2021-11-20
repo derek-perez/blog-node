@@ -83,6 +83,24 @@ checkbox.addEventListener('change', () => {
     navBar.classList.toggle('dark');
 })
 
+// Btns Flotantes
+const abrirIconos = document.querySelector('.abrirIconos');
+const btnsFlotantes = document.querySelector('.btnsFlotantes');
+const chatbot = document.querySelector('.chatbot');
+
+abrirIconos.addEventListener('click', () => {
+    btnsFlotantes.classList.toggle('hidden');
+    btnsFlotantes.classList.toggle('animate__bounceInRight');
+    chatbot.classList.toggle('hidden');
+    chatbot.classList.toggle('animate__bounceInRight');
+
+    abrirIconos.classList.toggle('fa-ellipsis-h');
+    abrirIconos.classList.toggle('fa-chevron-down');
+    abrirIconos.classList.toggle('mover');
+    abrirIconos.classList.toggle('animate__zoomInDown');
+    abrirIconos.classList.toggle('animate__bounceInRight');
+})
+
 // Fetch para mostrar propiedades del blog
 const idDeBlog = localStorage.getItem('blog');
 const nombre = document.querySelector('#nombre');
@@ -97,6 +115,11 @@ fetch(blogUrl + idDeBlog, {
 
         nombre.value = blogTraido.titulo;
         descripcion.value = blogTraido.descripcion;
+
+        if (blogTraido.public !== true) {
+            publicCheck.checked = true;
+            boolean = false
+        }
 
     })
     .catch(console.log)
@@ -126,6 +149,15 @@ borrarBtn.addEventListener('click', () => {
 
 })
 
+// Ver si es PUBLICO o NO
+const publicCheck = document.querySelector('#public');
+let boolean = true;
+
+publicCheck.addEventListener('change', () => {
+    boolean = !boolean;
+    console.log(boolean)
+})
+
 // Actualizar blog
 const guardar = document.querySelector('.guardar');
 
@@ -133,7 +165,8 @@ guardar.addEventListener('click', () => {
 
     const data = {
         'titulo': nombre.value,
-        'descripcion': descripcion.value
+        'descripcion': descripcion.value,
+        'public': boolean
     }
 
     fetch(blogUrl + idDeBlog, {

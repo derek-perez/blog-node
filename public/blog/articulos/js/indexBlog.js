@@ -663,6 +663,8 @@ fetch(obtenerCategorias, {
 
     })
 
+let boolean = true;
+
 // Botón que crea articulo
 enviar.addEventListener('click', () => {
 
@@ -674,73 +676,44 @@ enviar.addEventListener('click', () => {
 
     // Si no quiere una img principal
     noPortada.addEventListener('click', () => {
+
         editArticulo.classList.toggle('hidden');
         spinner.classList.toggle('hidden');
 
-        const ids = idCtg.shift();
-
-        const data = {
-            'titulo': `${tituloDeArticulo.value}`,
-            'contenido': `${resultado.innerText}`,
-            'htmlContenido': `${resultado.innerHTML}`,
-            'textarea': `${Texto.value}`,
-            'blog': `${blogId}`,
-            'categoria': `${ids}`,
-            'autor': `${idDeUsuario}`,
-        };
-
-        let headersList = {
-            "x-token": `${token}`,
-            "Content-Type": "application/json"
-        }
-
-        fetch(articulos, {
-            method: 'POST',
-            headers: headersList,
-            body: JSON.stringify(data)
+        fetch(blogUrl + blogId, {
+            method: 'GET'
         })
             .then(resp => resp.json())
-            .then(a => {
-                // Se crea el string para la fecha
-                const fechaMal = a.creadoEn.split(' ');
-                const arrayBuena = fechaMal.splice(0, 4);
+            .then(blog => {
 
-                const dia = cambiarAEspañolDia(arrayBuena[0]);
-                const mes = cambiarAEspañolMes(arrayBuena[1]);
+                const ids = idCtg.shift();
 
-                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+                const data = {
+                    'titulo': `${tituloDeArticulo.value}`,
+                    'contenido': `${resultado.innerText}`,
+                    'htmlContenido': `${resultado.innerHTML}`,
+                    'textarea': `${Texto.value}`,
+                    'blog': `${blogId}`,
+                    'categoria': `${ids}`,
+                    'autor': `${idDeUsuario}`,
+                    'public': `${boolean}`,
+                };
 
-                const html = `
-                    <div class="articuloMini">
-                        <div class="topArticle">
-                            <img src="${a.img}" alt="Imagen de articulo" class="imgArticle">
-                            <div class="articleText">
-                                <span class="titleArticle">${a.titulo}</span>
-                                <span class="descArticle">${a.contenido}</span>
-                            </div>
-                        </div>
-                        <span class="fechaArticle">${fecha}</span>
-                        <div class="buttons">
-                            <div class="btnRow">
-                                <a class="btnArticulo" href="${articulosUrl + a._id}">
-                                    <button class="wC btn btn-primary">Ver artículo</button>
-                                </a>
-                                <button id="${a._id}" class="btnArticulo actualizarArt btn btn-warning">Editar artículo</button>
-                            </div>
-                            <div class="btnRow">
-                                <button id="${a._id}" class="btnArticulo btn btn-success">Compartir artículo</button>
-                                <button id="${a._id}" class="btnArticulo borrarArticulo btn btn-danger">Borrar artículo</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                let headersList = {
+                    "x-token": `${token}`,
+                    "Content-Type": "application/json"
+                }
 
-                articulosResultados.innerHTML += html;
+                fetch(articulos, {
+                    method: 'POST',
+                    headers: headersList,
+                    body: JSON.stringify(data)
+                })
+                    .then(location.reload())
+                    .catch(console.error)
             })
-            .catch(console.error)
-            .finally(() => {
-                location.reload()
-            })
+            .catch(console.log)
+
     })
 
     // Si quiere que tenga img de Portada...
@@ -780,6 +753,7 @@ enviar.addEventListener('click', () => {
                     'blog': `${blogId}`,
                     'categoria': `${ids}`,
                     'autor': `${idDeUsuario}`,
+                    'public': `${boolean}`,
                 };
 
                 let headersList = {
@@ -793,7 +767,7 @@ enviar.addEventListener('click', () => {
                     body: JSON.stringify(data)
                 })
                     .then(resp => resp.json())
-                    .then(a => location.reload())
+                    .then(location.reload())
                     .catch(console.error)
                     .finally(() => {
                         location.reload()
@@ -834,6 +808,7 @@ enviar.addEventListener('click', () => {
                             'blog': `${blogId}`,
                             'categoria': `${ids}`,
                             'autor': `${idDeUsuario}`,
+                            'public': `${boolean}`,
                         };
 
                         let headersList = {
@@ -1093,6 +1068,7 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                     'blog': `${blogId}`,
                                                     'categoria': `${ctgAModificar}`,
                                                     'autor': `${idDeUsuario}`,
+                                                    'public': `${boolean}`,
                                                 };
 
                                                 let headersList = {
@@ -1144,6 +1120,7 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                             'img': `${url}`,
                                                             'htmlContenido': `${resultado.innerHTML}`,
                                                             'textarea': `${Texto.value}`,
+                                                            'public': `${boolean}`,
                                                         };
 
                                                         let headersList = {
@@ -1182,6 +1159,7 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                             'htmlContenido': `${resultado.innerHTML}`,
                                             'blog': `${blogId}`,
                                             'textarea': `${Texto.value}`,
+                                            'public': `${boolean}`,
                                         };
 
                                         let headersList = {
@@ -1320,6 +1298,10 @@ setTimeout(() => {
                 const idDeBlog = bC._id;
                 const nombreDeBlog = bC.titulo;
 
+                const booleanBlog = bC.public;
+
+                booleanBlog === false ? boolean = false : '';
+
                 blogId = idDeBlog;
 
                 localStorage.setItem('blog', idDeBlog);
@@ -1350,6 +1332,10 @@ setTimeout(() => {
 
                     localStorage.removeItem('blog');
                     localStorage.setItem('blog', blogRequerido);
+
+                    const booleanBlog = b.public;
+
+                    booleanBlog === false ? boolean = false : '';
 
                     blogIdActual.innerHTML = b.title;
                     blogIdActual.id = blogRequerido;
@@ -1412,7 +1398,7 @@ const buscadorFunction = () => {
         })
             .then(resp => resp.json())
             .then(articulos => {
-                console.log(articulos)
+
                 if (articulos.length !== 0) {
                     mostrarYFuncionesParaArticulos(articulos)
                 } else {
