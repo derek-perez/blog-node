@@ -64,6 +64,10 @@ body > h1 {
     width: 100%;
 }
 
+#cerrarSesion {
+    margin-top: calc(10px);
+}
+
 .abcRioButton {
     width: 100% !important;
 }

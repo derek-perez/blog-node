@@ -192,12 +192,13 @@ const cambiarAEspañolMes = (mes) => {
     return mesBueno;
 }
 
-// Fetch para últimos 3
+// Fetch para tutriales
 fetch(tutoriales + '6186efa6cf94729df2c6fa9e', {
     method: 'GET'
 })
     .then(resp => resp.json())
     .then(({ articulos }) => {
+
         articulos.forEach(a => {
 
             // Se crea el string para la fecha

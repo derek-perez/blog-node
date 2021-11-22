@@ -604,13 +604,14 @@ body.dark .toggle.responsive {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 274px;
-    background-color: white;
     display: flex;
     flex-direction: column;
+    width: 50%;
+    background-color: white;
     border: 1px solid rgb(0 0 0 / 50%);
     border-radius: 5px;
     padding: 10px;
+    font-size: 20px;
     box-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
 }
 
@@ -620,6 +621,10 @@ body.dark .toggle.responsive {
 }
 
 .tusBlogs > .blogActualLista {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     margin-bottom: 10px;
     padding: 10px;
     border-top: 1px solid rgb(0 0 0 / 50%);
@@ -627,15 +632,13 @@ body.dark .toggle.responsive {
     transition: .5s;
 }
 
-.tusBlogs > .blogActualLista > span {
+.tusBlogs > .blogActualLista > p {
+    background: rgb(201 201 201 / 48%);
+    text-align: center;
+    font-size: 22px;
+    width: calc(50% - 1.6rem);
     padding: 5px;
-    margin-bottom: 10px !important;
-}
-
-.tusBlogs > .blogActualLista > span:hover {
-    background-color: rgb(201, 201, 201);
-    border-radius: 10px;
-    transition: .5s;
+    margin: 0;
 }
 
 .tusBlogs > .crearBlog > a {

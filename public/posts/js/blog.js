@@ -3,6 +3,10 @@ const articulos = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/articulos/'
     : 'https://blogi-node.herokuapp.com/api/articulos/';
 
+const blog = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/blog/'
+    : 'https://blogi-node.herokuapp.com/api/blog/';
+
 const usuarios = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/usuarios/'
     : 'https://blogi-node.herokuapp.com/api/usuarios/';
@@ -228,37 +232,47 @@ const ponerArticulos = (usuario, resp) => {
 
     articulos.forEach(a => {
 
-        // Se crea el string para la fecha
-        const fechaMal = a.creadoEn.split(' ');
-        const arrayBuena = fechaMal.splice(0, 4);
+        // Fetch para ver si el blog existe
+        fetch(blog + a.blog[0], {
+            method: 'GET'
+        })
+            .then(resp => resp.json())
+            .then(b => {
+                if (b.length !== 0) {
+                    // Se crea el string para la fecha
+                    const fechaMal = a.creadoEn.split(' ');
+                    const arrayBuena = fechaMal.splice(0, 4);
 
-        const dia = cambiarAEspañolDia(arrayBuena[0]);
-        const mes = cambiarAEspañolMes(arrayBuena[1]);
+                    const dia = cambiarAEspañolDia(arrayBuena[0]);
+                    const mes = cambiarAEspañolMes(arrayBuena[1]);
 
-        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+                    let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
 
-        const contenidoCortado = a.contenido.slice(0, 110);
+                    const contenidoCortado = a.contenido.slice(0, 110);
 
-        const html = `
-            <li class="articulosLi">
-                <img src="${a.img}" alt="Artículo reciente">
-                <span id="top">
-                    <span class="primary">Categoría: </span>
-                    <span>${a.categoria[0].nombre}</span>
-                </span>
-                <span id="down">
-                    <span class="primary">Titulo:</span>
-                    <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
-                </span>
-                <span id="descArticuloCarousel">${contenidoCortado}</span>
-                <span id="fechaArticuloCarousel">${fecha}</span>
-                <a id="botonVermas" href="${articulosPublic + a._id}">
-                    <button class="btn btn-primary">Ver más</button>
-                </a>
-            </li>
-        `;
+                    const html = `
+                        <li class="articulosLi">
+                            <img src="${a.img}" alt="Artículo reciente">
+                            <span id="top">
+                                <span class="primary">Categoría: </span>
+                                <span>${a.categoria[0].nombre}</span>
+                            </span>
+                            <span id="down">
+                                <span class="primary">Titulo:</span>
+                                <span class="secondary" id="tituloArticuloCarousel">${a.titulo}</span>
+                            </span>
+                            <span id="descArticuloCarousel">${contenidoCortado}</span>
+                            <span id="fechaArticuloCarousel">${fecha}</span>
+                            <a id="botonVermas" href="${articulosPublic + a._id}">
+                                <button class="btn btn-primary">Ver más</button>
+                            </a>
+                        </li>
+                    `;
 
-        articulosUl.innerHTML += html;
+                    articulosUl.innerHTML += html;
+                }
+            })
+            .catch(console.log)
     })
 }
 

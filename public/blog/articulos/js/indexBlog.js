@@ -1193,6 +1193,7 @@ const mostrarYFuncionesParaArticulos = (arts) => {
     })
 }
 
+// Crear blog
 crearBlog.addEventListener('click', () => {
     creacionDeBlog.classList.toggle('hidden');
 
@@ -1217,6 +1218,19 @@ crearBlog.addEventListener('click', () => {
             .then(location.reload())
             .catch(console.log)
     })
+})
+
+// Borrar blog
+const borrarBlog = document.querySelector('.borrarBlog');
+
+borrarBlog.addEventListener('click', () => {
+    fetch(blogUrl + localStorage.getItem('blog'), {
+        method: 'DELETE',
+        headers: { 'x-token': token }
+    })
+        .then(resp => resp.json())
+        .then(location.reload())
+        .catch(console.log)
 })
 
 // Poner blog
@@ -1300,7 +1314,7 @@ setTimeout(() => {
 
                 const booleanBlog = bC.public;
 
-                booleanBlog === false ? boolean = false : '';
+                booleanBlog === false ? boolean = false : boolean = true;
 
                 blogId = idDeBlog;
 
@@ -1310,7 +1324,7 @@ setTimeout(() => {
                 blogIdActual.id = idDeBlog;
 
                 const html = `
-                    <span class="cambioDeBlog" title="${nombreDeBlog}" id="${idDeBlog}">${nombreDeBlog}</span>
+                    <p class="cambioDeBlog" title="${nombreDeBlog},${booleanBlog}" id="${idDeBlog}">${nombreDeBlog}</p>
                 `;
 
                 blogActualLista.innerHTML += html;
@@ -1323,6 +1337,8 @@ setTimeout(() => {
             const cambiosDeBlog = document.querySelectorAll('.cambioDeBlog');
             const cambioDeBlog = [].slice.call(cambiosDeBlog);
 
+            const blogDelLS = localStorage.getItem('blog');
+
             cambioDeBlog.forEach(b => {
 
                 b.addEventListener('click', () => {
@@ -1333,12 +1349,14 @@ setTimeout(() => {
                     localStorage.removeItem('blog');
                     localStorage.setItem('blog', blogRequerido);
 
-                    const booleanBlog = b.public;
+                    const bTitle = b.title.split(',');
 
-                    booleanBlog === false ? boolean = false : '';
-
-                    blogIdActual.innerHTML = b.title;
+                    blogIdActual.innerHTML = bTitle[0];
                     blogIdActual.id = blogRequerido;
+
+                    const booleanBlog = Boolean(bTitle[1]);
+
+                    booleanBlog === false ? boolean = false : boolean = true;
 
                     fetch(articulos + 'blog/' + blogRequerido, {
                         method: 'GET'
@@ -1347,9 +1365,7 @@ setTimeout(() => {
                         .then(({ articulos: arts }) => {
 
                             if (arts.length === 0) {
-
                                 noHay.classList.toggle('hidden');
-
                             } else {
                                 articulosResultados.innerHTML = '';
                                 mostrarYFuncionesParaArticulos(arts);
@@ -1359,15 +1375,14 @@ setTimeout(() => {
                 })
 
                 if (blogId === b.id) {
-                    const idActual = b.id;
 
                     // Poner artículos de Blog
-                    fetch(articulos + 'blog/' + idActual, {
+                    fetch(articulos + 'blog/' + blogDelLS, {
                         method: 'GET'
                     })
                         .then(resp => resp.json())
                         .then(({ articulos: arts }) => {
-
+                            console.log(arts[0].categoria[0]._id)
                             articulosResultados.innerHTML = '';
                             mostrarYFuncionesParaArticulos(arts);
 
@@ -1393,8 +1408,15 @@ const buscadorFunction = () => {
     spinner.classList.toggle('hidden');
 
     setTimeout(() => {
-        fetch(articulos + 'buscar/' + data, {
-            method: 'GET'
+        fetch(articulos + 'buscarBlog', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'blog': localStorage.getItem('blog'),
+                'buscar': data
+            })
         })
             .then(resp => resp.json())
             .then(articulos => {

@@ -273,7 +273,8 @@ if (idArticulo === null || idArticulo === undefined) {
                 })
                     .then(resp => resp.json())
                     .then(({ total, articulos: arts }) => {
-                        if (total >= 1) {
+
+                        if (total > 0) {
 
                             const html = `
                                 <li class="categoriaLi">

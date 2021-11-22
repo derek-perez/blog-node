@@ -172,6 +172,18 @@ const buscador = async (req, res = response) => {
 
 }
 
+const buscadorPorBlog = async (req, res = response) => {
+
+    const { blog, buscar } = req.body;
+
+    const articulos = await Articulo.find({ blog, $or: [{ titulo: { $regex: '.*' + buscar + '.*', $options: 'i' } }, { contenido: { $regex: '.*' + buscar + '.*', $options: 'i' } }] })
+        .populate('categoria', 'nombre')
+        .populate('autor', 'nombre')
+
+    res.status(200).json(articulos)
+
+}
+
 
 
 
@@ -184,5 +196,6 @@ module.exports = {
     eliminarArticulo,
     mostrarArticulosDeUsuario,
     mostrarArticulosDeBlog,
-    buscador
+    buscador,
+    buscadorPorBlog,
 }
