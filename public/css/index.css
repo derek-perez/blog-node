@@ -17,6 +17,10 @@ body.dark {
     color: white;
 }
 
+.navBar.dark > #enlaces > .enlace a {
+    color: white !important;
+}
+
 .navBar {
     display: flex;
     justify-content: space-between;
@@ -39,10 +43,6 @@ body.dark {
 .navBar > #presentacion > .marca {
     font-weight: 700;
     font-size: 30px;
-}
-
-.navBar > #enlaces.dark > .enlace a {
-    color: white;
 }
 
 .navBar > #enlaces {

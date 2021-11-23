@@ -1,10 +1,9 @@
 const Blog = require('../models/blog');
-const Usuario = require('../models/articulo');
 const db = require('mongoose');
 const { response } = require('express');
 
 const mostrarBlogs = async (req, res = response) => {
-    const estado = { estado: true };
+    const estado = { public: true };
 
     const [total, blogs] = await Promise.all([
         Blog.countDocuments(estado),

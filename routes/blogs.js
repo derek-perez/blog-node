@@ -23,9 +23,7 @@ router.post('/', [
 
 router.put('/:id', validarJWT, actualizarBlog);
 
-router.delete('/:id', [
-    validarJWT,
-], eliminarBlog);
+router.delete('/:id', validarJWT, eliminarBlog);
 
 
 module.exports = router;

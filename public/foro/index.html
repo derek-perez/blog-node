@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./index.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4892946836803751"
+        crossorigin="anonymous"></script>
     <title>Foro de Blogi</title>
 </head>
 
@@ -33,15 +35,20 @@
                     Ver artículos
                 </a>
             </li>
-            <li class="enlace">
+            <li class="crearBlog enlace">
                 <a href="https://blogi-node.herokuapp.com/auth.html">
                     <button>
                         Crear mi blog
                     </button>
                 </a>
             </li>
+            <li class="enlace nuevaDiscusion">
+                <button>
+                    Iniciar discusión
+                </button>
+            </li>
             <li class="enlace">
-                <a href="./auth.html">
+                <a href="../auth.html">
                     <button>
                         Iniciar Sesión
                     </button>
@@ -55,6 +62,7 @@
     </nav>
     <div class="toggle"></div>
 
+    <!-- Foro -->
     <div class="foro">
         <div class="intro">
             <div class="left">
@@ -71,14 +79,16 @@
                 <img src="../img/foro.png" alt="Nuestro foro es bueno para ti">
             </div>
         </div>
-        <h1 class="titles">Discusiones recientes:</h1>
+        <h2 class="titles">Discusiones recientes:</h2>
         <div class="recientes">
             <div class="reciente">
                 <div class="left">
-                    <img src="../img/persona-2.png" alt="Usuario que empezó la discusión">
+                    <a href="">
+                        <img src="../img/persona-1.png" alt="Usuario que empezó la discusión">
+                    </a>
                     <div class="heart">
                         <i class="fa fa-heart"></i>
-                        <span class="hertCantity">5</span>
+                        <span class="heartCantity">5</span>
                     </div>
                 </div>
                 <div class="resto">
@@ -87,11 +97,107 @@
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eum hic quisquam, ad enim at odio
                         harum officia quae quod molestiae vero eius.
                     </span>
-                    <span>Tema: <span class="ctg">Historia y Arte</span></span>
+                    <div class="abajo">
+                        <span class="fecha">Jueves 39 de Octubre de 3039</span>
+                        <span>Tema: <span class="ctg">Historia y Arte</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="reciente">
+                <div class="left">
+                    <a href="">
+                        <img src="../img/persona-1.png" alt="Usuario que empezó la discusión">
+                    </a>
+                    <div class="heart">
+                        <i class="fa fa-heart"></i>
+                        <span class="heartCantity">5</span>
+                    </div>
+                </div>
+                <div class="resto">
+                    <span class="titulo">Como recortar imágenes en Blogi si no quiero toda la imágen</span>
+                    <span class="contenido">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eum hic quisquam, ad enim at odio
+                        harum officia quae quod molestiae vero eius.
+                    </span>
+                    <div class="abajo">
+                        <span class="fecha">Jueves 39 de Octubre de 3039</span>
+                        <span>Tema: <span class="ctg">Historia y Arte</span></span>
+                    </div>
                 </div>
             </div>
         </div>
+        <h2 class="titles">Discusiones que puede ver:</h2>
+        <div class="discusiones">
+            <div class="cadaUna">
+                <div class="reciente">
+                    <div class="left">
+                        <a href="">
+                            <img src="../img/persona-1.png" alt="Usuario que empezó la discusión">
+                        </a>
+                        <div class="heart">
+                            <i class="fa fa-heart"></i>
+                            <span class="heartCantity">5</span>
+                        </div>
+                    </div>
+                    <div class="resto">
+                        <span class="titulo">Como recortar imágenes en Blogi si no quiero toda la imágen</span>
+                        <span class="contenido">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eum hic quisquam, ad enim at
+                            odio
+                            harum officia quae quod molestiae vero eius.
+                        </span>
+                        <div class="abajo">
+                            <span class="fecha">Jueves 39 de Octubre de 3039</span>
+                            <span>Tema: <span class="ctg">Historia y Arte</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="reciente">
+                    <div class="left">
+                        <a href="">
+                            <img src="../img/persona-1.png" alt="Usuario que empezó la discusión">
+                        </a>
+                        <div class="heart">
+                            <i class="fa fa-heart"></i>
+                            <span class="heartCantity">5</span>
+                        </div>
+                    </div>
+                    <div class="resto">
+                        <span class="titulo">Como recortar imágenes en Blogi si no quiero toda la imágen</span>
+                        <span class="contenido">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum eum hic quisquam, ad enim at
+                            odio
+                            harum officia quae quod molestiae vero eius.
+                        </span>
+                        <div class="abajo">
+                            <span class="fecha">Jueves 39 de Octubre de 3039</span>
+                            <span>Tema: <span class="ctg">Historia y Arte</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="ctgs">
+                <li>
+                    Idiomas y Lenguas
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                </li>
+                <li>
+                    Idiomas y Lenguas
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                </li>
+                <li>
+                    Idiomas y Lenguas
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <!-- Iniciar discusión -->
+    <div class="discusion"></div>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4892946836803751"
+        crossorigin="anonymous"></script>
 
     <!-- Footer -->
     <footer class="footer">
