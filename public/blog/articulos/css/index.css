@@ -1034,8 +1034,8 @@ df-messenger {
 }
 
 .textareas {
-    width: 49%;
-    min-height: 75vh;
+    width: 50%;
+    min-height: 50vh;
     resize: none;
     padding: 10px;
     border: 1px solid orange;
@@ -1044,7 +1044,6 @@ df-messenger {
 #resultado {
     display: flex;
     flex-direction: column;
-    width: 50%;
 }
 
 /* Clases para textos */
@@ -1189,7 +1188,6 @@ df-messenger {
 }
 
 #conHtml {
-    width: 50%;
     display: flex;
     justify-content: center;
 }
@@ -1507,7 +1505,7 @@ df-messenger {
 
 
 /* Media queries */
-@media (max-width: 780px) {
+@media (max-width: 800px) {
 
     .toggle {
         display: block;
@@ -1553,6 +1551,16 @@ df-messenger {
     .resultadosDeMenu {
         width: 100%;
     }
+
+    .cuadros {
+        flex-direction: column;
+    }
+
+    .textareas {
+        width: 100% !important;
+        height: 490px;
+        overflow: auto;
+    }
 }
 
 @media (max-width: 575px) {
@@ -1576,9 +1584,5 @@ df-messenger {
         width: 95%;
         display: flex;
         justify-content: flex-start;
-    }
-
-    .editArticulo.edicion > .escribirArticulos > #conHtml {
-        width: 95%;
     }
 }
