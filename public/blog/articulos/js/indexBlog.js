@@ -259,6 +259,20 @@ tusBlogsWindow.addEventListener('click', () => {
     tusBlogsWindow.classList.toggle('hidden')
 })
 
+// Ver/Ocultar vista previa
+const verPrevia = document.querySelector('.verPrevia');
+const verTexto = document.querySelector('.verTexto');
+
+verPrevia.addEventListener('click', () => {
+    Texto.classList.toggle('hidden');
+    resultado.classList.toggle('w-100');
+})
+
+verTexto.addEventListener('click', () => {
+    Texto.classList.toggle('w-100');
+    resultado.classList.toggle('hidden');
+})
+
 // Función para sacar id de Url e ir a ese elemento ocultando los demás
 const aparecedorDeResultado = () => {
     const resultados = document.querySelectorAll('.resultado');
