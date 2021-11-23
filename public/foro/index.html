@@ -63,7 +63,7 @@
     <div class="toggle"></div>
 
     <!-- Foro -->
-    <div class="foro">
+    <div class="foro hidden">
         <div class="intro">
             <div class="left">
                 <strong>Busca una discusión en nuestro foro</strong>
@@ -194,7 +194,22 @@
     </div>
 
     <!-- Iniciar discusión -->
-    <div class="discusion"></div>
+    <div class="discusion">
+        <h1>Inicie una discusión:</h1>
+        <div class="form">
+
+            <label for="pregunta">¿Qué pregunta o duda tiene?</label>
+            <input type="text" name="pregunta" id="pregunta" placeholder="La pregunta o duda que tiene...">
+
+            <label for="descripcion">Descripción de la misma:</label>
+            <div class="textareas">
+                <textarea name="descripcion" id="descripcion" placeholder="La pregunta o duda que tiene..."></textarea>
+                <div name="resultadoTextarea" id="resultadoTextarea"></div>
+            </div>
+
+            <button class="iniciar btn btn-success">Iniciar discusión</button>
+        </div>
+    </div>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4892946836803751"
         crossorigin="anonymous"></script>

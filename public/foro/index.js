@@ -53,3 +53,27 @@ if (token === null) {
 } else if (token !== null) {
     crearBlog.classList.add('hidden');
 }
+
+// Escribir discusion
+const Texto = document.querySelector('#descripcion');
+const resultadoTextarea = document.querySelector('#resultadoTextarea');
+
+const espacio = () => {
+
+    const arrTextarea = Texto.value.split('\n');
+    const arrResult = [];
+
+    arrTextarea.forEach(t => {
+        const parrafo2 = document.createElement('p');
+        parrafo2.innerHTML = t;
+
+        arrResult.push(parrafo2.innerHTML);
+        setTimeout(() => {
+            resultadoTextarea.innerHTML = arrResult.join('<br>');
+        }, 100)
+    })
+}
+
+descripcion.addEventListener('keydown', () => {
+    espacio();
+})
