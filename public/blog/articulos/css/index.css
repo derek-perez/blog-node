@@ -980,8 +980,8 @@ df-messenger {
 .editArticulo {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 90%;
+    justify-content: space-around;
+    width: 95%;
     min-height: 100vh;
     padding: 10px;
 }
@@ -1016,14 +1016,11 @@ df-messenger {
 }
 
 .btnsParaEdicion {
-    margin-top: 20px;
     width: 100%;
     overflow-x: auto;
     display: flex;
     align-items: baseline;
     justify-content: center;
-    position: absolute;
-    top: 34px;
 }
 
 .btnsParaEdicion > button {
@@ -1032,24 +1029,22 @@ df-messenger {
 }
 
 .vistaPrevia {
-    width: 100%;
-    width: 95%;
-    position: absolute;
-    top: 110px;
+    width: 50%;
     display: flex;
-    justify-content: center;
 }
 
 .textareas {
-    width: 90%;
+    width: 49%;
     min-height: 75vh;
     resize: none;
     padding: 10px;
+    border: 1px solid orange;
 }
 
 #resultado {
     display: flex;
     flex-direction: column;
+    width: 50%;
 }
 
 /* Clases para textos */
@@ -1182,23 +1177,29 @@ df-messenger {
 }
 
 .imgTextarea {
-    width: 75%;
+    max-width: 90%;
 }
 
 .poner {
     margin-top: 10px;
 }
 
-.escribirArticulos {
-    width: 95%;
-    position: absolute;
-    top: 110px;
+#conHtml:focus-visible {
+    outline: none;
+}
+
+#conHtml {
+    width: 50%;
     display: flex;
     justify-content: center;
 }
 
-#conHtml {
-    width: 75%;
+.cuadros {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 15px;
 }
 
 #categoriasLista > li {

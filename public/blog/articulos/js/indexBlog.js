@@ -291,17 +291,9 @@ let actualUrl = window.location.href;
 const editArticulo = document.querySelector('.editArticulo');
 const cerrarVentana = document.querySelector('.cerrarVentana');
 const enviar = document.querySelector('.enviar');
-const vistaPrevia = document.querySelector('.vistaPrevia');
 let Texto = document.querySelector('#conHtml');
-const verArticulo = document.querySelector('.verArticulo');
 const escribirArticulos = document.querySelector('.escribirArticulos');
 let tituloDeArticulo = document.querySelector('#titulo');
-
-verArticulo.addEventListener('click', () => {
-    vistaPrevia.classList.toggle('hidden');
-    escribirArticulos.classList.toggle('hidden');
-    Texto.classList.toggle('hidden')
-})
 
 const idCtg = [];
 
@@ -646,22 +638,22 @@ const funcionesParaArticulos = () => {
 const categoriasLista = document.querySelector('#categoriasLista');
 const totalDeCategorias = document.querySelector('#totalDeCategorias');
 
-fetch(obtenerCategorias, {
-    method: 'GET'
-})
-    .then(resp => resp.json())
-    .then(({ categorias, total }) => {
-        totalDeCategorias.innerHTML = total;
+// fetch(obtenerCategorias, {
+//     method: 'GET'
+// })
+//     .then(resp => resp.json())
+//     .then(({ categorias, total }) => {
+//         totalDeCategorias.innerHTML = total;
 
-        categorias.forEach(c => {
-            const html = `
-                <li class="liCategoria" title="${c.description}" id="${c._id}">${c.nombre}</li>
-            `;
+//         categorias.forEach(c => {
+//             const html = `
+//                 <li class="liCategoria" title="${c.description}" id="${c._id}">${c.nombre}</li>
+//             `;
 
-            categoriasLista.innerHTML += html;
-        })
+//             categoriasLista.innerHTML += html;
+//         })
 
-    })
+//     })
 
 let boolean = true;
 
