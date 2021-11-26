@@ -30,6 +30,11 @@ body.dark .abajo {
     --bs-gutter-x: 0;
 }
 
+.principal {
+    font-weight: 600;
+    font-size: 18px;
+}
+
 /* NavBar */
 .navBar.dark {
     background: #555;
@@ -439,6 +444,10 @@ body.dark .ctgs > li {
     margin: 10px 0;
 }
 
+#descLabel {
+    margin-top: 30px;
+}
+
 .form > input:focus-visible,
 .form > .textareas > textarea,
 #resultadoTextarea {
@@ -457,18 +466,40 @@ body.dark .ctgs > li {
 .form > .textareas {
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.textareas > textarea,
+.texts {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark .texts > textarea,
+body.dark #resultadoTextarea {
+    color: white;
+}
+
+.texts > textarea,
 #resultadoTextarea {
     width: 45%;
     height: 250px;
     padding: 5px;
     border: 1px solid orange;
     resize: none;
-    font-size: 18px;
+    font-size: 15px;
+    background: transparent;
+}
+
+[contentEditable=false]:empty:not(:focus):before{
+    content:attr(placeholder)
+}
+
+#descripcion:focus-visible {
+    outline: none;
 }
 
 #resultadoTextarea {
@@ -476,10 +507,163 @@ body.dark .ctgs > li {
     word-break: break-all;
 }
 
+#resultadoTextarea > img {
+    max-width: 90%;
+}
+
+.btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    background: orange;
+    width: 90%;
+    box-shadow: 0px 2px 5px rgb(0 0 0 / 30%);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    z-index: 10;
+}
+
+.btns > button {
+    margin: 0 5px;
+    border: 1px solid rgb(0 0 0 / 50%);
+}
+
+.windowLink {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(51, 51, 51, 0.85);
+    z-index: 1000;
+}
+
+.windowLink > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: white;
+    background: white;
+    padding: 10px;
+    border-top: 15px solid orange;
+    border-radius: 10px;
+    min-width: 320px;
+}
+
+.urlWindow > div > p {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.urlWindow > div > input:focus-visible {
+    outline: none;
+}
+
+.urlWindow > div > input {
+    border: none;
+    border-bottom: 1px solid orange;
+    margin-bottom: 10px;
+    font-size: 20px;
+    width: 100%;
+    padding: 5px;
+}
+
+.imgWindow > div > label {
+    font-weight: 600;
+    font-size: 22px;
+    margin: 5px;
+}
+
+.imgWindow > div > input:focus-visible {
+    outline: none;
+}
+
+.imgWindow > div > input {
+    border: none;
+    border-bottom: 1px solid orange;
+    padding: 5px;
+    font-size: 20px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.imgMala > div > p {
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
 .iniciar {
     margin-top: 25px;
 }
 
+.verDiscusion {
+    margin-top: 100px;
+    min-height: 80vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+}
+
+.verDiscusion > .top {
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.infoDeDiscusion {
+    width: 70%;
+}
+
+.autor {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.autor > .imagenBox {
+    background: #80808059;
+    padding: 10px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.autor > .imagenBox > img {
+    border-radius: 50%;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.autor > .imagenBox > .campos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.autor > .imagenBox > .campos > span.principal {
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 15px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+}
 
 /* Footer */
 .footer {
@@ -661,7 +845,7 @@ df-messenger {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 825px) {
 
     .toggle {
         display: block;
@@ -690,6 +874,22 @@ df-messenger {
 
     #enlaces.active > .enlace {
         margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 760px) {
+    .texts {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btns {
+        width: 95%;
+    }
+
+    #descripcion,
+    #resultadoTextarea {
+        width: 95%;
     }
 }
 

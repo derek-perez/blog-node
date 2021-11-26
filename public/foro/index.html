@@ -193,21 +193,127 @@
         </div>
     </div>
 
+    <!-- Ver Discusión -->
+    <div class="verDiscusion hidden">
+        <div class="top">
+            <div class="infoDeDiscusion">
+                <h2 class="titulo">
+                    Cómo poner imágenes en Blogi
+                </h2>
+                <div class="contenido">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eos. Tempore eligendi asperiores
+                        perspiciatis ut non labore ipsam soluta eius corporis, magnam sapiente nihil laboriosam
+                        molestias excepturi delectus cupiditate blanditiis!
+                    </p>
+                    <hr>
+                    <img src="../img/articulo.png" alt="">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eos. Tempore eligendi asperiores
+                        perspiciatis ut non labore ipsam soluta eius corporis, magnam sapiente nihil laboriosam
+                        molestias excepturi delectus cupiditate blanditiis!
+                    </p>
+                    <hr>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eos. Tempore eligendi asperiores
+                        perspiciatis ut non labore ipsam soluta eius corporis, magnam sapiente nihil laboriosam
+                        molestias excepturi delectus cupiditate blanditiis!
+                    </p>
+                </div>
+            </div>
+            <div class="autor">
+                <div class="imagenBox">
+                    <img id="imgDePerfil" src="../img/persona-1.png" alt="Autor de este artículo">
+                    <br>
+                    <span class="principal">Perfil del autor:</span>
+                    <br>
+                    <div class="campos">
+                        <span class="principal">Nombre: </span><span class="secundario" id="nombreDeAutor">Derek El
+                            Amado</span>
+                    </div>
+                    <div class="campos">
+                        <span class="principal">Correo: </span><span class="secundario"
+                            id="correoDeAutor">chugus808106@gmail.com</span>
+                    </div>
+                    <div class="campos">
+                        <span class="principal">Articulos: </span><span class="secundario" id="articulosDeAutor">5
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comments">
+
+        </div>
+    </div>
+
     <!-- Iniciar discusión -->
-    <div class="discusion">
+    <div class="discusion hidden">
         <h1>Inicie una discusión:</h1>
         <div class="form">
 
-            <label for="pregunta">¿Qué pregunta o duda tiene?</label>
-            <input type="text" name="pregunta" id="pregunta" placeholder="La pregunta o duda que tiene...">
+            <label for="pregunta">Pregunta, duda, aviso de nuevo blog o artículo</label>
+            <input type="text" name="pregunta" id="pregunta" placeholder="Pregunta, duda, aviso de su nuevo blog...">
 
-            <label for="descripcion">Descripción de la misma:</label>
+            <label id="descLabel" for="descripcion">Descripción de la misma:</label>
             <div class="textareas">
-                <textarea name="descripcion" id="descripcion" placeholder="La pregunta o duda que tiene..."></textarea>
-                <div name="resultadoTextarea" id="resultadoTextarea"></div>
+                <div class="btns">
+                    <button style="color: white;" class="negrita btn">
+                        <b>Negrita</b>
+                    </button>
+                    <button style="color: white;" class="subrayado btn">
+                        <u>Subrayado</u>
+                    </button>
+                    <button style="color: white;" class="cursiva btn">
+                        <i>Cursiva</i>
+                    </button>
+                    <button style="color: white;" class="imgBtn btn">
+                        <i class="fa fa-picture-o"></i>
+                    </button>
+                    <button style="color: white;" class="urlBtn btn">
+                        <i class="fa fa-link"></i>
+                    </button>
+                </div>
+                <div class="texts">
+                    <textarea name="descripcion" id="descripcion"
+                        placeholder="La descripción de lo que quiere hablar..."></textarea>
+                    <div contenteditable="false" placeholder="Resultado final..." name="resultadoTextarea"
+                        id="resultadoTextarea"></div>
+                </div>
             </div>
 
             <button class="iniciar btn btn-success">Iniciar discusión</button>
+        </div>
+    </div>
+
+    <!-- Poner URL en discusion -->
+    <div class="urlWindow windowLink hidden">
+        <div>
+            <p>Poner url o enlace:</p>
+            <input type="text" name="urlRequerida" class="urlRequerida" placeholder="Url o enlace">
+            <input type="text" name="aparecerUrl" class="aparecerUrl" placeholder="Cómo quiere que se muestre">
+            <button class="ponerUrl btn btn-success w-100">Poner</button>
+        </div>
+    </div>
+
+    <!-- Poner img en discusion -->
+    <div class="imgWindow windowLink hidden">
+        <div>
+            <label for="urlImg">Poner url o enlace:</label>
+            <input type="text" name="urlImg" class="urlImg" placeholder="Url o enlace">
+            <button class="ponerUrlImg btn btn-success w-100">Poner img.</button>
+            <hr>
+            <label for="fileImg">Traer desde dispositivo:</label>
+            <input type="file" name="fileImg" class="fileImg">
+            <button class="ponerFileImg btn btn-success w-100">Poner img.</button>
+        </div>
+    </div>
+
+    <!-- Alerta para cuando una img contiene "data:image/" -->
+    <div class="imgMala windowLink hidden">
+        <div>
+            <p>No se acepta este tipo de imágenes. Por favor, intenta con otra URL</p>
+            <button class="imgMalaBtn btn btn-warning w-100">OK</button>
         </div>
     </div>
 

@@ -61,6 +61,9 @@ const menuDoor = document.querySelector('.menuDoor');
 const itemsBlog = document.querySelectorAll('.itemBlog');
 const close = document.querySelector('.close');
 
+const sinCtg = document.querySelector('.sinCtg');
+const sinCtgBtn = document.querySelector('.sinCtgBtn');
+
 const resultadosDeMenu = document.querySelector('.resultadosDeMenu');
 const articulosResultados = document.querySelector('.articulosResultados');
 const noHay = document.querySelector('.noHay');
@@ -290,7 +293,7 @@ const aparecedorDeResultado = () => {
     })
 }
 
-window.addEventListener('load', aparecedorDeResultado)
+window.addEventListener('DOMContentLoad', aparecedorDeResultado)
 
 // Ir a configuracion
 const configuracionLateral = document.querySelector('#configuracion');
@@ -358,7 +361,7 @@ const funcionesParaArticulos = () => {
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            Texto.setRangeText(`<strong>${sel}</strong>`, desde, hasta, 'select');
+            Texto.setRangeText(`<b>${sel}</b>`, desde, hasta, 'select');
             resultado.innerHTML = Texto.value;
         }
     }
@@ -652,22 +655,22 @@ const funcionesParaArticulos = () => {
 const categoriasLista = document.querySelector('#categoriasLista');
 const totalDeCategorias = document.querySelector('#totalDeCategorias');
 
-// fetch(obtenerCategorias, {
-//     method: 'GET'
-// })
-//     .then(resp => resp.json())
-//     .then(({ categorias, total }) => {
-//         totalDeCategorias.innerHTML = total;
+fetch(obtenerCategorias, {
+    method: 'GET'
+})
+    .then(resp => resp.json())
+    .then(({ categorias, total }) => {
+        totalDeCategorias.innerHTML = total;
 
-//         categorias.forEach(c => {
-//             const html = `
-//                 <li class="liCategoria" title="${c.description}" id="${c._id}">${c.nombre}</li>
-//             `;
+        categorias.forEach(c => {
+            const html = `
+                <li class="liCategoria" title="${c.description}" id="${c._id}">${c.nombre}</li>
+            `;
 
-//             categoriasLista.innerHTML += html;
-//         })
+            categoriasLista.innerHTML += html;
+        })
 
-//     })
+    })
 
 let boolean = true;
 
@@ -683,42 +686,54 @@ enviar.addEventListener('click', () => {
     // Si no quiere una img principal
     noPortada.addEventListener('click', () => {
 
-        editArticulo.classList.toggle('hidden');
-        spinner.classList.toggle('hidden');
+        const ids = idCtg.shift();
 
-        fetch(blogUrl + blogId, {
-            method: 'GET'
-        })
-            .then(resp => resp.json())
-            .then(blog => {
+        if (ids === undefined) {
+            imgParaArticulo.classList.toggle('hidden');
+            sinCtg.classList.toggle('hidden');
 
-                const ids = idCtg.shift();
+            sinCtgBtn.onclick = () => {
+                sinCtg.classList.toggle('hidden');
+            }
+        } else if (ids !== undefined) {
+            editArticulo.classList.toggle('hidden');
+            spinner.classList.toggle('hidden');
 
-                const data = {
-                    'titulo': `${tituloDeArticulo.value}`,
-                    'contenido': `${resultado.innerText}`,
-                    'htmlContenido': `${resultado.innerHTML}`,
-                    'textarea': `${Texto.value}`,
-                    'blog': `${blogId}`,
-                    'categoria': `${ids}`,
-                    'autor': `${idDeUsuario}`,
-                    'public': `${boolean}`,
-                };
-
-                let headersList = {
-                    "x-token": `${token}`,
-                    "Content-Type": "application/json"
-                }
-
-                fetch(articulos, {
-                    method: 'POST',
-                    headers: headersList,
-                    body: JSON.stringify(data)
-                })
-                    .then(location.reload())
-                    .catch(console.error)
+            fetch(blogUrl + blogId, {
+                method: 'GET'
             })
-            .catch(console.log)
+                .then(resp => resp.json())
+                .then(blog => {
+
+                    const ids = idCtg.shift();
+
+                    const data = {
+                        'titulo': `${tituloDeArticulo.value}`,
+                        'contenido': `${resultado.innerText}`,
+                        'htmlContenido': `${resultado.innerHTML}`,
+                        'textarea': `${Texto.value}`,
+                        'blog': `${blogId}`,
+                        'categoria': `${ids}`,
+                        'autor': `${idDeUsuario}`,
+                        'public': `${boolean}`,
+                    };
+
+                    let headersList = {
+                        "x-token": `${token}`,
+                        "Content-Type": "application/json"
+                    }
+
+                    fetch(articulos, {
+                        method: 'POST',
+                        headers: headersList,
+                        body: JSON.stringify(data)
+                    })
+                        .then(location.reload())
+                        .catch(console.error)
+                })
+                .catch(console.log)
+        }
+
 
     })
 
@@ -745,39 +760,50 @@ enviar.addEventListener('click', () => {
 
                 imgParaArticulo.classList.add('hidden');
             } else {
-                editArticulo.classList.toggle('hidden');
-                spinner.classList.toggle('hidden');
 
                 const ids = idCtg.shift();
 
-                const data = {
-                    'titulo': `${tituloDeArticulo.value}`,
-                    'contenido': `${resultado.innerText}`,
-                    'img': `${urlImg}`,
-                    'htmlContenido': `${resultado.innerHTML}`,
-                    'textarea': `${Texto.value}`,
-                    'blog': `${blogId}`,
-                    'categoria': `${ids}`,
-                    'autor': `${idDeUsuario}`,
-                    'public': `${boolean}`,
-                };
+                if (ids === undefined) {
+                    imgParaArticulo.classList.toggle('hidden');
+                    sinCtg.classList.toggle('hidden');
 
-                let headersList = {
-                    "x-token": `${token}`,
-                    "Content-Type": "application/json"
+                    sinCtgBtn.onclick = () => {
+                        sinCtg.classList.toggle('hidden');
+                    }
+                } else {
+                    editArticulo.classList.toggle('hidden');
+                    spinner.classList.toggle('hidden');
+
+                    const data = {
+                        'titulo': `${tituloDeArticulo.value}`,
+                        'contenido': `${resultado.innerText}`,
+                        'img': `${urlImg}`,
+                        'htmlContenido': `${resultado.innerHTML}`,
+                        'textarea': `${Texto.value}`,
+                        'blog': `${blogId}`,
+                        'categoria': `${ids}`,
+                        'autor': `${idDeUsuario}`,
+                        'public': `${boolean}`,
+                    };
+
+                    let headersList = {
+                        "x-token": `${token}`,
+                        "Content-Type": "application/json"
+                    }
+
+                    fetch(articulos, {
+                        method: 'POST',
+                        headers: headersList,
+                        body: JSON.stringify(data)
+                    })
+                        .then(resp => resp.json())
+                        .then(location.reload())
+                        .catch(console.error)
+                        .finally(() => {
+                            location.reload()
+                        })
                 }
 
-                fetch(articulos, {
-                    method: 'POST',
-                    headers: headersList,
-                    body: JSON.stringify(data)
-                })
-                    .then(resp => resp.json())
-                    .then(location.reload())
-                    .catch(console.error)
-                    .finally(() => {
-                        location.reload()
-                    })
             }
 
 
@@ -800,39 +826,50 @@ enviar.addEventListener('click', () => {
                     .then(resp => resp.json())
                     .then(async url => {
 
-                        editArticulo.classList.toggle('hidden');
-                        spinner.classList.toggle('hidden');
 
                         const ids = idCtg.shift();
 
-                        const data = {
-                            'titulo': `${tituloDeArticulo.value}`,
-                            'contenido': `${resultado.innerText}`,
-                            'img': `${url}`,
-                            'htmlContenido': `${resultado.innerHTML}`,
-                            'textarea': `${Texto.value}`,
-                            'blog': `${blogId}`,
-                            'categoria': `${ids}`,
-                            'autor': `${idDeUsuario}`,
-                            'public': `${boolean}`,
-                        };
+                        if (ids === undefined) {
+                            imgParaArticulo.classList.toggle('hidden');
+                            sinCtg.classList.toggle('hidden');
 
-                        let headersList = {
-                            "x-token": `${token}`,
-                            "Content-Type": "application/json"
+                            sinCtgBtn.onclick = () => {
+                                sinCtg.classList.toggle('hidden');
+                            }
+                        } else {
+                            editArticulo.classList.toggle('hidden');
+                            spinner.classList.toggle('hidden');
+
+                            const data = {
+                                'titulo': `${tituloDeArticulo.value}`,
+                                'contenido': `${resultado.innerText}`,
+                                'img': `${url}`,
+                                'htmlContenido': `${resultado.innerHTML}`,
+                                'textarea': `${Texto.value}`,
+                                'blog': `${blogId}`,
+                                'categoria': `${ids}`,
+                                'autor': `${idDeUsuario}`,
+                                'public': `${boolean}`,
+                            };
+
+                            let headersList = {
+                                "x-token": `${token}`,
+                                "Content-Type": "application/json"
+                            }
+
+                            await fetch(articulos, {
+                                method: 'POST',
+                                headers: headersList,
+                                body: JSON.stringify(data)
+                            })
+                                .then(resp => resp.json())
+                                .then(a => location.reload())
+                                .catch(console.error)
+                                .finally(() => {
+                                    location.reload()
+                                })
                         }
 
-                        await fetch(articulos, {
-                            method: 'POST',
-                            headers: headersList,
-                            body: JSON.stringify(data)
-                        })
-                            .then(resp => resp.json())
-                            .then(a => location.reload())
-                            .catch(console.error)
-                            .finally(() => {
-                                location.reload()
-                            })
                     })
                     .catch(console.error)
             }
@@ -1118,8 +1155,6 @@ const mostrarYFuncionesParaArticulos = (arts) => {
                                                     .then(async url => {
                                                         editArticulo.classList.toggle('hidden');
 
-                                                        const ids = idCtg.shift();
-
                                                         const data = {
                                                             'titulo': `${tituloDeArticulo.value}`,
                                                             'contenido': `${resultado.innerText}`,
@@ -1388,7 +1423,7 @@ setTimeout(() => {
                     })
                         .then(resp => resp.json())
                         .then(({ articulos: arts }) => {
-                            console.log(arts[0].categoria[0]._id)
+
                             articulosResultados.innerHTML = '';
                             mostrarYFuncionesParaArticulos(arts);
 
