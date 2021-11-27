@@ -1,21 +1,30 @@
 const db = require('mongoose');
-const { response } = require("express");
+const { response } = require('express');
 
 const Discusion = require('../models/discusion');
+const Articulo = require('../models/articulo');
+const Comentario = require('../models/comentario');
 
-const mostrarDiscusiones = async (req, res = response) => {
-    await Discusion.find()
+const mostrarComentarios = async (req, res = response) => {
+    await Comentario.find()
         .then(resp => res.status(200).json({ resp }))
 }
 
-const mostrarDiscusion = async (req, res = response) => {
+const mostrarComentarioDeArticulo = async (req, res = response) => {
     const { id } = req.params;
 
-    await Discusion.find({ _id: id })
+    await Comentario.find({ articulo: id })
         .then(resp => res.status(200).json({ resp }))
 }
 
-const añadirDiscusion = async (req, res = response) => {
+const mostrarComentarioDeDiscusion = async (req, res = response) => {
+    const { id } = req.params;
+
+    await Comentario.find({ discusion: id })
+        .then(resp => res.status(200).json({ resp }))
+}
+
+const añadirComentario = async (req, res = response) => {
     const { titulo, contenido, autor, categoria, comentarios } = req.body;
 
     const discusionDB = await Discusion.findOne({ titulo });
@@ -50,33 +59,10 @@ const añadirDiscusion = async (req, res = response) => {
     res.status(200).json(discusion);
 }
 
-const modificarDiscusion = async (req, res = response) => {
-    try {
-        const { id } = req.params;
-        const cambios = req.body;
-
-        const discusionCambiado = await Discusion.findByIdAndUpdate(id, cambios, { new: true });
-
-        res.status(200).json(discusionCambiado);
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const eliminarDiscusion = async (req, res = response) => {
-    const { id } = req.params;
-
-    await Discusion.findByIdAndDelete(id)
-
-    res.status(200).json({ msg: 'Discusion eliminado correctamente' })
-}
-
 
 module.exports = {
-    mostrarDiscusiones,
-    mostrarDiscusion,
-    añadirDiscusion,
-    modificarDiscusion,
-    eliminarDiscusion,
+    mostrarComentarios,
+    mostrarComentarioDeArticulo,
+    mostrarComentarioDeDiscusion,
+    añadirComentario,
 }

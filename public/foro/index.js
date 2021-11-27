@@ -61,22 +61,22 @@ abrirIconos.addEventListener('click', () => {
 // Obtener token y verificarlo
 const token = localStorage.getItem('token');
 
-if (token === null) {
-    nuevaDiscusion.classList.add('hidden');
-} else if (token !== null) {
-    fetch(validarJwt, {
-        method: 'GET',
-        headers: { 'x-token': token }
-    })
-        .then(resp => resp.json())
-        .then(({ msg }) => {
-            if (msg !== 'Token válido') {
-                nuevaDiscusion.classList.add('hidden');
-            } else {
-                crearBlog.classList.toggle('hidden');
-            }
-        })
-}
+// if (token === null) {
+//     nuevaDiscusion.classList.add('hidden');
+// } else if (token !== null) {
+//     fetch(validarJwt, {
+//         method: 'GET',
+//         headers: { 'x-token': token }
+//     })
+//         .then(resp => resp.json())
+//         .then(({ msg }) => {
+//             if (msg !== 'Token válido') {
+//                 nuevaDiscusion.classList.add('hidden');
+//             } else {
+//                 crearBlog.classList.toggle('hidden');
+//             }
+//         })
+// }
 
 // Botón que abre discusión
 nuevaDiscusion.addEventListener('click', () => {
@@ -249,3 +249,12 @@ const funcionesParaArticulos = () => {
 }
 
 funcionesParaArticulos();
+
+// Abrir escribircomentario
+const abrirEscritor = document.querySelector('#deste');
+const escribirComentario = document.querySelector('.escribirComentario');
+
+abrirEscritor.addEventListener('click', () => {
+    escribirComentario.classList.toggle('hidden');
+    abrirEscritor.classList.toggle('hidden');
+})

@@ -665,6 +665,122 @@ body.dark #resultadoTextarea {
     text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
 }
 
+.comments {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    padding: 20px;
+    border-top: 1px solid rgb(0 0 0 / 50%);
+}
+
+.comments > .escribirComentarioDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.escribirComentarioDiv > input:focus-visible {
+    outline: none;
+}
+
+.escribirComentarioDiv > input {
+    width: 75%;
+    padding: 5px;
+    border: 1px solid orange;
+    cursor: text;
+}
+
+.comments > h2 {
+    margin: 10px 0;
+}
+
+.comment {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    margin-top: 15px;
+    border: 1px solid rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 30%);
+}
+
+.comment > .perfil {
+    margin: 10px 0;
+}
+
+.comment > .perfil > img {
+    max-width: 100px;
+    max-height: 80px;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+.comment > .contenido {
+    margin-bottom: 10px;
+}
+
+.escribirComentario {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.escribirComentario > .texts > textarea,
+.escribirComentario > #resultadoTextarea {
+    width: 45%;
+    height: 250px;
+    padding: 5px;
+    border: 1px solid orange;
+    resize: none;
+    font-size: 15px;
+    background: transparent;
+}
+
+[contentEditable=false]:empty:not(:focus):before{
+    content:attr(placeholder)
+}
+
+#descripcion:focus-visible {
+    outline: none;
+}
+
+#resultadoTextarea {
+    overflow: auto;
+    word-break: break-all;
+}
+
+#resultadoTextarea > img {
+    max-width: 90%;
+}
+
+.btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    background: orange;
+    width: 90%;
+    box-shadow: 0px 2px 5px rgb(0 0 0 / 30%);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    z-index: 10;
+}
+
+.btns > button {
+    margin: 0 5px;
+    border: 1px solid rgb(0 0 0 / 50%);
+}
+
+
 /* Footer */
 .footer {
     width: 100%;

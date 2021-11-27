@@ -194,7 +194,7 @@
     </div>
 
     <!-- Ver Discusión -->
-    <div class="verDiscusion hidden">
+    <div class="verDiscusion">
         <div class="top">
             <div class="infoDeDiscusion">
                 <h2 class="titulo">
@@ -243,7 +243,61 @@
             </div>
         </div>
         <div class="comments">
+            <h2>Comentarios:</h2>
+            <div class="escribirComentarioDiv">
+                <input type="text" id="deste" placeholder="Escribe tu comentario...">
+                <div class="escribirComentario hidden">
+                    <div class="btns">
+                        <button style="color: white;" class="negrita btn">
+                            <b>Negrita</b>
+                        </button>
+                        <button style="color: white;" class="subrayado btn">
+                            <u>Subrayado</u>
+                        </button>
+                        <button style="color: white;" class="cursiva btn">
+                            <i>Cursiva</i>
+                        </button>
+                        <button style="color: white;" class="imgBtn btn">
+                            <i class="fa fa-picture-o"></i>
+                        </button>
+                        <button style="color: white;" class="urlBtn btn">
+                            <i class="fa fa-link"></i>
+                        </button>
+                    </div>
+                    <div class="texts">
+                        <textarea name="descripcion" id="descripcion"
+                            placeholder="La descripción de lo que quiere hablar..."></textarea>
+                        <div contenteditable="false" placeholder="Resultado final..." name="resultadoTextarea"
+                            id="resultadoTextarea"></div>
+                    </div>
 
+                    <button class="btn btn-success w-75 mt-3 mb-2">Poner comentario</button>
+                </div>
+            </div>
+            <div class="comment">
+                <div class="perfil">
+                    <img src="../img/persona-1.png">
+                    <span class="nombre principal">Derek El Amado</span>
+                </div>
+                <div class="contenido">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam voluptas distinctio consequatur
+                    alias quo amet earum? Natus voluptates provident eveniet non itaque vero, ad libero quo facere
+                    laborum earum autem.
+                </div>
+                <span class="fecha principal">Jueves 34 de Octubre 0944</span>
+            </div>
+            <div class="comment">
+                <div class="perfil">
+                    <img src="../img/persona-1.png">
+                    <span class="nombre principal">Derek El Amado</span>
+                </div>
+                <div class="contenido">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam voluptas distinctio consequatur
+                    alias quo amet earum? Natus voluptates provident eveniet non itaque vero, ad libero quo facere
+                    laborum earum autem.
+                </div>
+                <span class="fecha principal">Jueves 34 de Octubre 0944</span>
+            </div>
         </div>
     </div>
 

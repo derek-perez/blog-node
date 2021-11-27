@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { mostrarDiscusiones, mostrarDiscusion, modificarDiscusion, eliminarDiscusion } = require('../controllers/discusion');
+const { mostrarDiscusiones, mostrarDiscusion, modificarDiscusion, eliminarDiscusion, añadirDiscusion } = require('../controllers/discusion');
 
 const { validarJWT } = require('../helpers/validar-jwt');
 const { validarCampos } = require('../middlewares/validar-campos');
