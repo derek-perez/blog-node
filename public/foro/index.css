@@ -607,7 +607,7 @@ body.dark #resultadoTextarea {
 }
 
 .verDiscusion {
-    margin-top: 100px;
+    margin-top: 110px;
     min-height: 80vh;
     width: 100%;
     display: flex;
@@ -631,6 +631,8 @@ body.dark #resultadoTextarea {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    word-break: break-all;
+    text-align: center;
 }
 
 .autor > .imagenBox {
@@ -723,6 +725,9 @@ body.dark #resultadoTextarea {
 
 .comment > .contenido {
     margin-bottom: 10px;
+    padding: 5px 0;
+    border-top: 1px solid rgb(0 0 0 / 30%);
+    border-bottom: 1px solid rgb(0 0 0 / 30%);
 }
 
 .escribirComentario {

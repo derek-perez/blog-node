@@ -25,11 +25,11 @@ const mostrarComentarioDeDiscusion = async (req, res = response) => {
 }
 
 const añadirComentario = async (req, res = response) => {
-    const { titulo, contenido, autor, categoria, comentarios } = req.body;
+    const { contenido, autor, categoria, discusion } = req.body;
 
-    const discusionDB = await Discusion.findOne({ titulo });
+    const comentarioDB = await Comentario.findOne({ titulo });
 
-    if (discusionDB) {
+    if (comentarioDB) {
         return res.status(400).json({
             msg: `Ya hay una discusión con el mismo titulo`
         });
@@ -39,24 +39,23 @@ const añadirComentario = async (req, res = response) => {
 
     const idDeAutor = db.Types.ObjectId(autor);
     const idDeCtg = db.Types.ObjectId(categoria);
-    const idDeComent = db.Types.ObjectId(comentarios);
+    const idDeDiscusion = db.Types.ObjectId(discusion);
 
     // Generar la data a guardar
     const data = {
-        titulo,
         contenido,
         creadoEn,
         autor: idDeAutor,
         categoria: idDeCtg,
-        comentario: idDeComent,
+        discusion: idDeDiscusion,
     }
 
-    const discusion = new Discusion(data);
+    const comentario = new Comentario(data);
 
     // Guardar DB
-    await discusion.save();
+    await comentario.save();
 
-    res.status(200).json(discusion);
+    res.status(200).json(comentario);
 }
 
 

@@ -7,6 +7,14 @@ const validarJwt = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/validar-jwt/'
     : 'https://blogi-node.herokuapp.com/api/validar-jwt/';
 
+const comentarios = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/comentarios/'
+    : 'https://blogi-node.herokuapp.com/api/comentarios/';
+
+const publicUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/'
+    : 'https://blogi-node.herokuapp.com/';
+
 // Variables
 const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
@@ -21,6 +29,11 @@ const imgMala = document.querySelector('.imgMala');
 const imgMalaBtn = document.querySelector('.imgMalaBtn');
 const crearBlog = document.querySelector('.crearBlog');
 const nuevaDiscusion = document.querySelector('.nuevaDiscusion');
+const noRegister = document.querySelector('.noRegister');
+const redirigir = document.querySelector('.redirigir');
+const noRedirigir = document.querySelector('.noRedirigir');
+
+let autenticado = true;
 
 // Modo oscuro
 const checkbox = document.querySelector('#check');
@@ -61,22 +74,25 @@ abrirIconos.addEventListener('click', () => {
 // Obtener token y verificarlo
 const token = localStorage.getItem('token');
 
-// if (token === null) {
-//     nuevaDiscusion.classList.add('hidden');
-// } else if (token !== null) {
-//     fetch(validarJwt, {
-//         method: 'GET',
-//         headers: { 'x-token': token }
-//     })
-//         .then(resp => resp.json())
-//         .then(({ msg }) => {
-//             if (msg !== 'Token válido') {
-//                 nuevaDiscusion.classList.add('hidden');
-//             } else {
-//                 crearBlog.classList.toggle('hidden');
-//             }
-//         })
-// }
+if (token === null) {
+    nuevaDiscusion.classList.add('hidden');
+    autenticado = false;
+} else if (token !== null) {
+    fetch(validarJwt, {
+        method: 'GET',
+        headers: { 'x-token': token }
+    })
+        .then(resp => resp.json())
+        .then(({ msg }) => {
+            if (msg !== 'Token válido') {
+                nuevaDiscusion.classList.add('hidden');
+                autenticado = false;
+            } else {
+                crearBlog.classList.toggle('hidden');
+                autenticado = true;
+            }
+        })
+}
 
 // Botón que abre discusión
 nuevaDiscusion.addEventListener('click', () => {
@@ -255,6 +271,51 @@ const abrirEscritor = document.querySelector('#deste');
 const escribirComentario = document.querySelector('.escribirComentario');
 
 abrirEscritor.addEventListener('click', () => {
-    escribirComentario.classList.toggle('hidden');
-    abrirEscritor.classList.toggle('hidden');
+
+    if (autenticado === true) {
+        escribirComentario.classList.toggle('hidden');
+        abrirEscritor.classList.toggle('hidden');
+    } else if (autenticado === false) {
+        noRegister.classList.toggle('hidden');
+        redirigir.onclick = () => {
+            location.href = publicUrl + 'auth.html';
+        }
+        noRedirigir.onclick = () => {
+            noRegister.classList.toggle('hidden');
+        }
+    }
+})
+
+// Poner comentario
+const ponerComent = document.querySelector('.ponerComent');
+const params = new URLSearchParams(location.search);
+const idDiscusion = params.get('c');
+
+ponerComent.addEventListener('click', () => {
+    fetch(validarJwt, {
+        method: 'GET',
+        headers: { 'x-token': token }
+    })
+        .then(resp => resp.json())
+        .then(({ usuario }) => {
+
+            const headersList = {
+                'Content-Type': 'application/json',
+                'x-token': `${token}`
+            };
+
+            const data = {
+                'contenido': `${resultadoTextarea.innerHTML}`,
+                'autor': `${usuario.uid}`,
+                'discusion': `${idDiscusion}`
+            };
+
+            fetch(comentarios, {
+                method: 'POST',
+                headers: headersList,
+                body: JSON.stringify(data)
+            })
+                .then(locaton.reload())
+                .catch(console.error)
+        })
 })
