@@ -432,7 +432,7 @@ if (idArticulo === null || idArticulo === undefined) {
                 imgDePerfil.src = u.usuario.img;
                 nombreDeAutor.innerHTML = u.usuario.nombre;
                 correoDeAutor.innerHTML = u.usuario.correo;
-                articulosDeAutor.innerHTML = u.articulos.length;
+                articulosDeAutor.innerHTML = u.resp.totalDocs;
             })
             .catch(console.log)
 

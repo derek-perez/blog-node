@@ -25,12 +25,6 @@ const DiscusionSchema = db.Schema({
             type: db.Schema.Types.ObjectId,
             ref: 'Categoria'
         }
-    ],
-    comentarios: [
-        {
-            type: db.Schema.Types.ObjectId,
-            ref: 'Categoria'
-        }
     ]
 });
 

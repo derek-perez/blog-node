@@ -25,13 +25,6 @@ const verificarJWTController = async (req, res = response) => {
             });
         }
 
-        // Verificar si el usuario está en estado true
-        if (!usuario.estado) {
-            return res.status(401).json({
-                msg: 'token no válido - usuario con estado: false'
-            });
-        }
-
         req.usuario = usuario;
         return res.status(200).json({
             msg: 'Token válido',
@@ -40,7 +33,6 @@ const verificarJWTController = async (req, res = response) => {
         })
 
     } catch (error) {
-        console.log(error);
         res.status(401).json({
             msg: 'Token no válido'
         })

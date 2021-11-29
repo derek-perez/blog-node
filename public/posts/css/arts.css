@@ -901,7 +901,7 @@ df-messenger {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .imagenBox {
         flex-direction: column !important;
     }

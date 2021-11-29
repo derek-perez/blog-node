@@ -11,6 +11,14 @@ const comentarios = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/comentarios/'
     : 'https://blogi-node.herokuapp.com/api/comentarios/';
 
+const categoriasUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/categorias/'
+    : 'https://blogi-node.herokuapp.com/api/categorias/';
+
+const discusionesUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/discusiones/'
+    : 'https://blogi-node.herokuapp.com/api/discusiones/';
+
 const publicUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/'
     : 'https://blogi-node.herokuapp.com/';
@@ -20,7 +28,7 @@ const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
 const foro = document.querySelector('.foro');
 const discusion = document.querySelector('.discusion');
-const descripcion = document.querySelector('#descripcion');
+const descripcionTextarea = document.querySelector('.description');
 const urlWindow = document.querySelector('.urlWindow');
 const imgWindow = document.querySelector('.imgWindow');
 const urlImg = document.querySelector('.urlImg');
@@ -92,6 +100,7 @@ if (token === null) {
                 autenticado = true;
             }
         })
+        .catch(console.log)
 }
 
 // Botón que abre discusión
@@ -100,13 +109,12 @@ nuevaDiscusion.addEventListener('click', () => {
     foro.classList.toggle('hidden');
 })
 
-// Escribir discusion
-const Texto = document.querySelector('#descripcion');
-const resultadoTextarea = document.querySelector('#resultadoTextarea');
+// Escribir discusion 
+const resultadoTextarea = document.querySelector('.resultadoTextarea');
 
-const espacio = () => {
+const mirror = () => {
 
-    const arrTextarea = Texto.value.split('\n');
+    const arrTextarea = descripcionTextarea.value.split('\n');
     const arrResult = [];
 
     arrTextarea.forEach(t => {
@@ -120,9 +128,7 @@ const espacio = () => {
     })
 }
 
-descripcion.addEventListener('keydown', () => {
-    espacio();
-})
+descripcionTextarea.addEventListener('keydown', mirror)
 
 const funcionesParaArticulos = () => {
 
@@ -136,38 +142,38 @@ const funcionesParaArticulos = () => {
     const ponerFileImg = document.querySelector('.ponerFileImg');
 
     const etiquetaStrong = () => {
-        let desde = descripcion.selectionStart;
-        let hasta = descripcion.selectionEnd;
-        let elTexto = descripcion.value;
+        let desde = descripcionTextarea.selectionStart;
+        let hasta = descripcionTextarea.selectionEnd;
+        let elTexto = descripcionTextarea.value;
 
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            descripcion.setRangeText(`<b>${sel}</b>`, desde, hasta, 'select');
+            descripcionTextarea.setRangeText(`<b>${sel}</b>`, desde, hasta, 'select');
         }
     }
 
     const etiquetaSubrayado = () => {
-        let desde = descripcion.selectionStart;
-        let hasta = descripcion.selectionEnd;
-        let elTexto = descripcion.value;
+        let desde = descripcionTextarea.selectionStart;
+        let hasta = descripcionTextarea.selectionEnd;
+        let elTexto = descripcionTextarea.value;
 
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            descripcion.setRangeText(`<u>${sel}</u>`, desde, hasta, 'select');
+            descripcionTextarea.setRangeText(`<u>${sel}</u>`, desde, hasta, 'select');
         }
     }
 
     const etiquetaCursiva = () => {
-        let desde = descripcion.selectionStart;
-        let hasta = descripcion.selectionEnd;
-        let elTexto = descripcion.value;
+        let desde = descripcionTextarea.selectionStart;
+        let hasta = descripcionTextarea.selectionEnd;
+        let elTexto = descripcionTextarea.value;
 
         let sel = elTexto.substring(desde, hasta);
 
         if (sel.length > 0) {// si hay algo seleccionado
-            descripcion.setRangeText(`<i>${sel}</i>`, desde, hasta, 'select');
+            descripcionTextarea.setRangeText(`<i>${sel}</i>`, desde, hasta, 'select');
         }
     }
 
@@ -266,6 +272,86 @@ const funcionesParaArticulos = () => {
 
 funcionesParaArticulos();
 
+// Poner categorias
+let ctgId = [];
+
+const categoriasUl = document.querySelector('.categoriasUl');
+
+fetch(categoriasUrl, {
+    method: 'GET'
+})
+    .then(resp => resp.json())
+    .then(({ categorias }) => {
+        categorias.forEach(c => {
+            const html = `
+                 <li class="ctgLi" id="${c._id}">${c.nombre}</li>
+             `;
+
+            categoriasUl.innerHTML += html;
+        })
+
+        setTimeout(() => {
+            const ctgLi = document.querySelectorAll('.ctgLi');
+            const li = [].slice.call(ctgLi);
+
+            li.forEach(l => {
+                l.addEventListener('click', () => {
+                    ctgId.unshift(l.id)
+                })
+            })
+        }, 500);
+    })
+    .catch(console.log)
+
+// Crear discusión
+const iniciarDiscusion = document.querySelector('.iniciar');
+const sinCtg = document.querySelector('.sinCtg');
+const sinCtgBtn = document.querySelector('.sinCtgBtn');
+const pregunta = document.querySelector('#pregunta');
+
+iniciarDiscusion.addEventListener('click', () => {
+    if (ctgId.length === 0) {
+        sinCtg.classList.toggle('hidden');
+
+        sinCtgBtn.onclick = () => {
+            sinCtg.classList.toggle('hidden');
+        }
+    } else {
+        fetch(validarJwt, {
+            method: 'GET',
+            headers: { 'x-token': token }
+        })
+            .then(resp => resp.json())
+            .then(({ usuario }) => {
+
+                const ctg = ctgId.shift()
+
+                const data = {
+                    'titulo': `${pregunta.value}`,
+                    'contenido': `${resultadoTextarea.innerHTML}`,
+                    'autor': `${usuario.uid}`,
+                    'categoria': `${ctg}`
+                };
+
+                const headersList = {
+                    'Content-Type': 'application/json',
+                    'x-token': `${token}`
+                };
+
+                fetch(discusionesUrl, {
+                    method: 'POST',
+                    headers: headersList,
+                    body: JSON.stringify(data)
+                })
+                    .then(resp => resp.json())
+                    .then(location.reload())
+                    .catch(console.error)
+
+            })
+            .catch(console.error)
+    }
+})
+
 // Abrir escribircomentario
 const abrirEscritor = document.querySelector('#deste');
 const escribirComentario = document.querySelector('.escribirComentario');
@@ -292,6 +378,9 @@ const params = new URLSearchParams(location.search);
 const idDiscusion = params.get('c');
 
 ponerComent.addEventListener('click', () => {
+
+    const resultadoTextareaComment = document.querySelector('.resultadoTextareaComment')
+
     fetch(validarJwt, {
         method: 'GET',
         headers: { 'x-token': token }
@@ -305,7 +394,7 @@ ponerComent.addEventListener('click', () => {
             };
 
             const data = {
-                'contenido': `${resultadoTextarea.innerHTML}`,
+                'contenido': `${resultadoTextareaComment.innerHTML}`,
                 'autor': `${usuario.uid}`,
                 'discusion': `${idDiscusion}`
             };
@@ -318,4 +407,5 @@ ponerComent.addEventListener('click', () => {
                 .then(locaton.reload())
                 .catch(console.error)
         })
+        .catch(console.error)
 })

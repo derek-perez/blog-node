@@ -18,6 +18,8 @@ class Server {
             uploads: '/api/uploads',
             jwt: '/api/validar-jwt',
             blog: '/api/blog',
+            discusiones: '/api/discusiones',
+            comentarios: '/api/comentarios',
         }
 
         // Conectar a DB
@@ -62,6 +64,8 @@ class Server {
         this.app.use(this.paths.uploads, require('../routes/uploads'));
         this.app.use(this.paths.jwt, require('../routes/validar-jwt'));
         this.app.use(this.paths.blog, require('../routes/blogs'));
+        this.app.use(this.paths.discusiones, require('../routes/discusiones'));
+        this.app.use(this.paths.comentarios, require('../routes/comentarios'));
     }
 
     listen() {

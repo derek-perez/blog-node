@@ -22,6 +22,11 @@ body.dark .abajo {
     border-top: 1px solid white;
 }
 
+body.dark .windowLink > div {
+    background-color: #555;
+    color: white;
+}
+
 .hidden {
     display: none !important;
 }
@@ -463,6 +468,33 @@ body.dark .ctgs > li {
     width: 50%;
 }
 
+.categoriasUl {
+    width: 90%;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#introCategorias {
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000a6;
+}
+
+.categoriasUl > li {
+    list-style: none;
+    margin-right: 10px;
+    padding: 5px;
+    background-color: rgb(190 229 255);
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px rgb(0 0 0 / 30%);
+    cursor: pointer;
+}
+
 .form > .textareas {
     width: 100%;
     display: flex;
@@ -488,7 +520,7 @@ body.dark #resultadoTextarea {
     width: 45%;
     height: 250px;
     padding: 5px;
-    border: 1px solid orange;
+    border: 2px solid orange;
     resize: none;
     font-size: 15px;
     background: transparent;
@@ -549,6 +581,7 @@ body.dark #resultadoTextarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     border: white;
     background: white;
     padding: 10px;
@@ -602,6 +635,12 @@ body.dark #resultadoTextarea {
     margin-bottom: 15px;
 }
 
+.sinCtg > div > p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .iniciar {
     margin-top: 25px;
 }
@@ -619,7 +658,7 @@ body.dark #resultadoTextarea {
 .verDiscusion > .top {
     width: 95%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .infoDeDiscusion {
@@ -630,37 +669,29 @@ body.dark #resultadoTextarea {
     width: 25%;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     word-break: break-all;
     text-align: center;
-}
-
-.autor > .imagenBox {
-    background: #80808059;
+    background-color: #80808042;
     padding: 10px;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
 
-.autor > .imagenBox > img {
+.autor > img {
     border-radius: 50%;
     max-width: 100px;
     max-height: 100px;
 }
 
-.autor > .imagenBox > .campos {
+.autor > .campos {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.autor > .imagenBox > .campos > span.principal {
+.autor > .campos > span.principal {
     font-weight: 600;
     font-size: 18px;
     margin-top: 15px;
@@ -691,6 +722,7 @@ body.dark #resultadoTextarea {
 .escribirComentarioDiv > input {
     width: 75%;
     padding: 5px;
+    background: transparent;
     border: 1px solid orange;
     cursor: text;
 }
@@ -1072,5 +1104,26 @@ df-messenger {
 
     .ctgs > li {
         font-size: 20px;
+    }
+
+    .verDiscusion > .top {
+        flex-direction: column;   
+    }
+
+    .verDiscusion > .top > .infoDeDiscusion,
+    .verDiscusion > .top > .autor {
+        width: 100%;
+    }
+
+    .verDiscusion > .top > .autor {
+        align-items: center;
+    }
+
+    .comment,
+    #deste,
+    .escribirComentario > .btns,
+    .escribirComentario > .texts textarea,
+    .escribirComentario > .texts #resultadoTextarea {
+        width: 100%;
     }
 }

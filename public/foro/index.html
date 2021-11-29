@@ -196,51 +196,25 @@
     </div>
 
     <!-- Ver Discusión -->
-    <div class="verDiscusion">
+    <div class="verDiscusion hidden">
         <div class="top">
             <div class="infoDeDiscusion">
-                <h2 class="titulo">
-                    Cómo poner imágenes en Blogi
-                </h2>
-                <div class="contenido">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eos. Tempore eligendi asperiores
-                        perspiciatis ut non labore ipsam soluta eius corporis, magnam sapiente nihil laboriosam
-                        molestias excepturi delectus cupiditate blanditiis!
-                    </p>
-                    <hr>
-                    <img src="../img/articulo.png" alt="">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eos. Tempore eligendi asperiores
-                        perspiciatis ut non labore ipsam soluta eius corporis, magnam sapiente nihil laboriosam
-                        molestias excepturi delectus cupiditate blanditiis!
-                    </p>
-                    <hr>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, eos. Tempore eligendi asperiores
-                        perspiciatis ut non labore ipsam soluta eius corporis, magnam sapiente nihil laboriosam
-                        molestias excepturi delectus cupiditate blanditiis!
-                    </p>
-                </div>
+                <h2 class="titulo"></h2>
+                <div class="contenido"></div>
             </div>
             <div class="autor">
-                <div class="imagenBox">
-                    <img id="imgDePerfil" src="../img/persona-1.png" alt="Autor de este artículo">
-                    <br>
-                    <span class="principal">Perfil del autor:</span>
-                    <br>
-                    <div class="campos">
-                        <span class="principal">Nombre: </span><span class="secundario" id="nombreDeAutor">Derek El
-                            Amado</span>
-                    </div>
-                    <div class="campos">
-                        <span class="principal">Correo: </span><span class="secundario"
-                            id="correoDeAutor">chugus808106@gmail.com</span>
-                    </div>
-                    <div class="campos">
-                        <span class="principal">Articulos: </span><span class="secundario" id="articulosDeAutor">5
-                        </span>
-                    </div>
+                <img id="imgDePerfil" src="" alt="Autor de este artículo">
+                <br>
+                <span class="principal">Perfil del autor:</span>
+                <br>
+                <div class="campos">
+                    <span class="principal">Nombre: </span><span class="secundario" id="nombreDeAutor"></span>
+                </div>
+                <div class="campos">
+                    <span class="principal">Correo: </span><span class="secundario" id="correoDeAutor"></span>
+                </div>
+                <div class="campos">
+                    <span class="principal">Articulos: </span><span class="secundario" id="articulosDeAutor"></span>
                 </div>
             </div>
         </div>
@@ -250,27 +224,27 @@
                 <input type="text" id="deste" placeholder="Escribe tu comentario...">
                 <div class="escribirComentario hidden">
                     <div class="btns">
-                        <button style="color: white;" class="negrita btn">
+                        <button style="color: white;" class="negritaComment btn">
                             <b>Negrita</b>
                         </button>
-                        <button style="color: white;" class="subrayado btn">
+                        <button style="color: white;" class="subrayadoComment btn">
                             <u>Subrayado</u>
                         </button>
-                        <button style="color: white;" class="cursiva btn">
+                        <button style="color: white;" class="cursivaComment btn">
                             <i>Cursiva</i>
                         </button>
-                        <button style="color: white;" class="imgBtn btn">
+                        <button style="color: white;" class="imgBtnComment btn">
                             <i class="fa fa-picture-o"></i>
                         </button>
-                        <button style="color: white;" class="urlBtn btn">
+                        <button style="color: white;" class="urlBtnComment btn">
                             <i class="fa fa-link"></i>
                         </button>
                     </div>
                     <div class="texts">
-                        <textarea name="descripcion" id="descripcion"
+                        <textarea name="descripcion" class="descripcionComment" id="descripcionComment"
                             placeholder="La descripción de lo que quiere hablar..."></textarea>
                         <div contenteditable="false" placeholder="Resultado final..." name="resultadoTextarea"
-                            id="resultadoTextarea"></div>
+                            class="resultadoTextareaComment" id="resultadoTextareaComment"></div>
                     </div>
 
                     <button class="ponerComent btn btn-success w-75 mt-3 mb-2">Poner comentario</button>
@@ -304,7 +278,7 @@
     </div>
 
     <!-- Iniciar discusión -->
-    <div class="discusion hidden">
+    <div class="discusion">
         <h1>Inicie una discusión:</h1>
         <div class="form">
 
@@ -312,6 +286,10 @@
             <input type="text" name="pregunta" id="pregunta" placeholder="Pregunta, duda, aviso de su nuevo blog...">
 
             <label id="descLabel" for="descripcion">Descripción de la misma:</label>
+            <p id="introCategorias">¿En que tema entra su discusión?</p>
+            <ul class="categoriasUl">
+
+            </ul>
             <div class="textareas">
                 <div class="btns">
                     <button style="color: white;" class="negrita btn">
@@ -331,10 +309,10 @@
                     </button>
                 </div>
                 <div class="texts">
-                    <textarea name="descripcion" id="descripcion"
+                    <textarea name="descripcion" class="description" id="descripcion"
                         placeholder="La descripción de lo que quiere hablar..."></textarea>
                     <div contenteditable="false" placeholder="Resultado final..." name="resultadoTextarea"
-                        id="resultadoTextarea"></div>
+                        class="resultadoTextarea" id="resultadoTextarea"></div>
                 </div>
             </div>
 
@@ -382,6 +360,14 @@
                 <button class="redirigir btn btn-primary">Si</button>
                 <button class="noRedirigir btn btn-secondary ">No</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Cuando no hay categoria al iniciar discusion -->
+    <div class="sinCtg windowLink hidden">
+        <div>
+            <p>Necesita selecconar una categoría</p>
+            <button class="sinCtgBtn btn btn-outline-warning">OK</button>
         </div>
     </div>
 
