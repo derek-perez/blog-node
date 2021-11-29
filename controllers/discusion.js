@@ -5,6 +5,8 @@ const Discusion = require('../models/discusion');
 
 const mostrarDiscusiones = async (req, res = response) => {
     await Discusion.find()
+        .populate('autor', 'nombre')
+        .populate('categoria', 'nombre')
         .then(resp => res.status(200).json({ resp }))
 }
 
@@ -12,11 +14,13 @@ const mostrarDiscusion = async (req, res = response) => {
     const { id } = req.params;
 
     await Discusion.find({ _id: id })
+        .populate('autor', 'nombre')
+        .populate('categoria', 'nombre')
         .then(resp => res.status(200).json({ resp }))
 }
 
 const añadirDiscusion = async (req, res = response) => {
-    const { titulo, contenido, autor, categoria, comentarios } = req.body;
+    const { titulo, contenido, textoParaTarjetas, autor, categoria, comentarios } = req.body;
 
     const discusionDB = await Discusion.findOne({ titulo });
 
@@ -36,6 +40,7 @@ const añadirDiscusion = async (req, res = response) => {
     const data = {
         titulo,
         contenido,
+        textoParaTarjetas,
         creadoEn,
         autor: idDeAutor,
         categoria: idDeCtg,

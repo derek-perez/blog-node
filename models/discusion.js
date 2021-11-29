@@ -10,6 +10,10 @@ const DiscusionSchema = db.Schema({
         type: String,
         required: [true, 'Es necesario tener el contenido de la discusión']
     },
+    textoParaTarjetas: {
+        type: String,
+        required: [true, 'Es necesario tener el texto para las tarjetas de la discusión']
+    },
     creadoEn: {
         type: String,
         required: true

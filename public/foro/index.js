@@ -103,6 +103,18 @@ if (token === null) {
         .catch(console.log)
 }
 
+// Mostrar discusiones
+fetch(discusionesUrl, {
+    method: 'GET'
+})
+    .then(resp => resp.json())
+    .then(({ resp: discusiones }) => {
+        discusiones.forEach(d => {
+            console.log(d)
+        })
+    })
+    .catch(console.log)
+
 // Botón que abre discusión
 nuevaDiscusion.addEventListener('click', () => {
     discusion.classList.toggle('hidden');
@@ -329,6 +341,7 @@ iniciarDiscusion.addEventListener('click', () => {
                 const data = {
                     'titulo': `${pregunta.value}`,
                     'contenido': `${resultadoTextarea.innerHTML}`,
+                    'textoParaTarjetas': `${resultadoTextarea.innerText}`,
                     'autor': `${usuario.uid}`,
                     'categoria': `${ctg}`
                 };
