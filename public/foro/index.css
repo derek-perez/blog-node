@@ -9,8 +9,7 @@ body.dark {
     color: white;
 }
 
-body.dark .reciente,
-body.dark .reciente .left .heart {
+body.dark .reciente {
     border: 1px solid white;
 }
 
@@ -290,6 +289,10 @@ body.dark .toggle.active {
     margin-top: 15px;
 }
 
+.reciente:hover {
+    box-shadow: 5px 5px 5px rgb(0 0 0 / 50%);
+}
+
 .reciente {
     width: 80%;
     display: flex;
@@ -300,6 +303,8 @@ body.dark .toggle.active {
     margin-bottom: 25px;
     border: 1px solid rgb(0 0 0 / 30%);
     box-shadow: 4px 4px 5px rgb(0 0 0 / 30%);
+    cursor: pointer;
+    transition: .3s;
 }
 
 .reciente > .left {
@@ -311,6 +316,15 @@ body.dark .toggle.active {
     border-right: 1px solid rgb(0 0 0 / 30%);
 }
 
+.left > a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .left > a > img {
     max-width: 110px;
     max-height: 100px;
@@ -318,31 +332,13 @@ body.dark .toggle.active {
     border: 1px solid rgb(0 0 0 / 50%);
 }
 
-.left > .heart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    border: 1px solid rgb(0 0 0 / 50%);
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-.left > .heart > i:hover {
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
-}
-
-.left > .heart > i {
-    color: red;
-    font-size: 20px;
-    padding-bottom: 5px;
-    cursor: pointer;
-    transition: .5s;
-}
-
-.left > .heart > span {
-    font-size: 20px;
+.left > a > span {
+    margin-left: 10px;
+    text-decoration: none;
+    color: orange;
+    font-weight: 600;
+    font-size: 18px;
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 30%);
 }
 
 .reciente > .resto {
@@ -665,6 +661,10 @@ body.dark #resultadoTextarea {
     width: 70%;
 }
 
+.infoDeDiscusion > .contenido > .imgTextarea {
+    max-width: 75%;
+}
+
 .autor {
     width: 25%;
     display: flex;
@@ -746,6 +746,8 @@ body.dark #resultadoTextarea {
 
 .comment > .perfil {
     margin: 10px 0;
+    color: orange;
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 30%);
 }
 
 .comment > .perfil > img {
@@ -757,9 +759,15 @@ body.dark #resultadoTextarea {
 
 .comment > .contenido {
     margin-bottom: 10px;
-    padding: 5px 0;
+    width: 100%;
+    padding: 10px 0;
     border-top: 1px solid rgb(0 0 0 / 30%);
     border-bottom: 1px solid rgb(0 0 0 / 30%);
+}
+
+.comment > .fecha {
+    color: orange;
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 30%);
 }
 
 .escribirComentario {
@@ -770,8 +778,12 @@ body.dark #resultadoTextarea {
     justify-content: center;
 }
 
+.escribirComentario > .texts > textarea:focus-visible {
+    outline: none;
+}
+
 .escribirComentario > .texts > textarea,
-.escribirComentario > #resultadoTextarea {
+.escribirComentario > .texts > .resultadoTextareaComment {
     width: 45%;
     height: 250px;
     padding: 5px;
@@ -789,12 +801,12 @@ body.dark #resultadoTextarea {
     outline: none;
 }
 
-#resultadoTextarea {
+#resultadoTextareaComment {
     overflow: auto;
     word-break: break-all;
 }
 
-#resultadoTextarea > img {
+#resultadoTextareaComment > img {
     max-width: 90%;
 }
 
@@ -998,7 +1010,7 @@ df-messenger {
     }
 }
 
-@media (max-width: 825px) {
+@media (max-width: 850px) {
 
     .toggle {
         display: block;

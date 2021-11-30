@@ -21,24 +21,17 @@ const mostrarComentarioDeDiscusion = async (req, res = response) => {
     const { id } = req.params;
 
     await Comentario.find({ discusion: id })
-        .then(resp => res.status(200).json({ resp }))
+        .populate('autor')
+        .then(resp => res.status(200).json(resp))
 }
 
 const añadirComentario = async (req, res = response) => {
-    const { contenido, autor, categoria, discusion } = req.body;
-
-    const comentarioDB = await Comentario.findOne({ titulo });
-
-    if (comentarioDB) {
-        return res.status(400).json({
-            msg: `Ya hay una discusión con el mismo titulo`
-        });
-    }
+    const { contenido, autor, articulo, discusion } = req.body;
 
     const creadoEn = new Date();
 
     const idDeAutor = db.Types.ObjectId(autor);
-    const idDeCtg = db.Types.ObjectId(categoria);
+    const idDeArticulo = db.Types.ObjectId(articulo);
     const idDeDiscusion = db.Types.ObjectId(discusion);
 
     // Generar la data a guardar
@@ -46,7 +39,7 @@ const añadirComentario = async (req, res = response) => {
         contenido,
         creadoEn,
         autor: idDeAutor,
-        categoria: idDeCtg,
+        articulo: idDeArticulo,
         discusion: idDeDiscusion,
     }
 

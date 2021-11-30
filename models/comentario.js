@@ -8,23 +8,20 @@ const ComentarioSchema = db.Schema({
     autor: [
         {
             type: db.Schema.Types.ObjectId,
-            ref: 'Autor'
-        },
-        { required: true }
+            ref: 'Usuario'
+        }
     ],
     articulo: [
         {
             type: db.Schema.Types.ObjectId,
             ref: 'Articulo'
-        },
-        { required: false }
+        }
     ],
     discusion: [
         {
             type: db.Schema.Types.ObjectId,
             ref: 'Discusion'
-        },
-        { required: false }
+        }
     ]
 })
 

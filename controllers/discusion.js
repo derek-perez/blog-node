@@ -4,9 +4,7 @@ const { response } = require("express");
 const Discusion = require('../models/discusion');
 
 const mostrarDiscusiones = async (req, res = response) => {
-    await Discusion.find()
-        .populate('autor', 'nombre')
-        .populate('categoria', 'nombre')
+    await Discusion.paginate({}, { populate: 'categoria', limit: 20, sort: { creadoEn: 1 } })
         .then(resp => res.status(200).json({ resp }))
 }
 

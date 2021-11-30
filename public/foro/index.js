@@ -7,9 +7,13 @@ const validarJwt = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/validar-jwt/'
     : 'https://blogi-node.herokuapp.com/api/validar-jwt/';
 
-const comentarios = (window.location.hostname.includes('localhost'))
+const comentariosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/comentarios/'
     : 'https://blogi-node.herokuapp.com/api/comentarios/';
+
+const usuariosUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/usuarios/'
+    : 'https://blogi-node.herokuapp.com/api/usuarios/';
 
 const categoriasUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/categorias/'
@@ -22,6 +26,14 @@ const discusionesUrl = (window.location.hostname.includes('localhost'))
 const publicUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/'
     : 'https://blogi-node.herokuapp.com/';
+
+const usuariosPublic = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/posts/blog.html?id='
+    : 'https://blogi-node.herokuapp.com/posts/blog.html?id=';
+
+const discusionesPublic = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:5500/public/foro/?c='
+    : 'https://blogi-node.herokuapp.com/foro/?c=';
 
 // Variables
 const body = document.querySelector('body');
@@ -42,6 +54,87 @@ const redirigir = document.querySelector('.redirigir');
 const noRedirigir = document.querySelector('.noRedirigir');
 
 let autenticado = true;
+
+const diasEspañol = [
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+    'Domingo'
+];
+
+const mesesEspañol = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+];
+
+const cambiarAEspañolDia = (dia) => {
+
+    let diaBueno = '';
+
+    if (dia === 'Mon') {
+        diaBueno = diasEspañol[0];
+    } else if (dia === 'Tue') {
+        diaBueno = diasEspañol[1]
+    } else if (dia === 'Wen') {
+        diaBueno = diasEspañol[2]
+    } else if (dia === 'Thu') {
+        diaBueno = diasEspañol[3]
+    } else if (dia === 'Fri') {
+        diaBueno = diasEspañol[4]
+    } else if (dia === 'Sat') {
+        diaBueno = diasEspañol[5]
+    } else if (dia === 'Sun') {
+        diaBueno = diasEspañol[6]
+    }
+
+    return diaBueno;
+}
+
+const cambiarAEspañolMes = (mes) => {
+
+    let mesBueno = '';
+
+    if (mes === 'Jan') {
+        mesBueno = mesesEspañol[0];
+    } else if (mes === 'Feb') {
+        mesBueno = mesesEspañol[1]
+    } else if (mes === 'Mar') {
+        mesBueno = mesesEspañol[2]
+    } else if (mes === 'Apr') {
+        mesBueno = mesesEspañol[3]
+    } else if (mes === 'May') {
+        mesBueno = mesesEspañol[4]
+    } else if (mes === 'Jun') {
+        mesBueno = mesesEspañol[5]
+    } else if (mes === 'Jul') {
+        mesBueno = mesesEspañol[6]
+    } else if (mes === 'Aug') {
+        mesBueno = mesesEspañol[7]
+    } else if (mes === 'Sep') {
+        mesBueno = mesesEspañol[8]
+    } else if (mes === 'Oct') {
+        mesBueno = mesesEspañol[9]
+    } else if (mes === 'Nov') {
+        mesBueno = mesesEspañol[10]
+    } else if (mes === 'Dec') {
+        mesBueno = mesesEspañol[11]
+    }
+
+    return mesBueno;
+}
 
 // Modo oscuro
 const checkbox = document.querySelector('#check');
@@ -104,16 +197,347 @@ if (token === null) {
 }
 
 // Mostrar discusiones
+const cadaUna = document.querySelector('.cadaUna');
+
 fetch(discusionesUrl, {
     method: 'GET'
 })
     .then(resp => resp.json())
-    .then(({ resp: discusiones }) => {
-        discusiones.forEach(d => {
-            console.log(d)
+    .then(({ resp }) => {
+        const discusiones = resp.docs;
+
+        discusiones.forEach(discusion => {
+            fetch(usuariosUrl + discusion.autor[0], {
+                method: 'GET'
+            })
+                .then(resp => resp.json())
+                .then(({ usuario }) => {
+
+                    // Se crea el string para la fecha
+                    const fechaMal = discusion.creadoEn.split(' ');
+                    const arrayBuena = fechaMal.splice(0, 4);
+
+                    const dia = cambiarAEspañolDia(arrayBuena[0]);
+                    const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                    let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                    const contenidoCortado = discusion.textoParaTarjetas.slice(0, 110);
+
+                    const contenido = contenidoCortado + '...';
+
+                    const html = `
+                        <div id="${discusion._id}" class="reciente">
+                            <div class="left">
+                                <a href="${usuariosPublic + usuario.uid}">
+                                    <img src="${usuario.img}" alt="Usuario que empezó la discusión">
+                                    <span id="nombre">${usuario.nombre}</span>
+                                </a>
+                            </div>
+                            <div class="resto">
+                                <span class="titulo">${discusion.titulo}</span>
+                                <span class="contenido">${contenido}</span>
+                                <div class="abajo">
+                                    <span class="fecha">${fecha}</span>
+                                    <span>Tema: <span class="ctg">${discusion.categoria[0].nombre}</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    cadaUna.innerHTML += html;
+
+                    setTimeout(() => {
+                        const recientesUl = document.querySelectorAll('.reciente');
+
+                        recientesUl.forEach(r => {
+                            r.addEventListener('click', () => {
+                                location.href = discusionesPublic + r.id;
+                            })
+                        })
+                    }, 500);
+                })
+                .catch(console.error)
         })
     })
     .catch(console.log)
+
+// Mostrar discusion si hay id
+const params = new URLSearchParams(location.search);
+const idDiscusion = params.get('c');
+const titulo = document.querySelector('.titulo');
+const contenido = document.querySelector('.contenido');
+const verDiscusion = document.querySelector('.verDiscusion');
+const comments = document.querySelector('.comments');
+
+const imgDePerfil = document.querySelector('#imgDePerfil');
+const nombreDeAutor = document.querySelector('#nombreDeAutor');
+const correoDeAutor = document.querySelector('#correoDeAutor');
+const articulosDeAutor = document.querySelector('#articulosDeAutor');
+
+if (idDiscusion !== null) {
+    fetch(discusionesUrl + idDiscusion, {
+        method: 'GET'
+    })
+        .then(resp => resp.json())
+        .then(({ resp }) => {
+            const discusion = resp[0];
+
+            foro.classList.toggle('hidden');
+            verDiscusion.classList.toggle('hidden');
+
+            titulo.innerHTML = discusion.titulo;
+            contenido.innerHTML = discusion.contenido;
+
+            fetch(usuariosUrl + discusion.autor[0].uid, {
+                method: 'GET'
+            })
+                .then(resp => resp.json())
+                .then(({ usuario, resp }) => {
+
+                    imgDePerfil.src = usuario.img;
+                    nombreDeAutor.innerHTML = usuario.nombre;
+                    correoDeAutor.innerHTML = usuario.correo;
+                    articulosDeAutor.innerHTML = resp.totalDocs;
+
+                })
+                .catch(console.log)
+
+            // Mostrar comentarios de cierta discusión
+            fetch(comentariosUrl + 'discusion/' + idDiscusion, {
+                method: 'GET'
+            })
+                .then(resp => resp.json())
+                .then(coments => {
+                    coments.forEach(c => {
+
+                        // Se crea el string para la fecha
+                        const fechaMal = discusion.creadoEn.split(' ');
+                        const arrayBuena = fechaMal.splice(0, 4);
+
+                        const dia = cambiarAEspañolDia(arrayBuena[0]);
+                        const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                        const html = `
+                            <div class="comment">
+                                <div class="perfil">
+                                    <img src="${c.autor[0].img}">
+                                    <span class="nombre principal">${c.autor[0].nombre}</span>
+                                </div>
+                                <div class="contenido">${c.contenido}</div>
+                                <span class="fecha principal">${fecha}</span>
+                            </div>
+                        `;
+
+                        comments.innerHTML += html;
+                    })
+                })
+                .catch(console.log)
+
+            // Crear comentario
+            const ponerComent = document.querySelector('.ponerComent');
+            const descripcionComment = document.querySelector('.descripcionComment');
+            const resultadoTextareaComment = document.querySelector('.resultadoTextareaComment');
+
+            const funcionesParaArticulosComment = () => {
+
+                const mirror2 = () => {
+
+                    const arrTextarea = descripcionComment.value.split('\n');
+                    const arrResult = [];
+
+                    arrTextarea.forEach(t => {
+                        const parrafo2 = document.createElement('p');
+                        parrafo2.innerHTML = t;
+
+                        arrResult.push(parrafo2.innerHTML);
+                        setTimeout(() => {
+                            resultadoTextareaComment.innerHTML = arrResult.join('<br>');
+                        }, 100)
+                    })
+                }
+
+                descripcionComment.addEventListener('keydown', mirror2)
+
+                // Negrita, subrayado, cursiva
+                const negrita = document.querySelector('.negritaComment');
+                const subrayado = document.querySelector('.subrayadoComment');
+                const cursiva = document.querySelector('.cursivaComment');
+                const imgBtnComment = document.querySelector('.imgBtnComment');
+                const urlBtnComment = document.querySelector('.urlBtnComment');
+                const ponerUrlImg = document.querySelector('.ponerUrlImg');
+                const ponerFileImg = document.querySelector('.ponerFileImg');
+
+                const etiquetaStrong = () => {
+                    let desde = descripcionComment.selectionStart;
+                    let hasta = descripcionComment.selectionEnd;
+                    let elTexto = descripcionComment.value;
+
+                    let sel = elTexto.substring(desde, hasta);
+
+                    if (sel.length > 0) {// si hay algo seleccionado
+                        descripcionComment.setRangeText(`<b>${sel}</b>`, desde, hasta, 'select');
+                    }
+                }
+
+                const etiquetaSubrayado = () => {
+                    let desde = descripcionComment.selectionStart;
+                    let hasta = descripcionComment.selectionEnd;
+                    let elTexto = descripcionComment.value;
+
+                    let sel = elTexto.substring(desde, hasta);
+
+                    if (sel.length > 0) {// si hay algo seleccionado
+                        descripcionComment.setRangeText(`<u>${sel}</u>`, desde, hasta, 'select');
+                    }
+                }
+
+                const etiquetaCursiva = () => {
+                    let desde = descripcionComment.selectionStart;
+                    let hasta = descripcionComment.selectionEnd;
+                    let elTexto = descripcionComment.value;
+
+                    let sel = elTexto.substring(desde, hasta);
+
+                    if (sel.length > 0) {// si hay algo seleccionado
+                        descripcionComment.setRangeText(`<i>${sel}</i>`, desde, hasta, 'select');
+                    }
+                }
+
+                negrita.addEventListener("click", () => {
+                    etiquetaStrong();
+                });
+                cursiva.addEventListener("click", () => {
+                    etiquetaCursiva();
+                });
+                subrayado.addEventListener("click", () => {
+                    etiquetaSubrayado();
+                });
+
+                const insertAtCaret = (areaId, text) => {
+                    var txtarea = document.getElementById(areaId);
+                    var scrollPos = txtarea.scrollTop;
+                    var caretPos = txtarea.selectionStart;
+
+                    var front = (txtarea.value).substring(0, caretPos);
+                    var back = (txtarea.value).substring(txtarea.selectionEnd, txtarea.value.length);
+                    txtarea.value = front + text + back;
+                    caretPos = caretPos + text.length;
+                    txtarea.selectionStart = caretPos;
+                    txtarea.selectionEnd = caretPos;
+                    txtarea.focus();
+                    txtarea.scrollTop = scrollPos;
+                }
+
+                const urlFunction = () => {
+                    const urlRequeridaComment = document.querySelector('.urlRequeridaComment');
+                    const aparecerUrlComment = document.querySelector('.aparecerUrlComment');
+
+                    const ponerUrlComment = document.querySelector('.ponerUrlComment');
+
+                    ponerUrlComment.addEventListener('click', () => {
+                        insertAtCaret('descripcionComment', `<a href="${urlRequeridaComment.value}">${aparecerUrlComment.value}</a>`);
+                        urlWindow.classList.toggle('hidden');
+                    })
+                }
+
+                const imgConUrl = () => {
+                    const img = urlImg.value;
+
+                    if (img.includes('data:image/')) {
+                        imgWindow.classList.toggle('hidden');
+                        imgMala.classList.toggle('hidden');
+
+                        imgMalaBtn.addEventListener('click', () => {
+                            imgMala.classList.toggle('hidden')
+                        })
+
+                    } else {
+                        insertAtCaret('descripcionComment', `<img src="${img}" class="imgTextarea"></img>`);
+                        imgWindow.classList.toggle('hidden');
+                        urlImg.value = '';
+                    }
+
+                }
+
+                const imgFile = () => {
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const imgFile = e.target.result;
+
+                        const data = { "archivo": `${imgFile}` };
+
+                        fetch(uploadIMG + 'subir', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        })
+                            .then(resp => resp.json())
+                            .then(url => {
+                                insertAtCaret('descripcionComment', `<img src="${url}" class="imgTextarea"></img>`);
+                                imgWindow.classList.toggle('hidden');
+                            })
+                            .catch(console.error)
+                    }
+
+                    reader.readAsDataURL(fileImg.files[0]);
+                }
+
+                urlBtnComment.addEventListener('click', () => {
+                    urlWindow.classList.toggle('hidden');
+                    urlFunction();
+                })
+
+                imgBtnComment.addEventListener('click', () => {
+                    imgWindow.classList.toggle('hidden');
+
+                    ponerUrlImg.addEventListener('click', imgConUrl)
+                    ponerFileImg.addEventListener('click', imgFile)
+                })
+            }
+
+            funcionesParaArticulosComment();
+
+            ponerComent.addEventListener('click', () => {
+
+                const resultadoTextareaComment = document.querySelector('.resultadoTextareaComment')
+
+                fetch(validarJwt, {
+                    method: 'GET',
+                    headers: { 'x-token': token }
+                })
+                    .then(resp => resp.json())
+                    .then(({ usuario }) => {
+
+                        const headersList = {
+                            'Content-Type': 'application/json',
+                            'x-token': `${token}`
+                        };
+
+                        const data = {
+                            'contenido': `${resultadoTextareaComment.innerHTML}`,
+                            'autor': `${usuario.uid}`,
+                            'discusion': `${idDiscusion}`
+                        };
+
+                        fetch(comentariosUrl, {
+                            method: 'POST',
+                            headers: headersList,
+                            body: JSON.stringify(data)
+                        })
+                            .then(location.reload())
+                            .catch(console.error)
+                    })
+                    .catch(console.error)
+            })
+
+        })
+        .catch(console.error)
+}
 
 // Botón que abre discusión
 nuevaDiscusion.addEventListener('click', () => {
@@ -365,7 +789,7 @@ iniciarDiscusion.addEventListener('click', () => {
     }
 })
 
-// Abrir escribircomentario
+// Abrir escribir comentario
 const abrirEscritor = document.querySelector('#deste');
 const escribirComentario = document.querySelector('.escribirComentario');
 
@@ -383,42 +807,4 @@ abrirEscritor.addEventListener('click', () => {
             noRegister.classList.toggle('hidden');
         }
     }
-})
-
-// Poner comentario
-const ponerComent = document.querySelector('.ponerComent');
-const params = new URLSearchParams(location.search);
-const idDiscusion = params.get('c');
-
-ponerComent.addEventListener('click', () => {
-
-    const resultadoTextareaComment = document.querySelector('.resultadoTextareaComment')
-
-    fetch(validarJwt, {
-        method: 'GET',
-        headers: { 'x-token': token }
-    })
-        .then(resp => resp.json())
-        .then(({ usuario }) => {
-
-            const headersList = {
-                'Content-Type': 'application/json',
-                'x-token': `${token}`
-            };
-
-            const data = {
-                'contenido': `${resultadoTextareaComment.innerHTML}`,
-                'autor': `${usuario.uid}`,
-                'discusion': `${idDiscusion}`
-            };
-
-            fetch(comentarios, {
-                method: 'POST',
-                headers: headersList,
-                body: JSON.stringify(data)
-            })
-                .then(locaton.reload())
-                .catch(console.error)
-        })
-        .catch(console.error)
 })
