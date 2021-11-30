@@ -102,6 +102,20 @@ btnBuscador.addEventListener('click', () => {
     }, 500);
 })
 
+buscar.addEventListener('keypress', (e) => {
+    if (e.charCode === 13) {
+        spinner.classList.toggle('hidden');
+
+        if (buscar.value === '') {
+            location.reload();
+        }
+
+        setTimeout(() => {
+            location.href = buscadorUrl + buscar.value;
+        }, 500);
+    }
+})
+
 // Poner articulos de usuario
 const articulosUl = document.querySelector('.articulosUl');
 

@@ -638,7 +638,7 @@ body.dark .toggle.responsive {
     font-size: 22px;
     width: calc(50% - 1.6rem);
     padding: 5px;
-    margin: 0;
+    margin: 5;
 }
 
 .tusBlogs > .crearBlog > a {
@@ -787,6 +787,7 @@ body.dark .toggle.responsive {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
 }
 
 .creacionDeBlog > .formulario {
@@ -1504,6 +1505,27 @@ df-messenger {
     margin-left: 10px;
 }
 
+.aTutoriales {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: white;
+    color: black;
+    box-shadow: inset 0px 0px 8px 3px rgb(0 0 0 / 30%);
+}
+
+.aTutoriales > h2 {
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.aTutoriales > button {
+    font-size: 20px;
+}
 
 
 

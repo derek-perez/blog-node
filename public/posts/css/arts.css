@@ -156,8 +156,8 @@ body.dark .categoriasDeArticulo {
 
 .buscador {
     background-color: #00000021;
-    padding: 5px;
     border-radius: 10px;
+    padding: 10px;
 }
 
 .buscador > input:focus-visible {
@@ -920,5 +920,35 @@ df-messenger {
         margin: 5px 0px;
         padding: 20px;
         border-bottom: 1px solid white;
+    }
+}
+
+@media (max-width: 465px) {
+    .intro {
+        height: 400px;
+    }
+
+    .intro > .left {
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 380px) {
+    .intro {
+        height: 450px;
+    }
+
+    .intro > .left {
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 350px) {
+    .intro {
+        height: 525px;
+    }
+
+    .intro > .left {
+        margin-top: 25px;
     }
 }

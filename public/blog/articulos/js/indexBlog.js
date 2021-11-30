@@ -1291,10 +1291,12 @@ setTimeout(() => {
                 const intro = document.querySelector('.intro');
                 const crearlo = document.querySelector('.crearlo');
                 const descripciones = document.querySelector('.descripciones');
+                const aTutoriales = document.querySelector('.aTutoriales');
 
                 const primerSiguiente = document.getElementById('primerSiguiente');
                 const segundoSiguiente = document.getElementById('segundoSiguiente');
                 const tercerSiguiente = document.getElementById('tercerSiguiente');
+                const ultimoSiguiente = document.getElementById('ultimoSiguiente');
 
                 const nombreDeBlogCrear = document.getElementById('nombreDeBlogCrear');
                 const descDeBlogCrear = document.getElementById('descDeBlogCrear');
@@ -1341,7 +1343,11 @@ setTimeout(() => {
 
                     tercerSiguiente.onclick = () => {
                         descripciones.classList.add('hidden');
-                        introDeBlog.classList.add('hidden');
+                        aTutoriales.classList.toggle('hidden');
+                    }
+
+                    ultimoSiguiente.onclick = () => {
+                        introDeBlog.classList.toggle('hidden');
                         blog.classList.toggle('hidden');
                     }
                 }

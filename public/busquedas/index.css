@@ -130,8 +130,8 @@ body.dark .articulo {
 
 .buscador {
     background-color: #00000021;
-    padding: 5px;
     border-radius: 10px;
+    padding: 10px;
 }
 
 .buscador > input:focus-visible {
