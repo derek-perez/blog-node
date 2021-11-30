@@ -2,6 +2,7 @@ const { response } = require("express");
 
 const Articulo = require("../models/articulo");
 const Categoria = require('../models/categoria');
+const Discusion = require("../models/discusion");
 
 
 const mostrarCategorias = async (req, res = response) => {
@@ -93,6 +94,17 @@ const mostrarArticulosDeCategoria = async (req, res = response) => {
 
 }
 
+const mostrarDiscusionesDeCategoria = async (req, res = response) => {
+
+    // Toma las discusiones que estén en la categoría
+    const { id } = req.params;
+    const estado = { categoria: id };
+
+    await Discusion.paginate(estado, { populate: 'categoria', limit: 20 })
+        .then(resp => res.status(200).json(resp));
+
+}
+
 
 
 
@@ -102,5 +114,6 @@ module.exports = {
     añadirCategorias,
     editarCategorias,
     eliminarCategorias,
-    mostrarArticulosDeCategoria
+    mostrarArticulosDeCategoria,
+    mostrarDiscusionesDeCategoria,
 }

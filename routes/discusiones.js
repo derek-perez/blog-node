@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { mostrarDiscusiones, mostrarDiscusion, modificarDiscusion, eliminarDiscusion, añadirDiscusion } = require('../controllers/discusion');
+const { mostrarDiscusiones, mostrarDiscusion, modificarDiscusion, eliminarDiscusion, añadirDiscusion, mostrarDiscusionesPerPage, buscadorDeDiscusiones } = require('../controllers/discusion');
 
 const { validarJWT } = require('../helpers/validar-jwt');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -11,6 +11,10 @@ const app = Router();
 app.get('/', mostrarDiscusiones);
 
 app.get('/:id', mostrarDiscusion);
+
+app.post('/page/', mostrarDiscusionesPerPage);
+
+app.post('/buscador', buscadorDeDiscusiones);
 
 app.post('/', [
     validarJWT,

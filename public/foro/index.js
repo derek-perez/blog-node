@@ -37,6 +37,7 @@ const discusionesPublic = (window.location.hostname.includes('localhost'))
 
 // Variables
 const body = document.querySelector('body');
+const spinner = document.querySelector('.spinner');
 const navBar = document.querySelector('.navBar');
 const foro = document.querySelector('.foro');
 const discusion = document.querySelector('.discusion');
@@ -196,8 +197,176 @@ if (token === null) {
         .catch(console.log)
 }
 
+// Mostrar categorías en el foro
+fetch(categoriasUrl, {
+    method: 'GET'
+})
+    .then(resp => resp.json())
+    .then(({ categorias }) => {
+        const ctgs = document.querySelector('.ctgs');
+
+        categorias.forEach(c => {
+            const html = `
+                <li class="ctgLi" id="${c._id}">
+                    <span>${c.nombre}</span>
+                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                </li>
+            `;
+
+            ctgs.innerHTML += html;
+
+        })
+
+        setTimeout(() => {
+            const ctgsLi = document.querySelectorAll('.ctgLi');
+            const ctgLi = [].slice.call(ctgsLi);
+
+            ctgLi.forEach(c => {
+
+
+                c.addEventListener('click', () => {
+
+                    spinner.classList.toggle('hidden');
+
+                    if (c.id === 'Todos') {
+                        location.reload();
+                    }
+
+                    fetch(categoriasUrl + 'discusiones/' + c.id, {
+                        method: 'GET'
+                    })
+                        .then(resp => resp.json())
+                        .then(({ docs: discusiones }) => {
+
+                            if (discusiones.length === 0) {
+                                cadaUna.innerHTML = '';
+
+                                const html = `
+                                    <div class="noHay">
+                                        <img src="../img/void.png">
+                                        <p>Aún no hay discusiones en esta categoría</p>
+                                    </div>
+                                `;
+
+                                cadaUna.innerHTML = html;
+                            }
+
+                            discusiones.forEach(discusion => {
+                                fetch(usuariosUrl + discusion.autor[0], {
+                                    method: 'GET'
+                                })
+                                    .then(resp => resp.json())
+                                    .then(({ usuario }) => {
+                                        cadaUna.innerHTML = '';
+
+                                        // Se crea el string para la fecha
+                                        const fechaMal = discusion.creadoEn.split(' ');
+                                        const arrayBuena = fechaMal.splice(0, 4);
+
+                                        const dia = cambiarAEspañolDia(arrayBuena[0]);
+                                        const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                                        const contenidoCortado = discusion.textoParaTarjetas.slice(0, 110);
+
+                                        const contenido = contenidoCortado + '...';
+
+                                        const html = `
+                                            <div id="${discusion._id}" class="reciente">
+                                                <div class="left">
+                                                    <a href="${usuariosPublic + usuario.uid}">
+                                                        <img src="${usuario.img}" alt="Usuario que empezó la discusión">
+                                                        <span id="nombre">${usuario.nombre}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="resto">
+                                                    <span class="titulo">${discusion.titulo}</span>
+                                                    <span class="contenido">${contenido}</span>
+                                                    <div class="abajo">
+                                                        <span class="fecha">${fecha}</span>
+                                                        <span>Tema: <span class="ctg">${discusion.categoria[0].nombre}</span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+
+                                        cadaUna.innerHTML += html;
+                                    })
+                                    .catch(console.log)
+                            })
+
+                        })
+                        .catch(console.log)
+                        .finally(() => {
+                            spinner.classList.toggle('hidden');
+                        })
+                })
+            })
+        }, 500);
+    })
+    .catch(console.log)
+
 // Mostrar discusiones
 const cadaUna = document.querySelector('.cadaUna');
+const pagination = document.querySelector('.pagination');
+
+const ponerDiscusiones = (discusiones) => {
+
+    discusiones.forEach(discusion => {
+        fetch(usuariosUrl + discusion.autor[0], {
+            method: 'GET'
+        })
+            .then(resp => resp.json())
+            .then(({ usuario }) => {
+
+                // Se crea el string para la fecha
+                const fechaMal = discusion.creadoEn.split(' ');
+                const arrayBuena = fechaMal.splice(0, 4);
+
+                const dia = cambiarAEspañolDia(arrayBuena[0]);
+                const mes = cambiarAEspañolMes(arrayBuena[1]);
+
+                let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+
+                const contenidoCortado = discusion.textoParaTarjetas.slice(0, 110);
+
+                const contenido = contenidoCortado + '...';
+
+                const html = `
+                    <div id="${discusion._id}" class="reciente">
+                        <div class="left">
+                            <a href="${usuariosPublic + usuario.uid}">
+                                <img src="${usuario.img}" alt="Usuario que empezó la discusión">
+                                <span id="nombre">${usuario.nombre}</span>
+                            </a>
+                        </div>
+                        <div class="resto">
+                            <span class="titulo">${discusion.titulo}</span>
+                            <span class="contenido">${contenido}</span>
+                            <div class="abajo">
+                                <span class="fecha">${fecha}</span>
+                                <span>Tema: <span class="ctg">${discusion.categoria[0].nombre}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                cadaUna.innerHTML += html;
+
+                setTimeout(() => {
+                    const recientesUl = document.querySelectorAll('.reciente');
+
+                    recientesUl.forEach(r => {
+                        r.addEventListener('click', () => {
+                            location.href = discusionesPublic + r.id;
+                        })
+                    })
+                }, 500);
+            })
+            .catch(console.error)
+    })
+}
 
 fetch(discusionesUrl, {
     method: 'GET'
@@ -206,61 +375,105 @@ fetch(discusionesUrl, {
     .then(({ resp }) => {
         const discusiones = resp.docs;
 
-        discusiones.forEach(discusion => {
-            fetch(usuariosUrl + discusion.autor[0], {
-                method: 'GET'
-            })
-                .then(resp => resp.json())
-                .then(({ usuario }) => {
+        const ponerPaginacion = () => {
 
-                    // Se crea el string para la fecha
-                    const fechaMal = discusion.creadoEn.split(' ');
-                    const arrayBuena = fechaMal.splice(0, 4);
+            const siguientes = resp.totalPages;
 
-                    const dia = cambiarAEspañolDia(arrayBuena[0]);
-                    const mes = cambiarAEspañolMes(arrayBuena[1]);
+            for (let i = 0; i < siguientes; i++) {
 
-                    let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
+                const myFunc = num => Number(num);
 
-                    const contenidoCortado = discusion.textoParaTarjetas.slice(0, 110);
+                const deste = Array.from(String(i), myFunc)
 
-                    const contenido = contenidoCortado + '...';
-
+                deste.forEach(n => {
                     const html = `
-                        <div id="${discusion._id}" class="reciente">
-                            <div class="left">
-                                <a href="${usuariosPublic + usuario.uid}">
-                                    <img src="${usuario.img}" alt="Usuario que empezó la discusión">
-                                    <span id="nombre">${usuario.nombre}</span>
-                                </a>
-                            </div>
-                            <div class="resto">
-                                <span class="titulo">${discusion.titulo}</span>
-                                <span class="contenido">${contenido}</span>
-                                <div class="abajo">
-                                    <span class="fecha">${fecha}</span>
-                                    <span>Tema: <span class="ctg">${discusion.categoria[0].nombre}</span></span>
-                                </div>
-                            </div>
-                        </div>
+                        <li class="page-item" style="margin-left: 10px;">
+                            <span id="${n + 1}" class="page-link">${n + 1}</span>
+                        </li>
                     `;
 
-                    cadaUna.innerHTML += html;
+                    pagination.innerHTML += html;
 
                     setTimeout(() => {
-                        const recientesUl = document.querySelectorAll('.reciente');
+                        const pageLinks = document.querySelectorAll('.page-link');
+                        const pageLink = [].slice.call(pageLinks);
 
-                        recientesUl.forEach(r => {
-                            r.addEventListener('click', () => {
-                                location.href = discusionesPublic + r.id;
+                        pageLink.forEach(p => {
+
+                            p.addEventListener('click', () => {
+
+                                setTimeout(() => {
+                                    const paginaRequerida = p.id;
+
+                                    fetch(discusionesUrl + 'page/', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ page: paginaRequerida })
+                                    })
+                                        .then(response => response.json())
+                                        .then(({ resp }) => {
+                                            ponerDiscusiones(resp.docs);
+                                        })
+                                        .catch(console.error)
+                                }, 500);
+
                             })
                         })
+
                     }, 500);
                 })
-                .catch(console.error)
-        })
+            }
+
+        }
+
+        ponerPaginacion();
+
+        ponerDiscusiones(discusiones);
     })
     .catch(console.log)
+
+// Mostrar discusiones por medio del buscador
+const searchBtn = document.querySelector('.searchBtn');
+const search = document.querySelector('#search');
+
+searchBtn.addEventListener('click', () => {
+
+    if (search.value === '') {
+        location.reload();
+    }
+
+    fetch(discusionesUrl + 'buscador', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ buscar: search.value })
+    })
+        .then(resp => resp.json())
+        .then(discusiones => {
+            cadaUna.innerHTML = '';
+            ponerDiscusiones(discusiones);
+        })
+        .catch(console.log)
+})
+
+search.addEventListener('keypress', (e) => {
+    if (e.charCode === 13) {
+        if (search.value === '') {
+            location.reload();
+        }
+
+        fetch(discusionesUrl + 'buscador', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ buscar: search.value })
+        })
+            .then(resp => resp.json())
+            .then(discusiones => {
+                cadaUna.innerHTML = '';
+                ponerDiscusiones(discusiones);
+            })
+            .catch(console.log)
+    }
+})
 
 // Mostrar discusion si hay id
 const params = new URLSearchParams(location.search);
@@ -282,12 +495,15 @@ if (idDiscusion !== null) {
         .then(resp => resp.json())
         .then(({ resp }) => {
             const discusion = resp[0];
+            const regresarAlForo = document.querySelector('.regresarAlForo');
 
             foro.classList.toggle('hidden');
             verDiscusion.classList.toggle('hidden');
 
             titulo.innerHTML = discusion.titulo;
             contenido.innerHTML = discusion.contenido;
+
+            regresarAlForo.classList.toggle('hidden');
 
             fetch(usuariosUrl + discusion.autor[0].uid, {
                 method: 'GET'

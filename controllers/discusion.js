@@ -75,6 +75,25 @@ const eliminarDiscusion = async (req, res = response) => {
     res.status(200).json({ msg: 'Discusion eliminado correctamente' })
 }
 
+const mostrarDiscusionesPerPage = async (req, res = response) => {
+    const { page } = req.body;
+
+    await Discusion.paginate({}, { populate: 'categoria', page, limit: 20, sort: { creadoEn: 1 } })
+        .then(resp => res.status(200).json({ resp }))
+}
+
+const buscadorDeDiscusiones = async (req, res = response) => {
+
+    const { buscar } = req.body;
+
+    const discusiones = await Discusion.find({ $or: [{ titulo: { $regex: '.*' + buscar + '.*', $options: 'i' } }, { contenido: { $regex: '.*' + buscar + '.*', $options: 'i' } }] })
+        .populate('categoria', 'nombre')
+
+    res.status(200).json(discusiones);
+
+}
+
+
 
 module.exports = {
     mostrarDiscusiones,
@@ -82,4 +101,6 @@ module.exports = {
     añadirDiscusion,
     modificarDiscusion,
     eliminarDiscusion,
+    mostrarDiscusionesPerPage,
+    buscadorDeDiscusiones
 }

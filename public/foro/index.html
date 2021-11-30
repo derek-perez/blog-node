@@ -20,6 +20,12 @@
 
 <body>
 
+    <!-- Spinner -->
+    <div class="spinner hidden">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+
     <!-- NavBar -->
     <nav class="navBar">
         <div id="presentacion">
@@ -49,7 +55,7 @@
                     Iniciar discusión
                 </button>
             </li>
-            <li class="enlace">
+            <li class="enlace regresarAlForo hidden">
                 <a href="./">
                     <button>
                         Regresar al foro
@@ -73,7 +79,7 @@
                     entender o preguntar por funciones de blogi</p>
                 <br>
                 <div class="buscador">
-                    <i class="fa fa-search"></i>
+                    <i class="searchBtn fa fa-search"></i>
                     <input type="text" name="search" id="search" placeholder="Busca alguna discusión">
                 </div>
             </div>
@@ -87,20 +93,17 @@
 
             </div>
             <ul class="ctgs">
-                <li>
-                    Idiomas y Lenguas
-                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
-                </li>
-                <li>
-                    Idiomas y Lenguas
-                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
-                </li>
-                <li>
-                    Idiomas y Lenguas
+                <li class="ctgLi" id="Todos">
+                    <span>Todos</span>
                     <i class="fa fa-fighter-jet" aria-hidden="true"></i>
                 </li>
             </ul>
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-lg justify-content-center">
+
+            </ul>
+        </nav>
     </div>
 
     <!-- Ver Discusión -->

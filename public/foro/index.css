@@ -39,6 +39,27 @@ body.dark .windowLink > div {
     font-size: 18px;
 }
 
+/* Spinner */
+.spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffa500e8;
+    z-index: 10000;
+}
+
+.spinner > i {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 92px;
+    color: white;
+    text-shadow: 2px 2px 4px rgb(0 0 0 / 50%);
+}
+
 /* NavBar */
 .navBar.dark {
     background: #555;
@@ -379,7 +400,7 @@ body.dark .toggle.active {
 
 /* Discusiones */
 .discusiones {
-    width: 90%;
+    width: 95%;
     display: flex;
     justify-content: space-evenly;
 }
@@ -405,7 +426,7 @@ body.dark .ctgs > li {
 .ctgs > li {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     list-style: none;
     background: #ffcb6d;
     font-size: 18px;
@@ -415,6 +436,24 @@ body.dark .ctgs > li {
     border: 1px solid #ffcb6d;
     box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
     cursor: pointer;
+}
+
+.ctgs > li > span {
+    margin-right: 5px;
+}
+
+.noHay {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.noHay > p {
+    font-weight: 600;
+    font-size: 20px;
 }
 
 /* Discusion */
@@ -729,6 +768,15 @@ body.dark #resultadoTextarea {
 
 .comments > h2 {
     margin: 10px 0;
+}
+
+body.dark .comment {
+    border: 1px solid orange;
+}
+
+body.dark .comment > .contenido {
+    border-top: 1px solid orange;
+    border-bottom: 1px solid orange;
 }
 
 .comment {

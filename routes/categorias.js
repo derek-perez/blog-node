@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { mostrarCategorias, añadirCategorias, editarCategorias, eliminarCategorias, mostrarCategoria, mostrarArticulosDeCategoria, obtenerIDS } = require('../controllers/categorias');
+const { mostrarCategorias, añadirCategorias, editarCategorias, eliminarCategorias, mostrarCategoria, mostrarArticulosDeCategoria, mostrarDiscusionesDeCategoria } = require('../controllers/categorias');
 
 const { existeCategoriaPorID, esAdminRole } = require('../helpers/db-validators');
 const { validarJWT } = require('../helpers/validar-jwt');
@@ -24,7 +24,13 @@ router.get('/articulos/:id', [
     check('id', 'No es un ID de Mongo válido').isMongoId(),
     check('id').custom(existeCategoriaPorID),
     validarCampos
-], mostrarArticulosDeCategoria)
+], mostrarArticulosDeCategoria);
+
+router.get('/discusiones/:id', [
+    check('id', 'No es un ID de Mongo válido').isMongoId(),
+    check('id').custom(existeCategoriaPorID),
+    validarCampos
+], mostrarDiscusionesDeCategoria);
 
 router.post('/', [
     validarJWT,
