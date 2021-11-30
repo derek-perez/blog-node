@@ -610,6 +610,7 @@ li.categoriaLi {
     width: 95%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     overflow-x: auto;
     margin: 10px 0px;
     padding: 10px;

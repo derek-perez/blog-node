@@ -277,18 +277,27 @@ if (idArticulo === null || idArticulo === undefined) {
                         if (total > 0) {
 
                             const html = `
-                                <li class="categoriaLi">
+                                <li id="${_id}" class="categoriaLi">
                                     <div class="content">
                                         <h3 class="categoriaTitulo">${nombre}</h3>
                                         <span class="descCategoria">${descripcion}</span>
                                     </div>
-                                    <ul id="${_id}" class="articulosDeCtg">
+                                    <ul title="${_id}" class="articulosDeCtg">
                                     
                                     </ul>
                                 </li>
                             `;
 
                             articulosCtgUl.innerHTML += html;
+
+                            setTimeout(() => {
+                                // Si se busca a tutoriales
+                                const tutos = location.hash;
+
+                                if (tutos !== '') {
+                                    document.getElementById('6186efa6cf94729df2c6fa9e').scrollIntoView();
+                                }
+                            }, 150);
 
                             arts.forEach(a => {
 
@@ -301,7 +310,7 @@ if (idArticulo === null || idArticulo === undefined) {
                                     const categoriaLi = [].slice.call(categoriasLi);
 
                                     categoriaLi.forEach(c => {
-                                        if (c.id === _id) {
+                                        if (c.title === _id) {
                                             const elBueno = c;
 
                                             // Se crea el string para la fecha

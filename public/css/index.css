@@ -12,6 +12,12 @@ body.dark {
     visibility: hidden !important;
 }
 
+.primary {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* NavBar */
 .navBar.dark {
     background: #555;
     color: white;
