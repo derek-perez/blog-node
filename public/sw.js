@@ -16,3 +16,13 @@ self.addEventListener('push', e => {
 
     e.waitUntil(self.registration.showNotification(title, options));
 })
+
+// Cuando se cierra la notificación
+self.addEventListener('notificationclose', e => {
+    console.log('Se cerró')
+});
+
+// Cuando el usuario toca la notificación
+self.addEventListener('notificationclick', e => {
+    console.log('Fue tocado')
+});
