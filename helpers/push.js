@@ -29,7 +29,7 @@ module.exports.addSubscription = (suscripcion) => {
 
     suscripciones.push(suscripcion);
 
-    fs.writeFileSync(`${__dirname}/subs-db.json`, JSON.stringify(suscripciones));
+    fs.writeFileSync(`./subs-db.json`, JSON.stringify(suscripciones));
 };
 
 
