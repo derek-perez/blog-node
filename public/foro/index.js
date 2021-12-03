@@ -545,7 +545,7 @@ if (idDiscusion !== null) {
             Notification.requestPermission(function (permission) {
                 if (permission === 'granted') {
                     function getPublicKey() {
-                        return fetch('http://localhost:8080/api/push/key')
+                        return fetch(pushUrl + 'key')
                             .then(res => res.arrayBuffer())
                             .then(key => new Uint8Array(key));
                     }
@@ -559,7 +559,7 @@ if (idDiscusion !== null) {
                             .then(res => res.toJSON())
                             .then(suscripcion => {
                                 console.log(suscripcion);
-                                fetch('http://localhost:8080/api/push/subscribe', {
+                                fetch(pushUrl + 'subscribe', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(suscripcion)
