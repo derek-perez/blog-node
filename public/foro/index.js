@@ -19,6 +19,10 @@ const categoriasUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/categorias/'
     : 'https://blogi-node.herokuapp.com/api/categorias/';
 
+const pushUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/push/'
+    : 'https://blogi-node.herokuapp.com/api/push/';
+
 const discusionesUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/discusiones/'
     : 'https://blogi-node.herokuapp.com/api/discusiones/';
@@ -34,6 +38,19 @@ const usuariosPublic = (window.location.hostname.includes('localhost'))
 const discusionesPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/foro/?c='
     : 'https://blogi-node.herokuapp.com/foro/?c=';
+
+// Meter SW para notificaciones
+let swReq;
+
+if (navigator.serviceWorker) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('../sw.js')
+            .then((reg) => {
+                swReq = reg;
+            })
+            .catch(console.log)
+    });
+}
 
 // Variables
 const body = document.querySelector('body');
@@ -489,6 +506,77 @@ const correoDeAutor = document.querySelector('#correoDeAutor');
 const articulosDeAutor = document.querySelector('#articulosDeAutor');
 
 if (idDiscusion !== null) {
+
+    const notificarme = () => {
+
+        if (!window.Notification) {
+            return console.log('Este navegador no soporta notificaciones');
+        }
+
+        if (Notification.permission === 'granted') {
+            console.log('grante')
+            const getPublicKey = () => {
+                return fetch(pushUrl + 'key')
+                    .then(res => res.arrayBuffer())
+                    .then(key => new Uint8Array(key));
+            }
+
+            if (!swReq) return console.log('Después' + swReq);
+
+            getPublicKey()
+                .then(key => {
+                    swReq.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: key
+                    })
+                        .then(res => res.toJSON())
+                        .then(suscripcion => {
+
+                            fetch(pushUrl + 'subscribe', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(suscripcion)
+                            })
+                                .then(console.log)
+                                .catch(console.log);
+                        });
+                });
+        } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
+            Notification.requestPermission(function (permission) {
+                if (permission === 'granted') {
+                    function getPublicKey() {
+                        return fetch('http://localhost:8080/api/push/key')
+                            .then(res => res.arrayBuffer())
+                            .then(key => new Uint8Array(key));
+                    }
+                    if (!swReq) return console.log('Después 2' + swReq);
+
+                    getPublicKey().then(key => {
+                        swReq.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: key
+                        })
+                            .then(res => res.toJSON())
+                            .then(suscripcion => {
+                                console.log(suscripcion);
+                                fetch('http://localhost:8080/api/push/subscribe', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(suscripcion)
+                                })
+                                    .then(console.log)
+                                    .catch(console.log);
+                            });
+                    });
+                }
+            });
+        } else if (Notification.permission === 'denied') {
+            console.log('denied')
+        }
+    }
+
+    notificarme();
+
     fetch(discusionesUrl + idDiscusion, {
         method: 'GET'
     })

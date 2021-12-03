@@ -20,6 +20,7 @@ class Server {
             blog: '/api/blog',
             discusiones: '/api/discusiones',
             comentarios: '/api/comentarios',
+            push: '/api/push',
         }
 
         // Conectar a DB
@@ -66,6 +67,7 @@ class Server {
         this.app.use(this.paths.blog, require('../routes/blogs'));
         this.app.use(this.paths.discusiones, require('../routes/discusiones'));
         this.app.use(this.paths.comentarios, require('../routes/comentarios'));
+        this.app.use(this.paths.push, require('../routes/push'));
     }
 
     listen() {
