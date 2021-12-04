@@ -12,11 +12,20 @@ self.addEventListener('push', e => {
 
     const data = JSON.parse(e.data.text())
 
-    alert(data)
+    console.log(data)
 
     const title = data.titulo
 
-    const options = {};
+    const options = {
+        body: data.usuario,
+        icon: data.icon,
+        badge: 'https://blogi-node.herokuapp.com/img/favicon.ico',
+        vitrate: [125, 75, 125, 275, 200, 275, 125, 75, 125, 275, 200, 600, 200, 600],
+        openUrl: data.dir,
+        data: {
+            url: data.dir
+        },
+    };
 
     e.waitUntil(self.registration.showNotification(title, options));
 })
@@ -28,5 +37,5 @@ self.addEventListener('notificationclose', e => {
 
 // Cuando el usuario toca la notificación
 self.addEventListener('notificationclick', e => {
-    console.log(deste)
+    window.location = e.notification.data.url
 });
