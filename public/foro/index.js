@@ -514,14 +514,13 @@ if (idDiscusion !== null) {
         }
 
         if (Notification.permission === 'granted') {
-            console.log('grante')
             const getPublicKey = () => {
                 return fetch(pushUrl + 'key')
                     .then(res => res.arrayBuffer())
                     .then(key => new Uint8Array(key));
             }
 
-            if (!swReq) return console.log('Después' + swReq);
+            if (!swReq) return;
 
             getPublicKey()
                 .then(key => {
@@ -537,7 +536,7 @@ if (idDiscusion !== null) {
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(suscripcion)
                             })
-                                .then(console.log)
+                                .then(resp => resp.json())
                                 .catch(console.log);
                         });
                 });
@@ -549,7 +548,7 @@ if (idDiscusion !== null) {
                             .then(res => res.arrayBuffer())
                             .then(key => new Uint8Array(key));
                     }
-                    if (!swReq) return console.log('Después 2' + swReq);
+                    if (!swReq) return;
 
                     getPublicKey().then(key => {
                         swReq.pushManager.subscribe({
@@ -558,13 +557,12 @@ if (idDiscusion !== null) {
                         })
                             .then(res => res.toJSON())
                             .then(suscripcion => {
-                                console.log(suscripcion);
                                 fetch(pushUrl + 'subscribe', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(suscripcion)
                                 })
-                                    .then(console.log)
+                                    .then(resp => resp.json())
                                     .catch(console.log);
                             });
                     });

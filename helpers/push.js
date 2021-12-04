@@ -46,13 +46,7 @@ module.exports.sendPush = (post) => {
         const pushProm = webpush.sendNotification(suscripcion, JSON.stringify(post))
             .then(console.log('Notificacion enviada '))
             .catch(err => {
-
-                console.log('Notificación falló');
-
-                if (err.statusCode === 410) { // GONE, ya no existe
-                    suscripciones[i].borrar = true;
-                }
-
+                console.log('Notificación falló')
             });
 
         notificacionesEnviadas.push(pushProm);

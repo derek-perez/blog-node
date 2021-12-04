@@ -19,7 +19,6 @@ app.post('/subscribe', (req, res) => {
 app.get('/key', (req, res) => {
     const key = push.getKey();
     res.send(key);
-    console.log('Des')
 });
 
 // Mandar push 
@@ -27,8 +26,9 @@ app.post('/', (req, res) => {
 
     const post = {
         titulo: req.body.titulo,
-        cuerpo: req.body.cuerpo,
-        usuario: req.body.usuario
+        usuario: req.body.usuario,
+        icon: req.body.icon,
+        dir: req.body.dir,
     };
 
 

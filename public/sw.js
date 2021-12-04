@@ -6,9 +6,13 @@ self.addEventListener('activate', e => {
     console.log('Se activó el SW');
 })
 
+let deste;
+
 self.addEventListener('push', e => {
 
     const data = JSON.parse(e.data.text())
+
+    alert(data)
 
     const title = data.titulo
 
@@ -24,5 +28,5 @@ self.addEventListener('notificationclose', e => {
 
 // Cuando el usuario toca la notificación
 self.addEventListener('notificationclick', e => {
-    console.log('Fue tocado')
+    console.log(deste)
 });
