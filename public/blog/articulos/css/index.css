@@ -1112,7 +1112,7 @@ df-messenger {
     background: #000000d1;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 1000;
 }
 
 .windowLink > div {
@@ -1243,7 +1243,7 @@ df-messenger {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
+    min-width: 320px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -1258,13 +1258,13 @@ df-messenger {
 
 .borrarArticuloWindow > p {
     text-align: center;
-    font-size: 35px;
+    font-size: 20px;
     text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
     font-weight: 600;
 }
 
 .borrarArticuloWindow > button {
-    font-size: 20px;
+    font-size: 15px;
     box-shadow: 2px 3px 5px rgb(0 0 0 / 50%);
 }
 

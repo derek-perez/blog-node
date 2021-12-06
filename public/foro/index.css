@@ -367,7 +367,6 @@ body.dark .toggle.active {
     flex-direction: column;
     justify-content: space-around;
     align-items: stretch;
-    padding: 0 20px;
     width: 75%;
 }
 
@@ -400,46 +399,22 @@ body.dark .toggle.active {
 
 /* Discusiones */
 .discusiones {
-    width: 95%;
+    width: 100%;
     display: flex;
     justify-content: space-evenly;
 }
 
 .discusiones > .cadaUna {
-    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
     margin-top: 15px;
 }
 
 .discusiones > .cadaUna > .reciente {
     width: 90%;
-}
-
-.ctgs {
-    width: 25%;
-    padding: 10px;
-}
-
-body.dark .ctgs > li {
-    color: black;
-} 
-
-.ctgs > li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    list-style: none;
-    background: #ffcb6d;
-    font-size: 18px;
-    padding: 5px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ffcb6d;
-    box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
-    cursor: pointer;
-}
-
-.ctgs > li > span {
-    margin-right: 5px;
 }
 
 .noHay {
@@ -877,6 +852,19 @@ body.dark .comment > .contenido {
     border: 1px solid rgb(0 0 0 / 50%);
 }
 
+.page-link {
+    padding: 5px 10px !important;
+    font-size: 20px !important;
+    border: 1px solid #3339;
+}
+
+.busquedaMala {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* Footer */
 .footer {
@@ -1012,49 +1000,9 @@ df-messenger {
 
 
 /* Media queries */
-@media (max-width: 1075px) {
-    .cadaUna > .reciente .abajo {
-        flex-direction: column-reverse;
-    }
-}
-
-@media (max-width: 950px) {
-    .cadaUna > .reciente {
-        flex-direction: column-reverse;
-    }
-
-    .cadaUna > .reciente > .left,
-    .cadaUna > .reciente > .resto {
-        width: 100%;
-    }
-
-    .cadaUna > .reciente .abajo {
-        padding-bottom: 10px;
-    }
-    
-    .cadaUna > .reciente .abajo > .fecha {
-        margin-top: 10px;
-    }
-
-    body.dark .cadaUna > .reciente > .left {
-        border-top: 1px solid white;
-    }
-
-    .cadaUna > .reciente > .left {
-        padding: 10px;
-        flex-direction: row;
-        border-right: none !important;
-        border-top: 1px solid rgb(0 0 0 / 30%);
-    }
-}
-
 @media (max-width: 830px) {
     .recientes > .reciente {
         width: 95%;
-    }
-
-    .recientes > .reciente .abajo {
-        flex-direction: column-reverse;
     }
 }
 
@@ -1116,13 +1064,35 @@ df-messenger {
     }
 }
 
-@media (max-width: 630px) {
-    .recientes > .reciente {
+@media (max-width: 650px) {
+    .cadaUna > .reciente {
         flex-direction: column-reverse;
     }
 
-    .recientes > .reciente .abajo {
+    .cadaUna > .reciente > .left,
+    .cadaUna > .reciente > .resto {
+        width: 100%;
+    }
+
+    .reciente > .resto > .abajo {
         padding-bottom: 10px;
+    }
+
+    body.dark .cadaUna > .reciente > .left {
+        border-top: 1px solid white;
+    }
+
+    .cadaUna > .reciente > .left {
+        padding: 10px;
+        flex-direction: row;
+        border-right: none !important;
+        border-top: 1px solid rgb(0 0 0 / 30%);
+    }
+}
+
+@media (max-width: 630px) {
+    .recientes > .reciente {
+        flex-direction: column-reverse;
     }
 
     .recientes > .reciente > .left,
@@ -1139,31 +1109,6 @@ df-messenger {
         flex-direction: row;
         border-right: none !important;
         border-top: 1px solid rgb(0 0 0 / 30%);
-    }
-
-    .recientes > .reciente .abajo > .fecha {
-        margin-top: 10px;
-    }
-
-    .discusiones {
-        flex-direction: column;
-    }
-
-    .discusiones > .cadaUna,
-    .discusiones > .cadaUna .reciente {
-        width: 100%;
-    }
-
-    .ctgs {
-        width: 90%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 0;
-    }
-
-    .ctgs > li {
-        font-size: 20px;
     }
 
     .verDiscusion > .top {

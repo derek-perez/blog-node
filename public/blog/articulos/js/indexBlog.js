@@ -31,9 +31,26 @@ const blogUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/blog/'
     : 'https://blogi-node.herokuapp.com/api/blog/';
 
+const pushUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/push/'
+    : 'https://blogi-node.herokuapp.com/api/push/';
+
 const articulosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
+
+// Meter SW para notificaciones
+let swReq;
+
+if (navigator.serviceWorker) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('../../sw.js')
+            .then((reg) => {
+                swReq = reg;
+            })
+            .catch(console.log)
+    });
+}
 
 // Referencias HTML
 const body = document.querySelector('body')
@@ -705,8 +722,6 @@ enviar.addEventListener('click', () => {
                 .then(resp => resp.json())
                 .then(blog => {
 
-                    const ids = idCtg.shift();
-
                     const data = {
                         'titulo': `${tituloDeArticulo.value}`,
                         'contenido': `${resultado.innerText}`,
@@ -728,8 +743,26 @@ enviar.addEventListener('click', () => {
                         headers: headersList,
                         body: JSON.stringify(data)
                     })
-                        .then(location.reload())
+                        .then(resp => resp.json())
+                        .then(a => {
+                            const body = {
+                                "titulo": `Nuevo artículo`,
+                                "body": `${a.titulo}`,
+                                "dir": `https://blogi-node.herokuapp.com/posts/arts.html?id=${a._id}`
+                            }
+                            fetch(pushUrl, {
+                                method: 'POST',
+                                body: JSON.stringify(body),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'x-token': `${token}`
+                                }
+                            })
+                                .then(location.reload())
+                                .catch(console.log)
+                        })
                         .catch(console.error)
+
                 })
                 .catch(console.log)
         }
@@ -797,11 +830,25 @@ enviar.addEventListener('click', () => {
                         body: JSON.stringify(data)
                     })
                         .then(resp => resp.json())
-                        .then(location.reload())
-                        .catch(console.error)
-                        .finally(() => {
-                            location.reload()
+                        .then(a => {
+                            const body = {
+                                "titulo": `Nueva discusión`,
+                                "body": `${a.titulo}`,
+                                "dir": `https://blogi-node.herokuapp.com/posts/arts.html?id=${a._id}`
+                            }
+
+                            fetch(pushUrl, {
+                                method: 'POST',
+                                body: JSON.stringify(body),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'x-token': `${token}`
+                                }
+                            })
+                                .then(location.reload())
+                                .catch(console.log)
                         })
+                        .catch(console.error)
                 }
 
             }
@@ -863,11 +910,25 @@ enviar.addEventListener('click', () => {
                                 body: JSON.stringify(data)
                             })
                                 .then(resp => resp.json())
-                                .then(a => location.reload())
-                                .catch(console.error)
-                                .finally(() => {
-                                    location.reload()
+                                .then(a => {
+                                    const body = {
+                                        "titulo": `Nueva discusión`,
+                                        "body": `${a.titulo}`,
+                                        "dir": `https://blogi-node.herokuapp.com/posts/arts.html?id=${a._id}`
+                                    }
+                                    console.log(a.nombre, a.titulo)
+                                    // fetch(pushUrl, {
+                                    //     method: 'POST',
+                                    //     body: JSON.stringify(body),
+                                    //     headers: {
+                                    //         'Content-Type': 'application/json',
+                                    //         'x-token': `${token}`
+                                    //     }
+                                    // })
+                                    //     .then(location.reload())
+                                    //     .catch(console.log)
                                 })
+                                .catch(console.error)
                         }
 
                     })
@@ -1412,7 +1473,20 @@ setTimeout(() => {
                         .then(({ articulos: arts }) => {
 
                             if (arts.length === 0) {
-                                noHay.classList.toggle('hidden');
+                                const html = `
+                                    <div class="noHay">
+                                        <img src="../img/void.png" alt="Todavía no tienes artículos">
+                                        <p>Todavía no tienes artículos</p>
+                                        <br>
+                                        <p style="text-align: center;">
+                                            Para escribir un artículo, presiona en el botón azúl
+                                            <br>
+                                            "Crear articulo", que se encuentra en el menú
+                                        </p>
+                                    </div>
+                                `;
+
+                                articulosResultados.innerHTML = html;
                             } else {
                                 articulosResultados.innerHTML = '';
                                 mostrarYFuncionesParaArticulos(arts);

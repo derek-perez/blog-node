@@ -1,5 +1,7 @@
 self.addEventListener('install', e => {
     console.log('Se instaló el SW');
+
+    self.skipWaiting();
 })
 
 self.addEventListener('activate', e => {
@@ -12,13 +14,11 @@ self.addEventListener('push', e => {
 
     const data = JSON.parse(e.data.text())
 
-    console.log(data)
-
     const title = data.titulo
 
     const options = {
-        body: data.usuario,
-        icon: data.icon,
+        body: data.body,
+        icon: 'https://blogi-node.herokuapp.com/img/favicon.ico',
         badge: 'https://blogi-node.herokuapp.com/img/favicon.ico',
         vitrate: [125, 75, 125, 275, 200, 275, 125, 75, 125, 275, 200, 600, 200, 600],
         openUrl: data.dir,
@@ -37,5 +37,7 @@ self.addEventListener('notificationclose', e => {
 
 // Cuando el usuario toca la notificación
 self.addEventListener('notificationclick', e => {
-    window.location = e.notification.data.url
+    const notificacion = e.notification;
+
+    clients.openWindow(notificacion.data.url);
 });

@@ -26,8 +26,7 @@ app.post('/', (req, res) => {
 
     const post = {
         titulo: req.body.titulo,
-        usuario: req.body.usuario,
-        icon: req.body.icon,
+        body: req.body.body,
         dir: req.body.dir,
     };
 

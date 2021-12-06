@@ -11,6 +11,10 @@ const categorias = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/categorias/'
     : 'https://blogi-node.herokuapp.com/api/categorias/';
 
+const pushUrl = (window.location.hostname.includes('localhost'))
+    ? 'http://localhost:8080/api/push/'
+    : 'https://blogi-node.herokuapp.com/api/push/';
+
 const articulosPublic = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html?id='
     : 'https://blogi-node.herokuapp.com/posts/arts.html?id=';
@@ -27,6 +31,19 @@ const articulosPublicGeneral = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html'
     : 'https://blogi-node.herokuapp.com/posts/arts.html';
 
+// Meter SW para notificaciones
+let swReq;
+
+if (navigator.serviceWorker) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('../sw.js')
+            .then((reg) => {
+                swReq = reg;
+            })
+            .catch(console.log)
+    });
+}
+
 // Menú responsive
 const menu = document.querySelector('#enlaces');
 const toggle = document.querySelector('.toggle');
@@ -36,7 +53,7 @@ toggle.onclick = () => {
     menu.classList.toggle('active');
 }
 
-// Mod oscuro
+// Modo oscuro
 const checkbox = document.getElementById('check');
 const body = document.querySelector('body');
 const navBar = document.querySelector('.navBar');
@@ -44,6 +61,7 @@ const spinner = document.querySelector('.spinner');
 const articulosEnGeneral = document.querySelector('.articulosEnGeneral');
 const articulo = document.querySelector('.articulo');
 const tituloDark = document.querySelector('#titulo');
+const compartir = document.querySelector('.compartir');
 
 checkbox.addEventListener('change', function () {
     body.classList.toggle('dark');
@@ -395,6 +413,105 @@ if (idArticulo === null || idArticulo === undefined) {
 } else {
 
     // Si hay "id"...
+
+    // Preguntar si quiere notificaciones
+    window.addEventListener('scroll', () => {
+
+        const notificarme = () => {
+
+            if (!window.Notification) {
+                return console.log('Este navegador no soporta notificaciones');
+            }
+
+            if (Notification.permission === 'granted') {
+                const getPublicKey = () => {
+                    return fetch(pushUrl + 'key')
+                        .then(res => res.arrayBuffer())
+                        .then(key => new Uint8Array(key));
+                }
+
+                if (!swReq) return;
+
+                getPublicKey()
+                    .then(key => {
+                        swReq.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: key
+                        })
+                            .then(res => res.toJSON())
+                            .then(suscripcion => {
+
+                                fetch(pushUrl + 'subscribe', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(suscripcion)
+                                })
+                                    .then(resp => resp.json())
+                                    .catch(console.log);
+                            });
+                    });
+            } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
+                Notification.requestPermission(function (permission) {
+                    if (permission === 'granted') {
+                        function getPublicKey() {
+                            return fetch(pushUrl + 'key')
+                                .then(res => res.arrayBuffer())
+                                .then(key => new Uint8Array(key));
+                        }
+                        if (!swReq) return;
+
+                        getPublicKey().then(key => {
+                            swReq.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                applicationServerKey: key
+                            })
+                                .then(res => res.toJSON())
+                                .then(suscripcion => {
+                                    fetch(pushUrl + 'subscribe', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(suscripcion)
+                                    })
+                                        .then(resp => resp.json())
+                                        .catch(console.log);
+                                });
+                        });
+                    }
+                });
+            } else if (Notification.permission === 'denied') {
+                console.log('denied')
+            }
+        }
+
+        const altura = compartir.getBoundingClientRect().top;
+
+        if (Notification.permission === 'denied') {
+            return;
+        } else if (Notification.permission !== 'granted' || Notification.permission === 'default') {
+            if (altura <= 150) {
+                const quiereNotifications = document.querySelector('.quiereNotifications');
+                const noQuiero = document.querySelector('.noQuiero');
+                const siQuiero = document.querySelector('.siQuiero');
+
+                quiereNotifications.classList.remove('hidden');
+
+                siQuiero.addEventListener('click', () => {
+                    notificarme();
+                    quiereNotifications.classList.toggle('hidden');
+                })
+
+                noQuiero.addEventListener('click', () => {
+                    quiereNotifications.style.display = 'none'
+                })
+
+                quiereNotifications.addEventListener('click', () => {
+                    quiereNotifications.style.display = 'none'
+                })
+            }
+        }
+
+    })
+
     const contenidoCuerpo = document.querySelector('#contenidoCuerpo');
     const fecha = document.querySelector('#fecha');
     const portada = document.querySelector('#portada');
@@ -414,7 +531,6 @@ if (idArticulo === null || idArticulo === undefined) {
             idDeUsuario.unshift(a.autor[0]._id);
 
             const compartirArticulo = () => {
-                const compartir = document.querySelector('.compartir');
                 const compartido = document.querySelector('.compartido');
                 const noCompartido = document.querySelector('.noCompartido');
 

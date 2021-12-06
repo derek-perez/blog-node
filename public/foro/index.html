@@ -92,14 +92,8 @@
             <div class="cadaUna">
 
             </div>
-            <ul class="ctgs">
-                <li class="ctgLi" id="Todos">
-                    <span>Todos</span>
-                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
-                </li>
-            </ul>
         </div>
-        <nav aria-label="Page navigation example">
+        <nav class="pg" aria-label="Page navigation example">
             <ul class="pagination pagination-lg justify-content-center">
 
             </ul>
@@ -131,6 +125,11 @@
                     <span class="secundario" id="articulosDeAutor"></span>
                 </div>
             </div>
+        </div>
+        <div class="edicionDeDiscusion hidden" style="margin-top: 15px;">
+            <button class="borrarDiscusion btn btn-danger">
+                <i class="fa fa-trash-o"></i> Eliminar discusión
+            </button>
         </div>
         <div class="comments">
             <h2>Comentarios:</h2>
@@ -253,11 +252,16 @@
         </div>
     </div>
 
-    <!-- Cuando no hay categoria al iniciar discusion -->
-    <div class="sinCtg windowLink hidden">
+    <!-- Preguntar por las notificaciones -->
+    <div class="quiereNotifications windowLink hidden">
         <div>
-            <p>Necesita selecconar una categoría</p>
-            <button class="sinCtgBtn btn btn-outline-warning">OK</button>
+            <p style="font-size: 18px; font-weight: 600;">
+                ¿Le gustaría recibir una notificación de una nueva discusion o de un nuevo articulo?
+            </p>
+            <div class="btnsDeNotificaciones">
+                <button style="margin-right: 10px;" class="noQuiero btn btn-danger">NO</button>
+                <button class="siQuiero btn btn-success">Si</button>
+            </div>
         </div>
     </div>
 
@@ -271,7 +275,6 @@
                 <h4>Navega por el sitio</h4>
                 <a href="https://blogi-node.herokuapp.com/posts/arts.html#6186efa6cf94729df2c6fa9e">Tutoriales</a>
                 <a href="https://blogi-node.herokuapp.com/blog/articulos/">Tu blog</a>
-                <a href="https://blogi-node.herokuapp.com/posts/arts.html">Tutoriales</a>
                 <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
             </div>
             <div class="siguenos col-sm">

@@ -123,16 +123,7 @@
             </div>
             <div class="resultadosDeMenu col-sm-8 animate__animated animate__bounceInRight">
                 <div class="articulosResultados resultado" id="articulos">
-                    <div class="noHay hidden">
-                        <img src="../img/void.png" alt="Todavía no tienes artículos">
-                        <p>Todavía no tienes artículos</p>
-                        <br>
-                        <p style="text-align: center;">
-                            Para escribir un artículo, presiona en el botón azúl
-                            <br>
-                            "Crear articulo", que se encuentra en el menú
-                        </p>
-                    </div>
+
                 </div>
             </div>
             <div class="windowBorrarArticulo hidden">
@@ -151,7 +142,6 @@
                     <h4>Navega por el sitio</h4>
                     <a href="https://blogi-node.herokuapp.com/posts/arts.html#6186efa6cf94729df2c6fa9e">Tutoriales</a>
                     <a href="https://blogi-node.herokuapp.com/blog/articulos/">Tu blog</a>
-                    <a href="https://blogi-node.herokuapp.com/posts/arts.html">Tutoriales</a>
                     <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
                 </div>
                 <div class="siguenos col-sm">
@@ -446,6 +436,14 @@
             <h5>Categorías: <span id="totalDeCategorias"></span></h5>
         </ul>
 
+    </div>
+
+    <!-- Cuando no hay categoria al crear articulo -->
+    <div class="sinCtg windowLink hidden">
+        <div>
+            <p>Necesita selecconar una categoría</p>
+            <button class="sinCtgBtn btn btn-outline-warning">OK</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

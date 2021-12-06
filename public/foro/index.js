@@ -15,10 +15,6 @@ const usuariosUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/usuarios/'
     : 'https://blogi-node.herokuapp.com/api/usuarios/';
 
-const categoriasUrl = (window.location.hostname.includes('localhost'))
-    ? 'http://localhost:8080/api/categorias/'
-    : 'https://blogi-node.herokuapp.com/api/categorias/';
-
 const pushUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/push/'
     : 'https://blogi-node.herokuapp.com/api/push/';
@@ -56,6 +52,7 @@ if (navigator.serviceWorker) {
 const body = document.querySelector('body');
 const spinner = document.querySelector('.spinner');
 const navBar = document.querySelector('.navBar');
+const regresarAlForo = document.querySelector('.regresarAlForo');
 const foro = document.querySelector('.foro');
 const discusion = document.querySelector('.discusion');
 const descripcionTextarea = document.querySelector('.description');
@@ -72,6 +69,7 @@ const redirigir = document.querySelector('.redirigir');
 const noRedirigir = document.querySelector('.noRedirigir');
 
 let autenticado = true;
+let idDeUsuario;
 
 const diasEspañol = [
     'Lunes',
@@ -202,127 +200,18 @@ if (token === null) {
         headers: { 'x-token': token }
     })
         .then(resp => resp.json())
-        .then(({ msg }) => {
+        .then(({ msg, usuario }) => {
             if (msg !== 'Token válido') {
                 nuevaDiscusion.classList.add('hidden');
                 autenticado = false;
             } else {
                 crearBlog.classList.toggle('hidden');
                 autenticado = true;
+                idDeUsuario = usuario.uid;
             }
         })
         .catch(console.log)
 }
-
-// Mostrar categorías en el foro
-fetch(categoriasUrl, {
-    method: 'GET'
-})
-    .then(resp => resp.json())
-    .then(({ categorias }) => {
-        const ctgs = document.querySelector('.ctgs');
-
-        categorias.forEach(c => {
-            const html = `
-                <li class="ctgLi" id="${c._id}">
-                    <span>${c.nombre}</span>
-                    <i class="fa fa-fighter-jet" aria-hidden="true"></i>
-                </li>
-            `;
-
-            ctgs.innerHTML += html;
-
-        })
-
-        setTimeout(() => {
-            const ctgsLi = document.querySelectorAll('.ctgLi');
-            const ctgLi = [].slice.call(ctgsLi);
-
-            ctgLi.forEach(c => {
-
-
-                c.addEventListener('click', () => {
-
-                    spinner.classList.toggle('hidden');
-
-                    if (c.id === 'Todos') {
-                        location.reload();
-                    }
-
-                    fetch(categoriasUrl + 'discusiones/' + c.id, {
-                        method: 'GET'
-                    })
-                        .then(resp => resp.json())
-                        .then(({ docs: discusiones }) => {
-
-                            if (discusiones.length === 0) {
-                                cadaUna.innerHTML = '';
-
-                                const html = `
-                                    <div class="noHay">
-                                        <img src="../img/void.png">
-                                        <p>Aún no hay discusiones en esta categoría</p>
-                                    </div>
-                                `;
-
-                                cadaUna.innerHTML = html;
-                            }
-
-                            discusiones.forEach(discusion => {
-                                fetch(usuariosUrl + discusion.autor[0], {
-                                    method: 'GET'
-                                })
-                                    .then(resp => resp.json())
-                                    .then(({ usuario }) => {
-                                        cadaUna.innerHTML = '';
-
-                                        // Se crea el string para la fecha
-                                        const fechaMal = discusion.creadoEn.split(' ');
-                                        const arrayBuena = fechaMal.splice(0, 4);
-
-                                        const dia = cambiarAEspañolDia(arrayBuena[0]);
-                                        const mes = cambiarAEspañolMes(arrayBuena[1]);
-
-                                        let fecha = `${dia} ${arrayBuena[2]} de ${mes} de ${arrayBuena[3]}`;
-
-                                        const contenidoCortado = discusion.textoParaTarjetas.slice(0, 110);
-
-                                        const contenido = contenidoCortado + '...';
-
-                                        const html = `
-                                            <div id="${discusion._id}" class="reciente">
-                                                <div class="left">
-                                                    <a href="${usuariosPublic + usuario.uid}">
-                                                        <img src="${usuario.img}" alt="Usuario que empezó la discusión">
-                                                        <span id="nombre">${usuario.nombre}</span>
-                                                    </a>
-                                                </div>
-                                                <div class="resto">
-                                                    <span class="titulo">${discusion.titulo}</span>
-                                                    <span class="contenido">${contenido}</span>
-                                                    <div class="abajo">
-                                                        <span class="fecha">${fecha}</span>
-                                                        <span>Tema: <span class="ctg">${discusion.categoria[0].nombre}</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        `;
-
-                                        cadaUna.innerHTML += html;
-                                    })
-                                    .catch(console.log)
-                            })
-
-                        })
-                        .catch(console.log)
-                        .finally(() => {
-                            spinner.classList.toggle('hidden');
-                        })
-                })
-            })
-        }, 500);
-    })
-    .catch(console.log)
 
 // Mostrar discusiones
 const cadaUna = document.querySelector('.cadaUna');
@@ -363,7 +252,6 @@ const ponerDiscusiones = (discusiones) => {
                             <span class="contenido">${contenido}</span>
                             <div class="abajo">
                                 <span class="fecha">${fecha}</span>
-                                <span>Tema: <span class="ctg">${discusion.categoria[0].nombre}</span></span>
                             </div>
                         </div>
                     </div>
@@ -452,6 +340,7 @@ fetch(discusionesUrl, {
 // Mostrar discusiones por medio del buscador
 const searchBtn = document.querySelector('.searchBtn');
 const search = document.querySelector('#search');
+const pg = document.querySelector('.pg');
 
 searchBtn.addEventListener('click', () => {
 
@@ -467,6 +356,28 @@ searchBtn.addEventListener('click', () => {
         .then(resp => resp.json())
         .then(discusiones => {
             cadaUna.innerHTML = '';
+            pg.classList.toggle('hidden')
+
+            if (discusiones.length === 0) {
+                const html = `
+                    <div style="padding: 10px;" class="busquedaMala">
+                        <p style="text-align: center;">No hay discusiones que coincidan con la búsqueda</p>
+                        <br>
+                        <img src="../img/void.png" alt="Todavía no tienes artículos">
+                        <br>
+                        <strong>Sugerencias:</strong>
+                        <ul>
+                        <li>Asegúrese de escribir las palabras correctamente.</li>
+                        <li>Escriba palabras menos específicas.</li>
+                        <li>No escriba muchas palabras para la búsqueda.</li>
+                        </ul>
+                        <br>
+                    </div>
+                `;
+
+                cadaUna.innerHTML = html;
+            }
+
             ponerDiscusiones(discusiones);
         })
         .catch(console.log)
@@ -486,6 +397,28 @@ search.addEventListener('keypress', (e) => {
             .then(resp => resp.json())
             .then(discusiones => {
                 cadaUna.innerHTML = '';
+                pg.classList.toggle('hidden')
+
+                if (discusiones.length === 0) {
+                    const html = `
+                        <div style="padding: 10px;" class="busquedaMala">
+                            <p style="text-align: center;">No hay artículos que coincidan con la búsqueda</p>
+                            <br>
+                            <img src="../img/void.png" alt="Todavía no tienes artículos">
+                            <br>
+                            <strong>Sugerencias:</strong>
+                            <ul>
+                            <li>Asegúrese de escribir las palabras correctamente.</li>
+                            <li>Escriba palabras menos específicas.</li>
+                            <li>No escriba muchas palabras para la búsqueda.</li>
+                            </ul>
+                            <br>
+                        </div>
+                    `;
+
+                    cadaUna.innerHTML = html;
+                }
+
                 ponerDiscusiones(discusiones);
             })
             .catch(console.log)
@@ -507,56 +440,33 @@ const articulosDeAutor = document.querySelector('#articulosDeAutor');
 
 if (idDiscusion !== null) {
 
-    const notificarme = () => {
+    // Preguntar si quiere notificaciones
+    window.addEventListener('scroll', () => {
 
-        if (!window.Notification) {
-            return console.log('Este navegador no soporta notificaciones');
-        }
+        const notificarme = () => {
 
-        if (Notification.permission === 'granted') {
-            const getPublicKey = () => {
-                return fetch(pushUrl + 'key')
-                    .then(res => res.arrayBuffer())
-                    .then(key => new Uint8Array(key));
+            if (!window.Notification) {
+                return console.log('Este navegador no soporta notificaciones');
             }
 
-            if (!swReq) return;
+            if (Notification.permission === 'granted') {
+                const getPublicKey = () => {
+                    return fetch(pushUrl + 'key')
+                        .then(res => res.arrayBuffer())
+                        .then(key => new Uint8Array(key));
+                }
 
-            getPublicKey()
-                .then(key => {
-                    swReq.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: key
-                    })
-                        .then(res => res.toJSON())
-                        .then(suscripcion => {
+                if (!swReq) return;
 
-                            fetch(pushUrl + 'subscribe', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(suscripcion)
-                            })
-                                .then(resp => resp.json())
-                                .catch(console.log);
-                        });
-                });
-        } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
-            Notification.requestPermission(function (permission) {
-                if (permission === 'granted') {
-                    function getPublicKey() {
-                        return fetch(pushUrl + 'key')
-                            .then(res => res.arrayBuffer())
-                            .then(key => new Uint8Array(key));
-                    }
-                    if (!swReq) return;
-
-                    getPublicKey().then(key => {
+                getPublicKey()
+                    .then(key => {
                         swReq.pushManager.subscribe({
                             userVisibleOnly: true,
                             applicationServerKey: key
                         })
                             .then(res => res.toJSON())
                             .then(suscripcion => {
+
                                 fetch(pushUrl + 'subscribe', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
@@ -566,14 +476,67 @@ if (idDiscusion !== null) {
                                     .catch(console.log);
                             });
                     });
-                }
-            });
-        } else if (Notification.permission === 'denied') {
-            console.log('denied')
-        }
-    }
+            } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
+                Notification.requestPermission(function (permission) {
+                    if (permission === 'granted') {
+                        function getPublicKey() {
+                            return fetch(pushUrl + 'key')
+                                .then(res => res.arrayBuffer())
+                                .then(key => new Uint8Array(key));
+                        }
+                        if (!swReq) return;
 
-    notificarme();
+                        getPublicKey().then(key => {
+                            swReq.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                applicationServerKey: key
+                            })
+                                .then(res => res.toJSON())
+                                .then(suscripcion => {
+                                    fetch(pushUrl + 'subscribe', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(suscripcion)
+                                    })
+                                        .then(resp => resp.json())
+                                        .catch(console.log);
+                                });
+                        });
+                    }
+                });
+            } else if (Notification.permission === 'denied') {
+                console.log('denied')
+            }
+        }
+
+        const altura = comments.getBoundingClientRect().top;
+
+        if (Notification.permission === 'denied') {
+            return;
+        } else if (Notification.permission !== 'granted' || Notification.permission === 'default') {
+            if (altura <= 281) {
+                const quiereNotifications = document.querySelector('.quiereNotifications');
+                const noQuiero = document.querySelector('.noQuiero');
+                const siQuiero = document.querySelector('.siQuiero');
+
+                quiereNotifications.classList.remove('hidden');
+
+                siQuiero.addEventListener('click', () => {
+                    notificarme();
+                    quiereNotifications.classList.toggle('hidden');
+                })
+
+                noQuiero.addEventListener('click', () => {
+                    quiereNotifications.style.display = 'none'
+                })
+
+                quiereNotifications.addEventListener('click', () => {
+                    quiereNotifications.style.display = 'none'
+                })
+            }
+        }
+
+    })
 
     fetch(discusionesUrl + idDiscusion, {
         method: 'GET'
@@ -581,7 +544,12 @@ if (idDiscusion !== null) {
         .then(resp => resp.json())
         .then(({ resp }) => {
             const discusion = resp[0];
-            const regresarAlForo = document.querySelector('.regresarAlForo');
+            const edicionDeDiscusion = document.querySelector('.edicionDeDiscusion');
+            const borrarDiscusion = document.querySelector('.borrarDiscusion');
+
+            if (discusion.autor[0].uid === idDeUsuario) {
+                edicionDeDiscusion.classList.toggle('hidden');
+            }
 
             foro.classList.toggle('hidden');
             verDiscusion.classList.toggle('hidden');
@@ -637,6 +605,16 @@ if (idDiscusion !== null) {
                     })
                 })
                 .catch(console.log)
+
+            // Eliminar discusión
+            borrarDiscusion.addEventListener('click', () => {
+                fetch(discusionesUrl + discusion._id, {
+                    method: 'DELETE',
+                    headers: { 'x-token': `${token}` }
+                })
+                    .then(location.href = publicUrl + 'foro/')
+                    .catch(console.log)
+            })
 
             // Crear comentario
             const ponerComent = document.querySelector('.ponerComent');
@@ -844,6 +822,13 @@ if (idDiscusion !== null) {
 // Botón que abre discusión
 nuevaDiscusion.addEventListener('click', () => {
     discusion.classList.toggle('hidden');
+
+    enlaces.classList.remove('active');
+    toggle.classList.remove('active');
+
+    regresarAlForo.classList.toggle('hidden')
+    nuevaDiscusion.classList.toggle('hidden')
+
     foro.classList.toggle('hidden');
 })
 
@@ -1010,85 +995,60 @@ const funcionesParaArticulos = () => {
 
 funcionesParaArticulos();
 
-// Poner categorias
-let ctgId = [];
-
-const categoriasUl = document.querySelector('.categoriasUl');
-
-fetch(categoriasUrl, {
-    method: 'GET'
-})
-    .then(resp => resp.json())
-    .then(({ categorias }) => {
-        categorias.forEach(c => {
-            const html = `
-                 <li class="ctgLi" id="${c._id}">${c.nombre}</li>
-             `;
-
-            categoriasUl.innerHTML += html;
-        })
-
-        setTimeout(() => {
-            const ctgLi = document.querySelectorAll('.ctgLi');
-            const li = [].slice.call(ctgLi);
-
-            li.forEach(l => {
-                l.addEventListener('click', () => {
-                    ctgId.unshift(l.id)
-                })
-            })
-        }, 500);
-    })
-    .catch(console.log)
-
 // Crear discusión
 const iniciarDiscusion = document.querySelector('.iniciar');
-const sinCtg = document.querySelector('.sinCtg');
-const sinCtgBtn = document.querySelector('.sinCtgBtn');
 const pregunta = document.querySelector('#pregunta');
 
 iniciarDiscusion.addEventListener('click', () => {
-    if (ctgId.length === 0) {
-        sinCtg.classList.toggle('hidden');
+    fetch(validarJwt, {
+        method: 'GET',
+        headers: { 'x-token': token }
+    })
+        .then(resp => resp.json())
+        .then(({ usuario }) => {
 
-        sinCtgBtn.onclick = () => {
-            sinCtg.classList.toggle('hidden');
-        }
-    } else {
-        fetch(validarJwt, {
-            method: 'GET',
-            headers: { 'x-token': token }
-        })
-            .then(resp => resp.json())
-            .then(({ usuario }) => {
+            const data = {
+                'titulo': `${pregunta.value}`,
+                'contenido': `${resultadoTextarea.innerHTML}`,
+                'textoParaTarjetas': `${resultadoTextarea.innerText}`,
+                'autor': `${usuario.uid}`,
+            };
 
-                const ctg = ctgId.shift()
+            const headersList = {
+                'Content-Type': 'application/json',
+                'x-token': `${token}`
+            };
 
-                const data = {
-                    'titulo': `${pregunta.value}`,
-                    'contenido': `${resultadoTextarea.innerHTML}`,
-                    'textoParaTarjetas': `${resultadoTextarea.innerText}`,
-                    'autor': `${usuario.uid}`,
-                    'categoria': `${ctg}`
-                };
-
-                const headersList = {
-                    'Content-Type': 'application/json',
-                    'x-token': `${token}`
-                };
-
-                fetch(discusionesUrl, {
-                    method: 'POST',
-                    headers: headersList,
-                    body: JSON.stringify(data)
-                })
-                    .then(resp => resp.json())
-                    .then(location.reload())
-                    .catch(console.error)
-
+            fetch(discusionesUrl, {
+                method: 'POST',
+                headers: headersList,
+                body: JSON.stringify(data)
             })
-            .catch(console.error)
-    }
+                .then(resp => resp.json())
+                .then(d => {
+
+                    const body = {
+                        "titulo": `Nueva discusión`,
+                        "body": `${d.titulo}`,
+                        "dir": `https://blogi-node.herokuapp.com/foro/?c=${d._id}`
+                    }
+
+                    fetch(pushUrl, {
+                        method: 'POST',
+                        body: JSON.stringify(body),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-token': `${token}`
+                        }
+                    })
+                        .then(location.reload())
+                        .catch(console.log)
+
+                })
+                .catch(console.error)
+
+        })
+        .catch(console.error)
 })
 
 // Abrir escribir comentario
