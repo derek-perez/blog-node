@@ -18,8 +18,8 @@ self.addEventListener('push', e => {
 
     const options = {
         body: data.body,
-        icon: 'https://blogi-node.herokuapp.com/img/favicon.ico',
-        badge: 'https://blogi-node.herokuapp.com/img/favicon.ico',
+        icon: 'https://blogi-node.herokuapp.com/img/logo.png',
+        badge: 'https://blogi-node.herokuapp.com/img/logo.png',
         vitrate: [125, 75, 125, 275, 200, 275, 125, 75, 125, 275, 200, 600, 200, 600],
         openUrl: data.dir,
         data: {
