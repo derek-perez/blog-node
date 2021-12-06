@@ -8,6 +8,10 @@ self.addEventListener('activate', e => {
     console.log('Se activó el SW');
 })
 
+self.addEventListener('fetch', () => {
+    console.log('YA')
+})
+
 let deste;
 
 self.addEventListener('push', e => {

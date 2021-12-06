@@ -2,6 +2,7 @@
     "short_name": "Blogi",
     "name": "Blogi - Tu compañero de vida",
     "description": "Blogi: Una demo o demostración de un blog en el que puedes para ver la calidad que consigues con nosotros al hacer para ti un sitio web. Y también puedes escribir en este blog para que nunca olvides tus recuerdos más importantes",
+    "id": "/",
     "start_url": "/",
     "background_color": "white",
     "display": "fullscreen",
