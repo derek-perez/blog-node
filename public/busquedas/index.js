@@ -31,24 +31,6 @@ toggle.addEventListener('click', () => {
     toggle.classList.toggle('active');
 })
 
-// Btns Flotantes
-const abrirIconos = document.querySelector('.abrirIconos');
-const btnsFlotantes = document.querySelector('.btnsFlotantes');
-const chatbot = document.querySelector('.chatbot');
-
-abrirIconos.addEventListener('click', () => {
-    btnsFlotantes.classList.toggle('hidden');
-    btnsFlotantes.classList.toggle('animate__bounceInRight');
-    chatbot.classList.toggle('hidden');
-    chatbot.classList.toggle('animate__bounceInRight');
-
-    abrirIconos.classList.toggle('fa-ellipsis-h');
-    abrirIconos.classList.toggle('fa-chevron-down');
-    abrirIconos.classList.toggle('mover');
-    abrirIconos.classList.toggle('animate__zoomInDown');
-    abrirIconos.classList.toggle('animate__bounceInRight');
-})
-
 // Obtener parámetro par la búsqueda
 const params = new URLSearchParams(location.search);
 const busqueda = params.get('q');
