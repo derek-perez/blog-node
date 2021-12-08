@@ -9,7 +9,7 @@ self.addEventListener('activate', e => {
 })
 
 self.addEventListener('fetch', () => {
-    console.log('YA')
+    const d = 0;
 })
 
 let deste;
