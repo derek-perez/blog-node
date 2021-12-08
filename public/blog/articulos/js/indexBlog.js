@@ -899,16 +899,16 @@ enviar.addEventListener('click', () => {
                                         "dir": `https://blogi-node.herokuapp.com/posts/arts.html?id=${a._id}`
                                     }
                                     console.log(a.nombre, a.titulo)
-                                    // fetch(pushUrl, {
-                                    //     method: 'POST',
-                                    //     body: JSON.stringify(body),
-                                    //     headers: {
-                                    //         'Content-Type': 'application/json',
-                                    //         'x-token': `${token}`
-                                    //     }
-                                    // })
-                                    //     .then(location.reload())
-                                    //     .catch(console.log)
+                                    fetch(pushUrl, {
+                                        method: 'POST',
+                                        body: JSON.stringify(body),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'x-token': `${token}`
+                                        }
+                                    })
+                                        .then(location.reload())
+                                        .catch(console.log)
                                 })
                                 .catch(console.error)
                         }
@@ -1306,15 +1306,28 @@ crearBlog.addEventListener('click', () => {
 
 // Borrar blog
 const borrarBlog = document.querySelector('.borrarBlog');
+const windowDanger = document.querySelector('.windowDanger');
+const cancelar = document.querySelector('.cancelar');
+const borrarDefinitivamente = document.querySelector('.borrarDefinitivamente');
 
 borrarBlog.addEventListener('click', () => {
-    fetch(blogUrl + localStorage.getItem('blog'), {
-        method: 'DELETE',
-        headers: { 'x-token': token }
+
+    windowDanger.classList.toggle('hidden');
+
+    cancelar.addEventListener('click', () => {
+        windowDanger.classList.toggle('hidden');
     })
-        .then(resp => resp.json())
-        .then(location.reload())
-        .catch(console.log)
+
+    borrarDefinitivamente.addEventListener('click', () => {
+        fetch(blogUrl + localStorage.getItem('blog'), {
+            method: 'DELETE',
+            headers: { 'x-token': token }
+        })
+            .then(resp => resp.json())
+            .then(location.reload())
+            .catch(console.log)
+    })
+
 })
 
 // Poner blog

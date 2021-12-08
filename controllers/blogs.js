@@ -1,6 +1,7 @@
 const Blog = require('../models/blog');
 const db = require('mongoose');
 const { response } = require('express');
+const Articulo = require('../models/articulo');
 
 const mostrarBlogs = async (req, res = response) => {
     const estado = { public: true };
@@ -75,9 +76,19 @@ const añadirBlog = async (req, res = response) => {
 
 const eliminarBlog = async (req, res) => {
     const { id } = req.params;
-    await Blog.findByIdAndDelete(id)
 
-    res.status(200).json({ msg: 'Blog eliminado correctamente' })
+    await Articulo.find({ blog: id })
+        .then(async arts => {
+            arts.forEach(async a => {
+                const blog = a._id;
+
+                await Articulo.findByIdAndDelete({ _id: blog })
+            })
+            await Blog.findByIdAndDelete(id)
+
+            res.status(200).json({ msg: 'Blog eliminado correctamente' })
+        })
+        .catch(console.log)
 }
 
 const actualizarBlog = async (req, res = response) => {

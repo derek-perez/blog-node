@@ -28,18 +28,17 @@ const mostrarUsuario = async (req, res = response) => {
     const usuario = await Usuario.findById(id);
 
     // Obtener blog(s) del usuario
-    const blog = await Blog.find({ autor: id });
+    const blog = await Blog.find({ autor: id, public: true });
 
     // Extrae los articulos que ha hecho el usuario
     const condicion = { public: true, autor: id }
+
     await Articulo.paginate(condicion, { populate: 'categoria', limit: 6 })
-        .then(resp => {
-            return res.status(200).json({
-                resp,
-                usuario,
-                blog
-            })
-        })
+        .then(resp => res.status(200).json({
+            resp,
+            usuario,
+            blog
+        }))
         .catch(console.log)
 
 }

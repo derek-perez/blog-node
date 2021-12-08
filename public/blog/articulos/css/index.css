@@ -1117,8 +1117,9 @@ df-messenger {
 
 .windowLink > div {
     position: fixed;
+    top: 25%;
     left: 50%;
-    transform: translate(-50%, 0%);
+    transform: translate(-50%, -50%);
     box-shadow: 3px 4px 7px rgb(255 255 255 / 50%);
     display: flex;
     flex-direction: column;
@@ -1527,7 +1528,47 @@ df-messenger {
     font-size: 20px;
 }
 
+.windowDanger {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000d9;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+.contentBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 10px;
+    border-top: 20px solid red;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 25px;
+}
+
+.contentBox > p {
+    padding: 0 10px;
+}
+
+.contentBox > .btns {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.contentBox > .btns > button {
+    font-size: 20px;
+}
 
 
 

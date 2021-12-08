@@ -25,7 +25,7 @@ const blogPublic = (window.location.hostname.includes('localhost'))
 
 const buscadorUrl = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/busquedas/?q='
-    : 'https://blogi-node.herokuapp.com/busquedas/?q';
+    : 'https://blogi-node.herokuapp.com/busquedas/?q=';
 
 const articulosPublicGeneral = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public/posts/arts.html'
