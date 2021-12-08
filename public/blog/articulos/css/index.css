@@ -1185,6 +1185,7 @@ df-messenger {
 
 .imgTextarea {
     max-width: 90%;
+    border: 1px solid black;
 }
 
 .poner {

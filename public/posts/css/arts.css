@@ -295,6 +295,7 @@ body.dark .categoriasDeArticulo {
 
 .imgTextarea {
     max-width: 90%;
+    border: 1px solid black;
 }
 
 .articulo > .contenido > .cuerpo > #fecha {

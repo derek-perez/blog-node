@@ -677,6 +677,7 @@ body.dark #resultadoTextarea {
 
 .infoDeDiscusion > .contenido > .imgTextarea {
     max-width: 75%;
+    border: 1px solid black;
 }
 
 .autor {

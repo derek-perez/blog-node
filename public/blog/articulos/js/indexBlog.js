@@ -330,15 +330,11 @@ const funcionesParaArticulos = () => {
     const espacio = () => {
 
         const arrTextarea = Texto.value.split('\n');
-        const arrResult = [];
 
         arrTextarea.forEach(t => {
-            const parrafo2 = document.createElement('p');
-            parrafo2.innerHTML = t;
 
-            arrResult.push(parrafo2.innerHTML);
             setTimeout(() => {
-                resultado.innerHTML = arrResult.join('<br>');
+                resultado.innerHTML = arrTextarea.join('<br>');
             }, 100);
         })
     }
