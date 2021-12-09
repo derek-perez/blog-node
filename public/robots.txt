@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: http://blogi-node.herokuapp.com/sitemap.xml
+Sitemap: https://blogi-node.herokuapp.com/sitemap.xml
