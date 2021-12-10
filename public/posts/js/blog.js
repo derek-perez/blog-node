@@ -284,41 +284,39 @@ fetch(usuarios + idAutor, {
                     `;
 
                     pagination.innerHTML += html;
-
-                    setTimeout(() => {
-                        const pageLinks = document.querySelectorAll('.page-link');
-                        const pageLink = [].slice.call(pageLinks);
-
-                        pageLink.forEach(p => {
-
-                            p.addEventListener('click', () => {
-
-                                spinner.classList.remove('hidden');
-
-                                setTimeout(() => {
-                                    const paginaRequerida = p.id;
-
-                                    fetch(usuarios + 'page/', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({ id: idAutor, page: paginaRequerida })
-                                    })
-                                        .then(response => response.json())
-                                        .then(resp => {
-                                            ponerArticulos(usuario, resp.resp);
-                                        })
-                                        .catch(console.error)
-                                        .finally(() => {
-                                            spinner.classList.add('hidden');
-                                        })
-                                }, 500);
-
-                            })
-                        })
-
-                    }, 500);
                 })
+
             }
+            setTimeout(() => {
+                const pageLinks = document.querySelectorAll('.page-link');
+                const pageLink = [].slice.call(pageLinks);
+
+                pageLink.forEach(p => {
+                    p.addEventListener('click', () => {
+                        console.log('No')
+                        spinner.classList.remove('hidden');
+
+                        setTimeout(() => {
+                            const paginaRequerida = p.id;
+                            articulosUl.innerHTML = '';
+                            fetch(usuarios + 'page/', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ id: idAutor, page: paginaRequerida })
+                            })
+                                .then(response => response.json())
+                                .then(resp => {
+                                    ponerArticulos(usuario, resp.resp);
+                                })
+                                .catch(console.error)
+                                .finally(() => {
+                                    spinner.classList.add('hidden');
+                                })
+                        }, 500);
+
+                    })
+                })
+            }, 500)
 
         }
 
