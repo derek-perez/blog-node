@@ -1,16 +1,23 @@
+const sign_in_btn = document.querySelector("#sign-in-btn");
+const sign_up_btn = document.querySelector("#sign-up-btn");
+const container = document.querySelector(".container");
+const spinner = document.querySelector('.spinner');
+const cerrarSesion = document.querySelector('#cerrarSesion');
 const login = document.querySelector('.login');
 const register = document.querySelector('.register');
-const cerrarSesion = document.querySelector('#cerrarSesion');
-const msgErrors = document.querySelectorAll('.msgError');
-const msgError = [].slice.call(msgErrors);
-const alertas = document.querySelectorAll('.alert-dismissible');
-const alerta = [].slice.call(alertas);
-const forms = document.querySelectorAll('.form');
-const form = [].slice.call(forms);
-const toggles = document.querySelectorAll('.toggle');
-const toggle = [].slice.call(toggles);
-const spinners = document.querySelectorAll('.spinner');
-const spinner = [].slice.call(spinners);
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const registerName = document.getElementById('registerName');
+const registerEmail = document.getElementById('registerEmail');
+const registerPassword = document.getElementById('registerPassword');
+
+sign_up_btn.addEventListener("click", () => {
+    container.classList.add("sign-up-mode");
+});
+
+sign_in_btn.addEventListener("click", () => {
+    container.classList.remove("sign-up-mode");
+});
 
 const url = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:8080/api/auth/'
@@ -24,35 +31,21 @@ const public = (window.location.hostname.includes('localhost'))
     ? 'http://localhost:5500/public'
     : 'https://blogi-node.herokuapp.com';
 
-// Toggle
-toggle.forEach(t => {
-    t.addEventListener('click', () => {
-        form.forEach(f => {
-            f.classList.toggle('hidden')
-        })
-    })
-})
+login.addEventListener('click', ev => {
 
-login.addEventListener('submit', ev => {
-
-    spinner.forEach(s => {
-        s.classList.toggle('hidden');
-    })
+    spinner.classList.toggle('hidden');
 
     ev.preventDefault();
 
-    const formData = {};
-
-    for (let el of login.elements) {
-        if (el.name.length > 0) {
-            formData[el.name] = el.value;
-        }
-    }
+    const formData = {
+        correo: loginEmail.value,
+        password: loginPassword.value
+    };
 
     fetch(url + 'login', {
         method: 'POST',
         body: JSON.stringify(formData),
-        headers: { 'content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' }
     })
         .then(resp => resp.json())
         .then(({ msg, token }) => {
@@ -75,28 +68,22 @@ login.addEventListener('submit', ev => {
             console.log(err)
         })
         .finally(() => {
-            spinner.forEach(s => {
-                s.classList.toggle('hidden');
-            })
+            spinner.classList.toggle('hidden')
         })
 
 })
 
 register.addEventListener('submit', ev => {
 
-    spinner.forEach(s => {
-        s.classList.toggle('hidden');
-    })
+    spinner.classList.toggle('hidden');
 
     ev.preventDefault();
 
-    const formData = {};
-
-    for (let el of register.elements) {
-        if (el.name.length > 0) {
-            formData[el.name] = el.value;
-        }
-    }
+    const formData = {
+        nombre: registerName.value,
+        correo: registerEmail.value,
+        password: registerPassword.value
+    };
 
     fetch(url2, {
         method: 'POST',
@@ -138,9 +125,7 @@ register.addEventListener('submit', ev => {
 
 function onSignIn(googleUser) {
 
-    spinner.forEach(s => {
-        s.classList.toggle('hidden');
-    })
+    spinner.classList.toggle('hidden');
 
     var id_token = googleUser.getAuthResponse().id_token;
     const data = { id_token };
@@ -163,9 +148,7 @@ function onSignIn(googleUser) {
         })
         .catch(console.log)
         .finally(() => {
-            spinner.forEach(s => {
-                s.classList.toggle('hidden');
-            })
+            spinner.classList.toggle('hidden');
         });
 
 }

@@ -23,6 +23,7 @@
     "mongoose-paginate-v2": "^1.4.2",
     "nodemon": "^2.0.14",
     "socket.io": "^4.4.0",
+    "stripe": "^8.193.0",
     "urlsafe-base64": "^1.0.0",
     "uuid": "^8.3.2",
     "web-push": "^3.4.5"

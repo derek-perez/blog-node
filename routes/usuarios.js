@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
+const stripe = require('stripe')('sk_test_51HoYNIKJ7A3qhuPfNldrNYLN2m5Fh0tGOnRDqn1gtCqsCOTPfRZhtWbl2Dpvp3hAsmkakpYEaMf2k3IE0FF2V64O00Q1yFcts7')
+
 
 const { mostrarUsuarios, agregarUsuario, modificarUsuario, eliminarUsuario, mostrarUsuario, obtenerIDSUsuario, mostrarPerPage } = require('../controllers/usuario');
 

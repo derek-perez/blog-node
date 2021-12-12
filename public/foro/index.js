@@ -555,6 +555,26 @@ if (idDiscusion !== null) {
                 })
                 .catch(console.log)
 
+            // Abrir escribir comentario
+            const abrirEscritor = document.querySelector('#deste');
+            const escribirComentario = document.querySelector('.escribirComentario');
+
+            abrirEscritor.addEventListener('click', () => {
+
+                if (autenticado === true) {
+                    escribirComentario.classList.toggle('hidden');
+                    abrirEscritor.classList.toggle('hidden');
+                } else if (autenticado === false) {
+                    noRegister.classList.toggle('hidden');
+                    redirigir.onclick = () => {
+                        location.href = publicUrl + 'auth.html';
+                    }
+                    noRedirigir.onclick = () => {
+                        noRegister.classList.toggle('hidden');
+                    }
+                }
+            })
+
             // Mostrar comentarios de cierta discusión
             fetch(comentariosUrl + 'discusion/' + idDiscusion, {
                 method: 'GET'
@@ -1031,24 +1051,4 @@ iniciarDiscusion.addEventListener('click', () => {
 
         })
         .catch(console.error)
-})
-
-// Abrir escribir comentario
-const abrirEscritor = document.querySelector('#deste');
-const escribirComentario = document.querySelector('.escribirComentario');
-
-abrirEscritor.addEventListener('click', () => {
-
-    if (autenticado === true) {
-        escribirComentario.classList.toggle('hidden');
-        abrirEscritor.classList.toggle('hidden');
-    } else if (autenticado === false) {
-        noRegister.classList.toggle('hidden');
-        redirigir.onclick = () => {
-            location.href = publicUrl + 'auth.html';
-        }
-        noRedirigir.onclick = () => {
-            noRegister.classList.toggle('hidden');
-        }
-    }
 })
