@@ -53,7 +53,7 @@
                 </a>
             </li>
             <li class="enlace">
-                <a href="../../posts/arts.html#6186efa6cf94729df2c6fa9e">
+                <a href="../../posts/arts.html">
                     <button style="padding: 5px 10px;">
                         Ir a articulos
                     </button>
@@ -83,9 +83,19 @@
             <label for="descripcion">Descripción del blog:</label>
             <textarea name="descripcion" rows="10" id="descripcion" placeholder="La descripcion de su blog"></textarea>
 
-            <span id="publicSpan">¿Quiére que cualquier persona pueda ver los artículos que sube de este blog?:</span>
+            <span id="publicSpan">¿Quiére que cualquier persona pueda ver los artículos que suba de este blog?:</span>
             <input type="checkbox" name="public" id="public">
             <label id="boolean" for="public"></label>
+
+            <div class="hr"></div>
+
+            <div id="serPremium">
+                <span>Si quiere contratar el plan Premium, solo presione el botón de abajo para comenzar con el
+                    proceso</span>
+                <div class="btns">
+                    <div class="pay"></div>
+                </div>
+            </div>
 
             <div class="hr"></div>
 
@@ -138,12 +148,34 @@
             <div class="elPapi col-sm">
                 <h4>Desarrollador</h4>
                 <p>Derek Pérez - Copyright 2021.</p>
-                <p>v 1.2.0</p>
+                <p>v 1.3.0</p>
             </div>
         </div>
     </footer>
 
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script src="./index.js"></script>
+    <script>
+        // Agrega credenciales de SDK
+        const mp = new MercadoPago('TEST-7186fe72-5884-4c20-a5c4-66c5afee2955', {
+            locale: 'es-MX'
+        });
+
+        // Inicializa el checkout
+        mp.checkout({
+            preference: {
+                id: '1038535824-f629b598-0f67-4b58-a27b-dd6bbe48fe08'
+            },
+            render: {
+                container: '.pay',
+                label: 'Contratar plan Premium',
+            },
+            theme: {
+                elementsColor: '#ffa500',
+                headerColor: '#ffa500',
+            }
+        });
+    </script>
 
 </body>
 

@@ -95,6 +95,7 @@ blog.classList.add('hidden')
 spinner.classList.remove('hidden');
 
 const token = localStorage.getItem('token');
+let premium;
 
 window.addEventListener('load', () => {
     fetch(validarJwt, {
@@ -106,6 +107,7 @@ window.addEventListener('load', () => {
             if (msg !== 'Token válido') {
                 darChanceDeIrse();
             }
+            premium = usuario.premium;
 
             idDeUsuario = usuario.uid;
             // Personalizar Navbar
@@ -249,7 +251,7 @@ setTimeout(() => {
 // Cerrar sesión
 cerrarSesion.addEventListener('click', () => {
     localStorage.removeItem('token');
-    window.location = public + 'index.html'
+    window.location = public;
 })
 
 // Ver todos los blogs
@@ -926,13 +928,37 @@ enviar.addEventListener('click', () => {
 const crearArticulo = document.querySelector('#crearArticulo');
 
 crearArticulo.addEventListener('click', () => {
-    editArticulo.classList.remove('hidden');
-    body.classList.add('wC');
-    blog.classList.add('hidden');
-    editArticulo.classList.add('animate__backInRight');
-    Texto.value = '';
-    tituloDeArticulo.value = '';
-    funcionesParaArticulos();
+
+    if (premium === true) {
+        editArticulo.classList.remove('hidden');
+        body.classList.add('wC');
+        blog.classList.add('hidden');
+        editArticulo.classList.add('animate__backInRight');
+        Texto.value = '';
+        tituloDeArticulo.value = '';
+        funcionesParaArticulos();
+
+    } else if (premium !== true) {
+        fetch(`${articulos}usuario/${idDeUsuario}`, {
+            method: 'GET'
+        })
+            .then(resp => resp.json())
+            .then(arts => {
+                if (arts.length === 10) {
+                    noPremium.classList.toggle('hidden');
+                } else if (arts < 10) {
+                    editArticulo.classList.remove('hidden');
+                    body.classList.add('wC');
+                    blog.classList.add('hidden');
+                    editArticulo.classList.add('animate__backInRight');
+                    Texto.value = '';
+                    tituloDeArticulo.value = '';
+                    funcionesParaArticulos();
+                }
+            })
+            .catch(console.log)
+    }
+
 })
 
 // Borrar y editar artículo
@@ -1274,30 +1300,48 @@ const mostrarYFuncionesParaArticulos = (arts) => {
 }
 
 // Crear blog
+const noPremium = document.querySelector('.noPremium');
+const noSerPremium = document.querySelector('.noSerPremium');
+const siSerPremium = document.querySelector('.siSerPremium');
+
 crearBlog.addEventListener('click', () => {
-    creacionDeBlog.classList.toggle('hidden');
 
-    btnCrearblog.addEventListener('click', () => {
-        const data = {
-            'titulo': `${nombreDeBlog.value}`,
-            'descripcion': `${descDeBlog.value}`,
-            'autor': `${idDeUsuario}`
-        }
+    if (premium !== false) {
+        creacionDeBlog.classList.toggle('hidden');
 
-        const headersList2 = {
-            'x-token': `${token}`,
-            'Content-Type': 'application/json'
-        }
+        btnCrearblog.addEventListener('click', () => {
+            const data = {
+                'titulo': `${nombreDeBlog.value}`,
+                'descripcion': `${descDeBlog.value}`,
+                'autor': `${idDeUsuario}`
+            }
 
-        fetch(blogUrl, {
-            method: 'POST',
-            headers: headersList2,
-            body: JSON.stringify(data)
+            const headersList2 = {
+                'x-token': `${token}`,
+                'Content-Type': 'application/json'
+            }
+
+            fetch(blogUrl, {
+                method: 'POST',
+                headers: headersList2,
+                body: JSON.stringify(data)
+            })
+                .then(resp => resp.json())
+                .then(location.reload())
+                .catch(console.log)
         })
-            .then(resp => resp.json())
-            .then(location.reload())
-            .catch(console.log)
-    })
+    } else if (premium === false && maximo === true) {
+        noPremium.classList.toggle('hidden');
+
+        siSerPremium.addEventListener('click', () => {
+            location.href = public + 'blog/configuracion/';
+        })
+
+        noSerPremium.addEventListener('click', () => {
+            noPremium.classList.toggle('hidden');
+        })
+    }
+
 })
 
 // Borrar blog
@@ -1327,6 +1371,8 @@ borrarBlog.addEventListener('click', () => {
 })
 
 // Poner blog
+let maximo;
+
 setTimeout(() => {
 
     fetch(blogUrl + 'usuario/' + idDeUsuario, {
@@ -1334,6 +1380,11 @@ setTimeout(() => {
     })
         .then(resp => resp.json())
         .then(b => {
+
+            if (premium === false && b.length === 1) {
+                maximo = true;
+            }
+
             if (b.length === 0) {
                 // Si es nuevo, intro al blog
                 blog.classList.toggle('hidden')

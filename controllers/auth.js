@@ -54,7 +54,7 @@ const login = async (req, res = response) => {
 
 const googleSignin = async (req, res = response, next) => {
 
-    const { id_token } = req.body;
+    const { id_token, premium } = req.body;
 
     try {
         const { correo, nombre, img } = await googleVerify(id_token);
@@ -67,7 +67,8 @@ const googleSignin = async (req, res = response, next) => {
                 correo,
                 password: ':F',
                 img,
-                google: true
+                google: true,
+                premium
             };
 
             usuario = new Usuario(data);

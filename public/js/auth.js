@@ -33,57 +33,104 @@ const public = (window.location.hostname.includes('localhost'))
 
 login.addEventListener('click', ev => {
 
-    spinner.classList.toggle('hidden');
-
     ev.preventDefault();
 
-    const formData = {
-        correo: loginEmail.value,
-        password: loginPassword.value
-    };
+    const params = new URLSearchParams(location.search);
+    const premiumUrl = params.get('collection_status');
 
-    fetch(url + 'login', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: { 'Content-Type': 'application/json' }
-    })
-        .then(resp => resp.json())
-        .then(({ msg, token }) => {
-            if (msg) {
-                alerta.forEach(a => {
-                    a.classList.toggle('hidden');
-                    msgError.forEach(m => {
-                        return m.innerText = msg;
+    // Si se ha cambiado a Premium
+    if (premiumUrl === 'approved') {
+        const actualizarAPremium = async () => {
+            const formData = {
+                correo: loginEmail.value,
+                password: loginPassword.value
+            };
+
+            // Fetch para obtener datos necesarios del usuario para poder actualizar
+            await fetch(url + 'login', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(resp => resp.json())
+                .then(async ({ usuario, token }) => {
+
+                    // Fetch para hacerlo premium y redirigirlo a su panel
+                    fetch(url2 + usuario.uid, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-token': token
+                        },
+                        body: JSON.stringify({ premium: true })
                     })
+                        .then(resp => resp.json())
+                        .then(() => {
+                            window.location = public + '/blog/articulos/';
+                        })
+                        .catch(console.log)
+                        .finally(() => {
+                            spinner.classList.toggle('hidden');
+                        })
                 })
+                .catch(console.log)
+                .finally(() => {
+                    spinner.classList.toggle('hidden');
+                })
+        }
 
-            }
+        actualizarAPremium();
 
-            if (token !== undefined) {
-                localStorage.setItem('token', token);
-                window.location = public + '/blog/articulos/';
-            }
+    } else {
+        const formData = {
+            correo: loginEmail.value,
+            password: loginPassword.value
+        };
+
+        fetch(url + 'login', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: { 'Content-Type': 'application/json' }
         })
-        .catch(err => {
-            console.log(err)
-        })
-        .finally(() => {
-            spinner.classList.toggle('hidden')
-        })
+            .then(resp => resp.json())
+            .then(({ token }) => {
+                if (token !== undefined) {
+                    localStorage.setItem('token', token);
+                    window.location = public + '/blog/articulos/';
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
 })
 
-register.addEventListener('submit', ev => {
+register.addEventListener('click', ev => {
 
-    spinner.classList.toggle('hidden');
+    const params = new URLSearchParams(location.search);
+    const premiumUrl = params.get('collection_status');
+
+    const premium = localStorage.getItem('premium');
+    let formData;
 
     ev.preventDefault();
 
-    const formData = {
-        nombre: registerName.value,
-        correo: registerEmail.value,
-        password: registerPassword.value
-    };
+    if (premium === 'false') {
+        formData = {
+            nombre: registerName.value,
+            correo: registerEmail.value,
+            password: registerPassword.value,
+            premium: false
+        };
+    } else if (premiumUrl === 'approved') {
+        formData = {
+            nombre: registerName.value,
+            correo: registerEmail.value,
+            password: registerPassword.value,
+            premium: true
+        };
+    }
 
     fetch(url2, {
         method: 'POST',
@@ -91,21 +138,14 @@ register.addEventListener('submit', ev => {
         headers: { 'Content-Type': 'application/json' }
     })
         .then(resp => resp.json())
-        .then(({ msg, token }) => {
-            if (msg) {
-                alerta.forEach(a => {
-                    a.classList.toggle('hidden');
-                    msgError.forEach(m => {
-                        return m.innerText = msg;
-                    })
-                })
-            }
+        .then(({ token }) => {
 
             if (token === undefined) {
-                msg === 'No se ha podido agregar token';
-                return msgError.innerText = msg;
+                return;
             } else {
                 localStorage.setItem('token', token);
+                localStorage.setItem('premium', true);
+
                 window.location = public + '/blog/articulos/';
             }
 
@@ -113,22 +153,15 @@ register.addEventListener('submit', ev => {
         .catch(err => {
             console.log(err)
         })
-        .finally(() => {
-            spinner.forEach(s => {
-                s.classList.toggle('hidden');
-            })
-        })
 
 })
 
-
-
 function onSignIn(googleUser) {
 
-    spinner.classList.toggle('hidden');
+    const premium = Boolean(localStorage.getItem('premium'));
 
     var id_token = googleUser.getAuthResponse().id_token;
-    const data = { id_token };
+    const data = { id_token, premium };
 
     fetch(url + 'google', {
         method: 'POST',
@@ -147,19 +180,12 @@ function onSignIn(googleUser) {
 
         })
         .catch(console.log)
-        .finally(() => {
-            spinner.classList.toggle('hidden');
-        });
 
 }
 
-function signOut() {
+cerrarSesion.addEventListener('click', function () {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-        console.log('User signed out.');
+        auth2.disconnect();
     });
-}
-
-cerrarSesion.addEventListener('click', () => {
-    signOut()
 })

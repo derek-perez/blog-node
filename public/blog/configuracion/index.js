@@ -29,6 +29,8 @@ let idDeUsuario;
 navBar.classList.add('hidden')
 spinner.classList.remove('hidden');
 
+let premium;
+
 window.addEventListener('load', () => {
     fetch(validarJwt, {
         method: 'GET',
@@ -41,6 +43,11 @@ window.addEventListener('load', () => {
             }
 
             idDeUsuario = usuario.uid;
+            premium = usuario.premium;
+
+            if (premium === true) {
+                document.querySelector('#serPremium').classList.add('hidden');
+            }
 
         })
         .catch(err => {
@@ -137,8 +144,12 @@ let boolean = true;
 
 publicCheck.addEventListener('change', () => {
     boolean = !boolean;
-    console.log(boolean)
 })
+
+// Si quieren plan, llevarlos allá
+if (location.hash !== '') {
+    document.querySelector('#publicSpan').scrollIntoView();
+}
 
 // Actualizar blog
 const guardar = document.querySelector('.guardar');

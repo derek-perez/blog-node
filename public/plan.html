@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/index.css">
+    <title>Elegir plan de Blogi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 25px;
+            margin: 25px;
+        }
+
+        .cartas {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-wrap: wrap;
+
+        }
+
+        .carta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            font-weight: 600;
+            border: 1px solid rgb(0 0 0 / 30%);
+            border-top: 15px solid orange;
+            min-height: 400px;
+            border-radius: 10px;
+            margin: 15px;
+            padding: 10px;
+            margin-top: 15px;
+            box-shadow: 3px 3px 6px rgb(0 0 0 / 50%);
+        }
+
+        .carta>h2 {
+            padding-bottom: 15px;
+            width: 100%;
+            text-align: center;
+            border-bottom: 2px solid orange;
+        }
+
+        .mercadopago-button {
+            width: 100% !important;
+            font-size: 18px !important;
+            line-height: inherit !important;
+            padding: 5px !important;
+        }
+
+        .carta>.caracts {
+            font-size: 18px;
+        }
+
+        .carta>ul {
+            padding: 0;
+        }
+
+        .carta>ul>li {
+            list-style: none;
+            text-align: center;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NavBar -->
+    <nav class="navBar">
+        <div id="presentacion">
+            <img src="./img/logo.png" class="imgLogo" alt="Logo">
+            <span class="marca">Blogi</span>
+        </div>
+        </ul>
+    </nav>
+
+    <h1 style="margin-top: 100px;">Antes que nada, elija un plan para empezar a usar Blogi:</h1>
+
+    <!-- Poner cartas -->
+    <div class="cartas">
+        <div class="carta">
+            <h2>Plan Básico</h2>
+            <p class="caracts">Estas son algunas de las características de un plan básico</p>
+            <ul>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Solo puede crear 1 blog
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Su blog no puede ser privado
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Tiene un límite máximo de 10 artículos
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Opción de iniciar y comentar discusiones
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Ser parte de una comunidad de blogueros
+                </li>
+            </ul>
+            <button type="submit" class="mercadopago-button planBasic">Elegir plan</button>
+        </div>
+        <div class="carta">
+            <h2>Plan Premium</h2>
+            <p class="caracts">Estas son algunas de las características de un plan premium</p>
+            <ul>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Blogs ilimitados
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Opción de no privado/privado
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Artículos ilimitados en su blog
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Opción de iniciar y comentar discusiones
+                </li>
+                <li>
+                    <i style="color: green;" class="fa fa-check"></i> Ser parte de una comunidad de blogueros
+                </li>
+            </ul>
+            <div id="pay" class="pay w-100"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="row">
+            <div class="ayuda col-sm">
+                <h4>Navega por el sitio</h4>
+                <a href="https://blogi-node.herokuapp.com/posts/arts.html#6186efa6cf94729df2c6fa9e">Tutoriales</a>
+                <a href="https://blogi-node.herokuapp.com/blog/articulos/">Tu blog</a>
+                <a href="https://blogi-node.herokuapp.com/info.html">Info. sobre sitio</a>
+                <a href="https://blogi-node.herokuapp.com/foro/">Foro de la comunidad</a>
+            </div>
+            <div class="siguenos col-sm">
+                <h4>Siguenos</h4>
+                <div class="links">
+                    <a href="#">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="elPapi col-sm">
+                <h4>Desarrollador</h4>
+                <p>Derek Pérez - Copyright 2021.</p>
+                <p>v 1.3.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <script>
+        const public = (window.location.hostname.includes('localhost'))
+            ? 'http://localhost:5500/public/'
+            : 'https://blogi-node.herokuapp.com/';
+
+        // Si escoge el plan básico...
+        document.querySelector('.planBasic').addEventListener('click', () => {
+            location.href = public + 'auth.html';
+            localStorage.setItem('premium', false);
+        })
+
+        // Agrega credenciales de SDK
+        const mp = new MercadoPago('TEST-7186fe72-5884-4c20-a5c4-66c5afee2955', {
+            locale: 'es-MX'
+        });
+
+        // Inicializa el checkout
+        mp.checkout({
+            preference: {
+                id: '1038535824-f629b598-0f67-4b58-a27b-dd6bbe48fe08'
+            },
+            render: {
+                container: '.pay',
+                label: 'Elegir plan',
+            },
+            theme: {
+                elementsColor: '#ffa500',
+                headerColor: '#ffa500',
+            }
+        });
+    </script>
+
+</body>
+
+</html>
