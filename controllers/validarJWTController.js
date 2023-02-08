@@ -35,7 +35,8 @@ const verificarJWTController = async (req, res = response) => {
         req.usuario = usuario;
         return res.status(200).json({
             msg: 'Token válido',
-            token
+            token,
+            usuario
         })
 
     } catch (error) {
